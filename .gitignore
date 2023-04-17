@@ -133,3 +133,6 @@ dmypy.json
 
 #Images folder
 Images/
+
+#Mac OS
+.DS_Store
