@@ -4,10 +4,10 @@ import os
 WIDTH = 512
 HEIGHT = 512
 
-path = "../Images/DIV2K_train_HR/"
-pathCropped = "../Images/DIV2K_train_HR/Resized/"
-pathVal = "../Images/DIV2K_valid_HR/"
-pathCroppedVal = "../Images/DIV2K_valid_HR/Resized/"
+path = "Images/DIV2K_train_HR/"
+pathCropped = "Images/DIV2K_train_HR/Resized/"
+pathVal = "Images/DIV2K_valid_HR/"
+pathCroppedVal = "Images/DIV2K_valid_HR/Resized/"
 
 def crop():
     pngs = []
