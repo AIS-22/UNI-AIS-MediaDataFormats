@@ -16,7 +16,7 @@ pngExtension = '.png'
 
 pillow_heif.register_heif_opener()
 
-def encode_heic():
+def encode_heic(printProgress=False):
     i = 0
     for subFolder in [trainFolder, validFolder]:
         pathImages = 'Images/' + subFolder + 'Resized/'
@@ -66,9 +66,10 @@ def encode_heic():
                 if terminate_after:
                     break
                 prev_q = q
-            i += 1
-            print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+            if printProgress:
+                i += 1
+                print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
 
 
 if __name__ == '__main__':
-    encode_heic()
+    encode_heic(printProgress=True)
