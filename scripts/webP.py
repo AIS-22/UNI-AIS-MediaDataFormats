@@ -1,56 +1,75 @@
 from PIL import Image
 import os
-from math import floor
+import glob
+import numpy as np
 
-pathPng = '/Users/moritzlanger/DEV/FH/AIS-M2/UNI-AIS-MediaDataFormats/Images/DIV2K_train_HR/'
-pathCropped = '/Users/moritzlanger/DEV/FH/AIS-M2/UNI-AIS-MediaDataFormats/Images/DIV2K_train_HR_cropped/'
-pathWebP = '/Users/moritzlanger/DEV/FH/AIS-M2/UNI-AIS-MediaDataFormats/Images/DIV2K_train_HR_webP/'
-imgPath = '0021'
-png = '.png'
-webp = '.webp'
-maxFileSize = 50000
+maxFileSizeKb = 32
+minQ = 1
+maxQ = 100
+trainFolder = 'DIV2K_train_HR/'
+validFolder = 'DIV2K_valid_HR/'
+availableSubFolder = [trainFolder, validFolder]
+usedCodec = 'WebP/'
+outputPrefix = 'webp_'
+outputFileExtension = '.webp'
+pngExtension = '.png'
 
-# get all png files from a folder and put the names into a list
-pngs = []
-for file in os.listdir(path=pathCropped):
-    if file.endswith(".png"):
-        pngs.append(file)
-nrFiles = len(pngs)
-i = 0
 
-# convert the pngs to webp
-for pngName in pngs:
-    img = Image.open(pathCropped + pngName)
-    qual = 0
-    step = 50
-    img.save(pathWebP + pngName[:-4] + webp, quality=qual)
-    fileSize = os.path.getsize(pathWebP + pngName[:-4] + webp)
+def encode_avif(printProgress=False):
+    i = 0
+    number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
+    for subFolder in availableSubFolder:
+        pathImages = 'Images/' + subFolder + 'Resized/'
+        pathImagesEncoded = 'Images/' + subFolder + usedCodec
+        for image_path in glob.glob(pathImages + '*' + pngExtension):
+            q = maxQ
+            # filename is the last element of the file path also old file extension needs to be cropped
+            file_name = outputPrefix + image_path.split(sep='/')[-1].split(sep='.')[0] + outputFileExtension
+            # open image and in first step use the highest available quality to store
+            outputPath = pathImagesEncoded + file_name
+            image = Image.open(image_path)
+            image.save(outputPath, quality=q)
 
-    # check the file size and minimize the file size
-    while True:
-        if fileSize > maxFileSize:
-            qual = qual - step
-            if qual < 0:
-                break
-        else:
-            qual = qual + step
-            if qual > 128:
-                break
-        img.save(pathWebP + pngName[:-4] + webp, quality=qual)
-        fileSize = os.path.getsize(pathWebP + pngName[:-4] + webp)
-        if step == 1 and fileSize < maxFileSize:
-            while fileSize < maxFileSize:
-                qual = qual + 1
-                img.save(pathWebP + pngName[:-4] + webp, quality=qual)
-                fileSize = os.path.getsize(pathWebP + pngName[:-4] + webp)
-            break
-        elif step == 1 and fileSize > maxFileSize:
-            while fileSize > maxFileSize:
-                qual = qual - 1
-                img.save(pathWebP + pngName[:-4] + webp, quality=qual)
-                fileSize = os.path.getsize(pathWebP + pngName[:-4] + webp)
-            break
-        step = int(floor(step / 2))
+            # use devide and concor to optimize computational time n*O(log(n)) complexity
+            terminate = False
+            prev_q = q
+            upper_bound = maxQ
+            lower_bound = 0
+            while True:
+                f_size = os.path.getsize(outputPath) / 1024
+                # filesize can´t be optimized, since max. quality is already under threshold
+                if q == maxQ and f_size <= maxFileSizeKb:
+                    break
 
-    i = i + 1
-    print(pngName + ' ' + str(qual) + ' ' + str(fileSize) + ' ' + str(i) + '/' + str(nrFiles))
+                if f_size > maxFileSizeKb:
+                    upper_bound = prev_q
+                    q -= np.ceil((upper_bound - lower_bound) / 2)
+                    # no further optimization possible, since only one step was done
+                    if prev_q == minQ or (q == prev_q - 1):
+                        # terminate after next saving, since current filesize is above threshold
+                        terminate = True
+
+                elif f_size < maxFileSizeKb:
+                    lower_bound = prev_q
+                    q += np.ceil((upper_bound - prev_q) / 2)
+                    # no further optimization possible, since only one step was done
+                    if q == prev_q + 1 or q == maxQ - 1:
+                        # terminate before next saving, since current filesize is under threshold
+                        terminate = True
+
+                # save image with new quality
+                image.save(outputPath, quality=int(q))
+                if terminate:
+                    if os.path.getsize(outputPath) / 1024 > maxFileSizeKb:
+                        image.save(outputPath, quality=int(q - 1))
+                    break
+                prev_q = q
+
+            if printProgress:
+                f_size = os.path.getsize(outputPath) / 1024
+                i += 1
+                print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+
+
+if __name__ == '__main__':
+    encode_avif(printProgress=True)
