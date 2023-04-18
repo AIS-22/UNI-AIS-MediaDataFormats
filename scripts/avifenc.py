@@ -61,7 +61,7 @@ def encode_avif(printProgress=False):
 
                 # save image with new quality
                 image.save(outputPath, quality=int(q))
-                if terminate_after:
+                if terminate:
                     if os.path.getsize(outputPath) / 1024 > maxFileSizeKb:
                         image.save(outputPath, quality=int(q - 1))
                     break
