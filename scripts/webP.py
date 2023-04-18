@@ -15,13 +15,14 @@ outputFileExtension = '.webp'
 pngExtension = '.png'
 
 
-def encode_avif(printProgress=False):
+def encode_webp(printProgress=False):
     i = 0
     number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     for subFolder in availableSubFolder:
         pathImages = 'Images/' + subFolder + 'Resized/'
         pathImagesEncoded = 'Images/' + subFolder + usedCodec
         for image_path in glob.glob(pathImages + '*' + pngExtension):
+
             q = maxQ
             # filename is the last element of the file path also old file extension needs to be cropped
             file_name = outputPrefix + image_path.split(sep='/')[-1].split(sep='.')[0] + outputFileExtension
@@ -57,6 +58,9 @@ def encode_avif(printProgress=False):
                         # terminate before next saving, since current filesize is under threshold
                         terminate = True
 
+                elif f_size == maxFileSizeKb:
+                    break
+
                 # save image with new quality
                 image.save(outputPath, quality=int(q))
                 if terminate:
@@ -72,4 +76,4 @@ def encode_avif(printProgress=False):
 
 
 if __name__ == '__main__':
-    encode_avif(printProgress=True)
+    encode_webp(printProgress=True)
