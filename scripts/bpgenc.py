@@ -7,22 +7,25 @@ minQ = 0
 maxQ = 51
 trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
+availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'BPG/'
 outputPrefix = 'bpg_'
 outputFileExtension = '.bpg'
 pngExtension = '.png'
 
 
-def encode_bpg():
-    for subFolder in [trainFolder, validFolder]:
+def encode_bpg(printProgress=False):
+    i = 0
+    number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
+    for subFolder in availableSubFolder:
         pathImages = 'Images/' + subFolder + 'Resized/'
         pathImagesEncoded = 'Images/' + subFolder + usedCodec
         for image_path in glob.glob(pathImages + '*' + pngExtension):
             q = maxQ
             # filename is the last element of the file path also old file extension needs to be cropped
-            file_name = image_path.split(sep='/')[-1].split(sep='.')[0] + outputFileExtension
+            file_name = outputPrefix + image_path.split(sep='/')[-1].split(sep='.')[0] + outputFileExtension
             # open image and in first step use the highest available quality to store
-            outputPath = pathImagesEncoded + outputPrefix + file_name
+            outputPath = pathImagesEncoded + file_name
             # quality now is inverted, 0 best maxQ worst
             os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(0)) + ' ' + image_path)
 
@@ -62,6 +65,11 @@ def encode_bpg():
                     break
                 prev_q = q
 
+            if printProgress:
+                f_size = os.path.getsize(outputPath) / 1024
+                i += 1
+                print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+
 
 if __name__ == '__main__':
-    encode_bpg()
+    encode_bpg(printProgress=True)
