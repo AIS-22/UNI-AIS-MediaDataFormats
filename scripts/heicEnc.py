@@ -58,6 +58,9 @@ def encode_heic(printProgress=False):
                         # terminate before next saving, since current filesize is under threshold
                         terminate = True
 
+                elif f_size == maxFileSizeKb:
+                    break
+
                 # save image with new quality
                 image.save(outputPath, quality=int(q))
                 if terminate:
