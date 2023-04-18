@@ -33,8 +33,7 @@ def encode_avif(printProgress=False):
             image.save(outputPath, quality=q)
 
             # use devide and concor to optimize computational time n*O(log(n)) complexity
-            terminate_before = False
-            terminate_after = False
+            terminate = False
             prev_q = q
             upper_bound = maxQ
             lower_bound = 0
@@ -50,7 +49,7 @@ def encode_avif(printProgress=False):
                     # no further optimization possible, since only one step was done
                     if prev_q == minQ or (q == prev_q - 1):
                         # terminate after next saving, since current filesize is above threshold
-                        terminate_after = True
+                        terminate = True
 
                 elif f_size < maxFileSizeKb:
                     lower_bound = prev_q
@@ -58,13 +57,13 @@ def encode_avif(printProgress=False):
                     # no further optimization possible, since only one step was done
                     if q == prev_q + 1 or q == maxQ - 1:
                         # terminate before next saving, since current filesize is under threshold
-                        terminate_before = True
+                        terminate = True
 
-                if terminate_before:
-                    break
                 # save image with new quality
                 image.save(outputPath, quality=int(q))
                 if terminate_after:
+                    if os.path.getsize(outputPath) / 1024 > maxFileSizeKb:
+                        image.save(outputPath, quality=int(q - 1))
                     break
                 prev_q = q
 
