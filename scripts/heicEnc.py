@@ -18,16 +18,16 @@ pillow_heif.register_heif_opener()
 
 def encode_heic(printProgress=False):
     i = 0
+    number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     for subFolder in [trainFolder, validFolder]:
         pathImages = 'Images/' + subFolder + 'Resized/'
         pathImagesEncoded = 'Images/' + subFolder + usedCodec
-        number_of_files = len([f for f in os.listdir(pathImages) if os.path.isfile(os.path.join(pathImages, f))])
         for image_path in glob.glob(pathImages + '*' + pngExtension):
             q = maxQ
             # filename is the last element of the file path also old file extension needs to be cropped
-            file_name = image_path.split(sep='/')[-1].split(sep='.')[0] + outputFileExtension
+            file_name = outputPrefix + image_path.split(sep='/')[-1].split(sep='.')[0] + outputFileExtension
             # open image and in first step use the highest available quality to store
-            outputPath = pathImagesEncoded + outputPrefix + file_name
+            outputPath = pathImagesEncoded + file_name
             image = pillow_heif.from_pillow(Image.open(image_path))
             image.save(outputPath, quality=q)
 
@@ -68,6 +68,7 @@ def encode_heic(printProgress=False):
                 prev_q = q
             if printProgress:
                 i += 1
+                f_size = os.path.getsize(outputPath) / 1024
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
 
 
