@@ -56,6 +56,9 @@ def encode_bpg(printProgress=False):
                         # terminate before next saving, since current filesize is under threshold
                         terminate = True
 
+                elif f_size == maxFileSizeKb:
+                    break
+
                 # save image with new quality but quality now is inverted, 0 best maxQ worst, therefore maxQ-q!!
                 os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(maxQ - q)) + ' ' + image_path)
                 if terminate:
