@@ -2,7 +2,7 @@
 
 II Compress Test Data to a fixed filesize and use JPEG XL, WebP, HEIC/HEIF, JPEG XR, BPG, AVIF
 
-Afterwards Classify the different Compression Algorithms.
+Afterwards Classify the different Compression Algorithms by an ML Model.
 
 ## Compression Algorithms
 
