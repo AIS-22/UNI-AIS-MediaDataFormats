@@ -22,7 +22,6 @@ def encode_webp(printProgress=False):
         pathImages = 'Images/' + subFolder + 'Resized/'
         pathImagesEncoded = 'Images/' + subFolder + usedCodec
         for image_path in glob.glob(pathImages + '*' + pngExtension):
-
             q = maxQ
             # filename is the last element of the file path also old file extension needs to be cropped
             file_name = outputPrefix + image_path.split(sep='/')[-1].split(sep='.')[0] + outputFileExtension
@@ -47,8 +46,6 @@ def encode_webp(printProgress=False):
                     q -= np.ceil((upper_bound - lower_bound) / 2)
                     # no further optimization possible, since only one step was done
                     if prev_q == minQ or (q == prev_q - 1):
-                        # ML: change q back to prev since we changed it 3 lines above (set q to the last valid value)
-                        q = prev_q
                         # terminate after next saving, since current filesize is above threshold
                         terminate = True
 
@@ -56,25 +53,21 @@ def encode_webp(printProgress=False):
                     lower_bound = prev_q
                     q += np.ceil((upper_bound - prev_q) / 2)
                     # no further optimization possible, since only one step was done
-                    if q == prev_q + 1 or q == maxQ - 1:
-                        # ML: change q back to prev since we changed it 3 lines above (set q to the last valid value)
-                        q = prev_q
+                    if q == prev_q + 1 or q == maxQ:
                         # terminate before next saving, since current filesize is under threshold
                         terminate = True
 
                 elif f_size == maxFileSizeKb:
                     break
 
-                # ML: terminate before saving, since current filesize is under threshold
+                # save image with new quality
+                image.save(outputPath, quality=int(q))
                 if terminate:
                     if os.path.getsize(outputPath) / 1024 > maxFileSizeKb:
                         #ML: decrease quality by 1 to get under threshold again and to set q to the last valid value
                         q = q - 1
                         image.save(outputPath, quality=int(q))
                     break
-
-                # save image with new quality
-                image.save(outputPath, quality=int(q))
                 prev_q = q
 
             if printProgress:

@@ -52,7 +52,7 @@ def encode_bpg(printProgress=False):
                     lower_bound = prev_q
                     q += np.ceil((upper_bound - prev_q) / 2)
                     # no further optimization possible, since only one step was done
-                    if q == prev_q + 1 or q == maxQ - 1:
+                    if q == prev_q + 1 or q == maxQ:
                         # terminate before next saving, since current filesize is under threshold
                         terminate = True
 
