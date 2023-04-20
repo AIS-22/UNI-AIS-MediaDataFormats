@@ -62,16 +62,17 @@ def encode_bpg(printProgress=False):
                 # save image with new quality but quality now is inverted, 0 best maxQ worst, therefore maxQ-q!!
                 os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(maxQ - q)) + ' ' + image_path)
                 if terminate:
-                    # there was an rounding error caused by np.ceil() so just one more optimization step is needed
+                    # there was a rounding error caused by np.ceil() so just one more optimization step is needed
                     if os.path.getsize(outputPath) / 1024 > maxFileSizeKb:
-                        os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(maxQ - q + 1)) + ' ' + image_path)
+                        q = q - 1
+                        os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(maxQ - q)) + ' ' + image_path)
                     break
                 prev_q = q
 
             if printProgress:
                 f_size = os.path.getsize(outputPath) / 1024
                 i += 1
-                print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+                print('Image: ' + file_name + ' Quality: ' + str(maxQ - q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
 
 
 if __name__ == '__main__':

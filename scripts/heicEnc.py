@@ -64,9 +64,10 @@ def encode_heic(printProgress=False):
                 # save image with new quality
                 image.save(outputPath, quality=int(q))
                 if terminate:
-                    # there was an rounding error caused by np.ceil() so just one more optimization step is needed
+                    # there was a rounding error caused by np.ceil() so just one more optimization step is needed
                     if os.path.getsize(outputPath) / 1024 > maxFileSizeKb:
-                        image.save(outputPath, quality=int(q - 1))
+                        q = q - 1
+                        image.save(outputPath, quality=int(q))
                     break
                 prev_q = q
             if printProgress:
