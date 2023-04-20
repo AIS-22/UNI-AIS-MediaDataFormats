@@ -46,4 +46,8 @@ Software and description gets provided by the [JPEG org](https://jpeg.org/jpegxr
 
 ### BPG
 
+Needs to be installed locally using the github repo described in [#13](https://github.com/AIS-22/UNI-AIS-MediaDataFormats/issues/13)
+
 ### AVIF
+
+PIL with avif can be used here, therefore just install pillow-avif-plugin python lib and import pillow_avif at the very beginning. Read description of [#7](https://github.com/AIS-22/UNI-AIS-MediaDataFormats/issues/7)
