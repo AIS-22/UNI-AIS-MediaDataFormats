@@ -10,11 +10,21 @@ trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG_XR/'
+decodedFolder = 'Decoded/'
 outputPrefix = 'jxr_'
 outputFileExtension = '.jxr'
 pngExtension = '.png'
 tifFileExtension = '.tif'
 
+
+def decode_jxr(enc_file, dec_file):
+    os.system('./jpegxr -o ' + dec_file + ' ' + enc_file)
+    # convert tif to png
+    im = Image.open(dec_file)
+    png_file_name = dec_file.split(sep='.')[0] + pngExtension
+    im.save(png_file_name, quality=100)
+    # remove the created tif image
+    os.system('rm ' + dec_file)
 
 def encode_jxr(printProgress=False):
     i = 0
@@ -83,6 +93,10 @@ def encode_jxr(printProgress=False):
                 f_size = os.path.getsize(outputPath) / 1024
                 i += 1
                 print('Image: ' + file_name + ' Quality: ' + str(maxQ - q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+
+            dec_file_name = file_name.split(sep='.')[0] + tifFileExtension
+            dec_path = pathImagesEncoded + decodedFolder + dec_file_name
+            decode_jxr(outputPath, dec_path)
 
 
 if __name__ == '__main__':

@@ -10,10 +10,15 @@ trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'WebP/'
+decodedFolder = 'Decoded/'
 outputPrefix = 'webp_'
 outputFileExtension = '.webp'
 pngExtension = '.png'
 
+
+def decode_webP(enc_file, dec_file):
+    image = Image.open(enc_file)
+    image.save(dec_file, quality=100)
 
 def encode_webp(printProgress=False):
     i = 0
@@ -74,6 +79,10 @@ def encode_webp(printProgress=False):
                 f_size = os.path.getsize(outputPath) / 1024
                 i += 1
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+
+            dec_file_name = file_name.split(sep='.')[0] + pngExtension
+            dec_path = pathImagesEncoded + decodedFolder + dec_file_name
+            decode_webP(outputPath, dec_path)
 
 
 if __name__ == '__main__':

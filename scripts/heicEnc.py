@@ -10,11 +10,16 @@ maxQ = 100
 trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 usedCodec = 'HEIC/'
+decodedFolder = 'Decoded/'
 outputPrefix = 'heic_'
 outputFileExtension = '.heic'
 pngExtension = '.png'
 
 pillow_heif.register_heif_opener()
+
+def decode_heic(enc_file, dec_file):
+    image = Image.open(enc_file)
+    image.save(dec_file, quality=100)
 
 def encode_heic(printProgress=False):
     i = 0
@@ -74,6 +79,10 @@ def encode_heic(printProgress=False):
                 i += 1
                 f_size = os.path.getsize(outputPath) / 1024
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+
+            dec_file_name = file_name.split(sep='.')[0] + pngExtension
+            dec_path = pathImagesEncoded + decodedFolder + dec_file_name
+            decode_heic(outputPath, dec_path)
 
 
 if __name__ == '__main__':
