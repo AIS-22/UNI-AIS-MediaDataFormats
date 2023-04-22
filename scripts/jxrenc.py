@@ -3,7 +3,6 @@ import glob
 import numpy as np
 from PIL import Image
 
-maxFileSizeKb = 32
 minQ = 0
 maxQ = 255
 trainFolder = 'DIV2K_train_HR/'
@@ -26,7 +25,7 @@ def decode_jxr(enc_file, dec_file):
     # remove the created tif image
     os.system('rm ' + dec_file)
 
-def encode_jxr(printProgress=False):
+def encode_jxr(printProgress=False, maxFileSizeKb = 32):
     i = 0
     number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     for subFolder in availableSubFolder:

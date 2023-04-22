@@ -2,7 +2,6 @@ import os
 import glob
 import numpy as np
 
-maxFileSizeKb = 32
 minQ = 0
 maxQ = 51
 trainFolder = 'DIV2K_train_HR/'
@@ -18,7 +17,7 @@ pngExtension = '.png'
 def decode_bpg(enc_file, dec_file):
     os.system('bpgdec -o ' + dec_file + ' ' + enc_file)
 
-def encode_bpg(printProgress=False):
+def encode_bpg(printProgress=False, maxFileSizeKb = 32):
     i = 0
     number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     for subFolder in availableSubFolder:

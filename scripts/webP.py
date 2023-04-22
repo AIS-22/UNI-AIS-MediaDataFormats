@@ -3,7 +3,6 @@ import os
 import glob
 import numpy as np
 
-maxFileSizeKb = 32
 minQ = 1
 maxQ = 100
 trainFolder = 'DIV2K_train_HR/'
@@ -20,7 +19,7 @@ def decode_webP(enc_file, dec_file):
     image = Image.open(enc_file)
     image.save(dec_file, quality=100)
 
-def encode_webp(printProgress=False):
+def encode_webp(printProgress=False, maxFileSizeKb = 32):
     i = 0
     number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     for subFolder in availableSubFolder:
