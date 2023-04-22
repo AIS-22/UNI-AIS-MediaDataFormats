@@ -77,7 +77,7 @@ def encode_bpg(printProgress=False, maxFileSizeKb = 32):
                 i += 1
                 print('Image: ' + file_name + ' Quality: ' + str(maxQ - q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
 
-            dec_file_name = file_name.split(sep='.')[0] + pngExtension
+            dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + pngExtension
             dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
             decode_bpg(outputPath, dec_path)
 
