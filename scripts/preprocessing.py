@@ -5,6 +5,7 @@ import cropImages
 import heicEnc
 import jxrenc
 import webP
+import jpegxl
 from concurrent.futures import ThreadPoolExecutor
 
 maxFileSizeKb = 32
@@ -27,6 +28,7 @@ async def preprocess():
             executor.submit(heicEnc.encode_heic, printProgress, maxFileSizeKb),
             executor.submit(jxrenc.encode_jxr, printProgress, maxFileSizeKb),
             executor.submit(webP.encode_webp, printProgress, maxFileSizeKb),
+            executor.submit(jpegxl.encode_jpgxl, printProgress, maxFileSizeKb),
         ]
         for future in futures:
             future.result()
