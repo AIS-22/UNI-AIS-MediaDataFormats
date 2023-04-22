@@ -4,19 +4,23 @@ import os
 import glob
 import numpy as np
 
-maxFileSizeKb = 32
 minQ = 1
 maxQ = 100
 trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 usedCodec = 'HEIC/'
+decodedFolder = 'Decoded/'
 outputPrefix = 'heic_'
 outputFileExtension = '.heic'
 pngExtension = '.png'
 
 pillow_heif.register_heif_opener()
 
-def encode_heic(printProgress=False):
+def decode_heic(enc_file, dec_file):
+    image = Image.open(enc_file)
+    image.save(dec_file, quality=100)
+
+def encode_heic(printProgress=False, maxFileSizeKb = 32):
     i = 0
     number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     for subFolder in [trainFolder, validFolder]:
@@ -74,6 +78,10 @@ def encode_heic(printProgress=False):
                 i += 1
                 f_size = os.path.getsize(outputPath) / 1024
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+
+            dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + pngExtension
+            dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
+            decode_heic(outputPath, dec_path)
 
 
 if __name__ == '__main__':

@@ -2,29 +2,25 @@ import os
 import subprocess
 import glob
 import numpy as np
+from imagecodecs import imread, imwrite
 
-def encode_jxl_to_max_filesize(png_path,jxl_path,size):
-    last_q = 0
-    for q in range(50,100):
-        subprocess.call(['cjxl', png_path, jxl_path, '-q', str(q)])
-        if os.path.getsize(jxl_path) < size:
-            last_q = q
-        #os.remove(jxl_path)
-    subprocess.call(['cjxl', png_path, jxl_path, '-q', str(last_q)])
-    return last_q
 
-maxFileSizeKb = 32
 minQ = 1
 maxQ = 100
 trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG_XL/'
+decodedFolder = 'Decoded/'
 outputPrefix = 'jpegxl_'
 outputFileExtension = '.jxl'
 pngExtension = '.png'
 
-def encode_jpgxl(printProgress=False):
+def decode_jpgxl(enc_file, dec_file):
+    image = imread(enc_file)
+    imwrite(dec_file,image,'png')
+
+def encode_jpgxl(printProgress=False, maxFileSizeKb = 32):
     i = 0
     number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     for subFolder in availableSubFolder:
@@ -85,6 +81,10 @@ def encode_jpgxl(printProgress=False):
                 f_size = os.path.getsize(outputPath) / 1024
                 i += 1
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+
+            dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + pngExtension
+            dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
+            decode_jpgxl(outputPath, dec_path)
 
 
 if __name__ == '__main__':

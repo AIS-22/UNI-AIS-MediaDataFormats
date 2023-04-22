@@ -2,19 +2,22 @@ import os
 import glob
 import numpy as np
 
-maxFileSizeKb = 32
 minQ = 0
 maxQ = 51
 trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'BPG/'
+decodedFolder = 'Decoded/'
 outputPrefix = 'bpg_'
 outputFileExtension = '.bpg'
 pngExtension = '.png'
 
 
-def encode_bpg(printProgress=False):
+def decode_bpg(enc_file, dec_file):
+    os.system('bpgdec -o ' + dec_file + ' ' + enc_file)
+
+def encode_bpg(printProgress=False, maxFileSizeKb = 32):
     i = 0
     number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     for subFolder in availableSubFolder:
@@ -73,6 +76,10 @@ def encode_bpg(printProgress=False):
                 f_size = os.path.getsize(outputPath) / 1024
                 i += 1
                 print('Image: ' + file_name + ' Quality: ' + str(maxQ - q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+
+            dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + pngExtension
+            dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
+            decode_bpg(outputPath, dec_path)
 
 
 if __name__ == '__main__':
