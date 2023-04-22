@@ -2,7 +2,7 @@ import os
 import subprocess
 import glob
 import numpy as np
-
+from imagecodecs import imread, imwrite
 def encode_jxl_to_max_filesize(png_path,jxl_path,size):
     last_q = 0
     for q in range(50,100):
@@ -23,6 +23,10 @@ usedCodec = 'JPEG_XL/'
 outputPrefix = 'jpegxl_'
 outputFileExtension = '.jxl'
 pngExtension = '.png'
+
+def decode_jpgxl(enc_file, dec_file):
+    image = imread(enc_file)
+    imwrite(dec_file,image,'png')
 
 def encode_jpgxl(printProgress=False):
     i = 0
@@ -88,4 +92,5 @@ def encode_jpgxl(printProgress=False):
 
 
 if __name__ == '__main__':
-    encode_jpgxl(printProgress=True)
+    #encode_jpgxl(printProgress=True)
+    decode_jpgxl('Images/DIV2K_train_HR/JPEG_XL/jpegxl_0001x2.jxl','Images/DIV2K_train_HR/Decoded/JPEG_XL/jpegxl_0001x2.png')
