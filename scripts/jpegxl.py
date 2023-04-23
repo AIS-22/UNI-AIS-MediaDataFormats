@@ -34,7 +34,7 @@ def encode_jpgxl(printProgress=False, maxFileSizeKb = 32):
             outputPath = pathImagesEncoded + file_name
 
             #encode image with quality q
-            subprocess.call(['cjxl', image_path, outputPath, '-q', str(q)])
+            subprocess.call(['cjxl', image_path, outputPath, '--quiet', '-q', str(q)])
             
 
             # use devide and concor to optimize computational time n*O(log(n)) complexity
@@ -68,12 +68,12 @@ def encode_jpgxl(printProgress=False, maxFileSizeKb = 32):
                     break
 
                 # save image with new quality
-                subprocess.call(['cjxl', image_path, outputPath, '-q', str(q)])
+                subprocess.call(['cjxl', image_path, outputPath, '--quiet', '-q', str(q)])
                 if terminate:
                     if os.path.getsize(outputPath) / 1024 > maxFileSizeKb:
                         #ML: decrease quality by 1 to get under threshold again and to set q to the last valid value
                         q = q - 1
-                        subprocess.call(['cjxl', image_path, outputPath, '-q', str(q)])
+                        subprocess.call(['cjxl', image_path, outputPath, '--quiet', '-q', str(q)])
                     break
                 prev_q = q
 
