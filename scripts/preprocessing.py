@@ -8,16 +8,16 @@ import webP
 import jpegxl
 from concurrent.futures import ThreadPoolExecutor
 
-maxFileSizeKb = 32
-printProgress = True
-WIDTH = 512
-HEIGHT = 512
 
-
-async def preprocess():
-    # first crop images
-    print('Start to crop images.')
-    cropImages.crop(WIDTH, HEIGHT)
+async def preprocess(cropNeeded=True,
+                     width=512,
+                     height=512,
+                     maxFileSizeKb=32,
+                     printProgress=True):
+    if cropNeeded:
+        # first crop images
+        print('Start to crop images to {}x{} pixel.'.format(width, height))
+        cropImages.crop(width, height)
 
     # start the encoding and decoding task of each codec asynchronously
     print('Start to encode images.')
