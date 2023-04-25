@@ -10,7 +10,7 @@ import jxrenc
 import webP
 import jpegxl
 
-np.random.seed(42)
+np.random.seed(86)
 
 
 def calculate_mse(image1, image2):
@@ -37,8 +37,11 @@ def measure_quality():
     n_images = 5
     indices = np.floor(np.random.uniform(low=0, high=n_files - 1, size=n_images)).astype(int)
     image_paths = [files[i] for i in indices]
-    # make 20 quality steps (5 per step)
-    qualities = np.linspace(1, 99, 20).astype(int)
+    # make 50 quality steps (2 per step)
+    steps = 50
+    qualities = np.linspace(1, 100, steps).astype(int)
+    # qualities for jxr since range can be 0-10_000
+    qualities_jxr = np.linspace(0, 10_000, steps).astype(int)
     codecs = ['avif', 'webP', 'bpg', 'heic', 'jxl', 'jxr']
 
     codec_dictionary = {
@@ -53,7 +56,8 @@ def measure_quality():
     for codec in codecs:
         mean_crates = np.zeros(len(qualities))
         mean_psnr = np.zeros(len(qualities))
-        for x, q in enumerate(qualities):
+        codec_is_jxr = codec == 'jxr'
+        for x, q in enumerate(qualities_jxr if codec_is_jxr else qualities):
             c_rates = np.zeros(n_images).astype(float)
             psnr = np.zeros(n_images).astype(float)
             for i, file_path in enumerate(image_paths):
