@@ -83,6 +83,16 @@ def encode_heic(printProgress=False, maxFileSizeKb = 32):
             dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
             decode_heic(outputPath, dec_path)
 
+def encode_heic_q(image_path, decoded_path, q):
+    image = Image.open(image_path)
+    # save image with new quality
+    outputPath = 'temp' + outputFileExtension
+    image.save(outputPath, quality=int(q))
+    enc_size = os.path.getsize(outputPath)
+    decode_heic(outputPath, decoded_path)
+    os.system('rm ' + outputPath)
+    return enc_size
+
 
 if __name__ == '__main__':
     encode_heic(printProgress=True)

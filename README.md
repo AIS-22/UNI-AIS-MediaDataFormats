@@ -51,3 +51,10 @@ Needs to be installed locally using the github repo described in [#13](https://g
 ### AVIF
 
 PIL with avif can be used here, therefore just install pillow-avif-plugin python lib and import pillow_avif at the very beginning. Read description of [#7](https://github.com/AIS-22/UNI-AIS-MediaDataFormats/issues/7)
+
+___
+### PSNR over Compression Ratio of the Codecs (Mean over 5 images)
+![PSNR](Plots/psnr.png)
+
+All codecs look kind of similar. JXR compresses further, but by checking the decoded high compressed images you can see, that they are not reconstructable anymore.
+Same results with **JxrEncApp (jxrlib)**.

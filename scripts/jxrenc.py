@@ -97,6 +97,18 @@ def encode_jxr(printProgress=False, maxFileSizeKb = 32):
             dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
             decode_jxr(outputPath, dec_path)
 
+def encode_jxr_q(image_path, decoded_path, q):
+    normalized_q = int(maxQ * (q / 100))
+    outputPath = 'temp' + outputFileExtension
+    tif_path = decoded_path.split(sep='.')[0] + '.tif'
+    im = Image.open(image_path)
+    im.save(tif_path, quality=100)
+    os.system('./jpegxr -c -q ' + str(int(maxQ - normalized_q)) + ' -o ' + outputPath + ' ' + tif_path)
+    enc_size = os.path.getsize(outputPath)
+    decode_jxr(outputPath, tif_path)
+    os.system('rm temp*')
+    return enc_size
+
 
 if __name__ == '__main__':
     encode_jxr(printProgress=True)
