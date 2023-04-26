@@ -86,6 +86,15 @@ def encode_jpgxl(printProgress=False, maxFileSizeKb = 32):
             dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
             decode_jpgxl(outputPath, dec_path)
 
+def encode_jxl_q(image_path, decoded_path, q):
+    # save image with new quality
+    outputPath = 'temp' + outputFileExtension
+    subprocess.call(['cjxl', image_path, outputPath, '--quiet', '-q', str(q)])
+    enc_size = os.path.getsize(outputPath)
+    decode_jpgxl(outputPath, decoded_path)
+    os.system('rm ' + outputPath)
+    return enc_size
+
 
 if __name__ == '__main__':
     encode_jpgxl(printProgress=True)

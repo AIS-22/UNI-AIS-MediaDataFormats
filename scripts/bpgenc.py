@@ -81,6 +81,16 @@ def encode_bpg(printProgress=False, maxFileSizeKb = 32):
             dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
             decode_bpg(outputPath, dec_path)
 
+def encode_bpg_q(image_path, decoded_path, q):
+    normalized_q = int(maxQ * (q / 100))
+    # save image with new quality
+    outputPath = 'temp' + outputFileExtension
+    os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(maxQ - normalized_q)) + ' ' + image_path)
+    enc_size = os.path.getsize(outputPath)
+    decode_bpg(outputPath, decoded_path)
+    os.system('rm ' + outputPath)
+    return enc_size
+
 
 if __name__ == '__main__':
     encode_bpg(printProgress=True)
