@@ -66,7 +66,7 @@ def encode_bpg(printProgress=False, maxFileSizeKb = 32):
                 os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(maxQ - q)) + ' ' + image_path)
                 if terminate:
                     # there was a rounding error caused by np.ceil() so just one more optimization step is needed
-                    if os.path.getsize(outputPath) / 1024 > maxFileSizeKb:
+                    if os.path.getsize(outputPath) / 1024 > maxFileSizeKb and q > minQ:
                         q = q - 1
                         os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(maxQ - q)) + ' ' + image_path)
                     break

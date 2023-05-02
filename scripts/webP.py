@@ -67,7 +67,7 @@ def encode_webp(printProgress=False, maxFileSizeKb = 32):
                 # save image with new quality
                 image.save(outputPath, quality=int(q))
                 if terminate:
-                    if os.path.getsize(outputPath) / 1024 > maxFileSizeKb:
+                    if os.path.getsize(outputPath) / 1024 > maxFileSizeKb and q > minQ:
                         #ML: decrease quality by 1 to get under threshold again and to set q to the last valid value
                         q = q - 1
                         image.save(outputPath, quality=int(q))

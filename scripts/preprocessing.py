@@ -9,7 +9,7 @@ import jpegxl
 from concurrent.futures import ThreadPoolExecutor
 
 
-async def preprocess(cropNeeded=True,
+async def preprocess(cropNeeded=False,
                      width=512,
                      height=512,
                      maxFileSizeKb=32,

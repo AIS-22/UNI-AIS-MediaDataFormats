@@ -70,7 +70,7 @@ def encode_jpgxl(printProgress=False, maxFileSizeKb = 32):
                 # save image with new quality
                 subprocess.call(['cjxl', image_path, outputPath, '--quiet', '-q', str(q)])
                 if terminate:
-                    if os.path.getsize(outputPath) / 1024 > maxFileSizeKb:
+                    if os.path.getsize(outputPath) / 1024 > maxFileSizeKb and q > minQ:
                         #ML: decrease quality by 1 to get under threshold again and to set q to the last valid value
                         q = q - 1
                         subprocess.call(['cjxl', image_path, outputPath, '--quiet', '-q', str(q)])
