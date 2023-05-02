@@ -10,5 +10,5 @@ def create_dataset():
     # create a test dataset from multiple image folders 'Images/DIV2K_valid_HR'
     testset = torchvision.datasets.ImageFolder(root='Images/DIV2K_valid_HR/Decoded/', transform=transforms.ToTensor())
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=16, shuffle=True)
-    testloader = torch.utils.data.DataLoader(testset, batch_size=16, shuffle=False)
+    testloader = torch.utils.data.DataLoader(testset, batch_size=16, shuffle=True)
     return trainloader, testloader
