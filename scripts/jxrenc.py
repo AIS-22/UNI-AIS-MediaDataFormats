@@ -61,7 +61,7 @@ def _determine_q(max_q, max_file_size_kb, output_path, tif_path):
                 terminate = True
 
         elif f_size == max_file_size_kb:
-            break
+            return ((q / maxQ), False) if not is_quantization else (int(maxQuantisation - q), True)
 
         q_str = str(q / max_q) if not is_quantization else str(int(max_q - q))
         os.system('JxrEncApp -q ' + q_str + ' -o ' + output_path + ' -i ' + tif_path)
