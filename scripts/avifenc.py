@@ -70,7 +70,7 @@ def encode_avif(printProgress=False, maxFileSizeKb = 32):
                 image.save(outputPath, quality=int(q))
                 if terminate:
                     # there was a rounding error caused by np.ceil() so just one more optimization step is needed
-                    if os.path.getsize(outputPath) / 1024 > maxFileSizeKb:
+                    if os.path.getsize(outputPath) / 1024 > maxFileSizeKb and q > minQ:
                         q = q - 1
                         image.save(outputPath, quality=int(q))
                     break
