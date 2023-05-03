@@ -1,23 +1,26 @@
 import os
+import subprocess
 import glob
 import numpy as np
+from imagecodecs import imread, imwrite
 
-minQ = 0
-maxQ = 51
+
+minQ = 1
+maxQ = 100
 trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
-usedCodec = 'BPG/'
+usedCodec = 'JPEG_XL/'
 decodedFolder = 'Decoded/'
-outputPrefix = 'bpg_'
-outputFileExtension = '.bpg'
+outputPrefix = 'jpegxl_'
+outputFileExtension = '.jxl'
 pngExtension = '.png'
 
+def decode_jpgxl(enc_file, dec_file):
+    image = imread(enc_file)
+    imwrite(dec_file,image,'png')
 
-def decode_bpg(enc_file, dec_file):
-    os.system('bpgdec -o ' + dec_file + ' ' + enc_file)
-
-def encode_bpg(printProgress=False, maxFileSizeKb = 32):
+def encode_jpgxl(printProgress=False, maxFileSizeKb = 32):
     i = 0
     number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     for subFolder in availableSubFolder:
@@ -29,8 +32,10 @@ def encode_bpg(printProgress=False, maxFileSizeKb = 32):
             file_name = outputPrefix + image_path.split(sep='/')[-1].split(sep='.')[0] + outputFileExtension
             # open image and in first step use the highest available quality to store
             outputPath = pathImagesEncoded + file_name
-            # quality now is inverted, 0 best maxQ worst
-            os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(0)) + ' ' + image_path)
+
+            #encode image with quality q
+            subprocess.call(['cjxl', image_path, outputPath, '--quiet', '-q', str(q)])
+            
 
             # use devide and concor to optimize computational time n*O(log(n)) complexity
             terminate = False
@@ -62,35 +67,34 @@ def encode_bpg(printProgress=False, maxFileSizeKb = 32):
                 elif f_size == maxFileSizeKb:
                     break
 
-                # save image with new quality but quality now is inverted, 0 best maxQ worst, therefore maxQ-q!!
-                os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(maxQ - q)) + ' ' + image_path)
+                # save image with new quality
+                subprocess.call(['cjxl', image_path, outputPath, '--quiet', '-q', str(q)])
                 if terminate:
-                    # there was a rounding error caused by np.ceil() so just one more optimization step is needed
                     if os.path.getsize(outputPath) / 1024 > maxFileSizeKb and q > minQ:
+                        #ML: decrease quality by 1 to get under threshold again and to set q to the last valid value
                         q = q - 1
-                        os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(maxQ - q)) + ' ' + image_path)
+                        subprocess.call(['cjxl', image_path, outputPath, '--quiet', '-q', str(q)])
                     break
                 prev_q = q
 
             if printProgress:
                 f_size = os.path.getsize(outputPath) / 1024
                 i += 1
-                print('Image: ' + file_name + ' Quality: ' + str(maxQ - q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+                print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
 
             dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + pngExtension
             dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
-            decode_bpg(outputPath, dec_path)
+            decode_jpgxl(outputPath, dec_path)
 
-def encode_bpg_q(image_path, decoded_path, q):
-    normalized_q = int(maxQ * (q / 100))
+def encode_jxl_q(image_path, decoded_path, q):
     # save image with new quality
     outputPath = 'temp' + outputFileExtension
-    os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(maxQ - normalized_q)) + ' ' + image_path)
+    subprocess.call(['cjxl', image_path, outputPath, '--quiet', '-q', str(q)])
     enc_size = os.path.getsize(outputPath)
-    decode_bpg(outputPath, decoded_path)
+    decode_jpgxl(outputPath, decoded_path)
     os.system('rm ' + outputPath)
     return enc_size
 
 
 if __name__ == '__main__':
-    encode_bpg(printProgress=True)
+    encode_jpgxl(printProgress=True)

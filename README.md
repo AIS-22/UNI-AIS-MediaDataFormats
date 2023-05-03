@@ -42,8 +42,20 @@ Pillow-heif is the implementation of heic on top of PIL
 
 ### JPEG XR
 
-Software and description gets provided by the [JPEG org](https://jpeg.org/jpegxr/index.html).
+Software and description gets provided by the [JPEG org](https://jpeg.org/jpegxr/index.html). Since this just supports the
+quantisation for parameter -q **JxrEncApp** of **jxrlib** needs to be installed and used (-q range [0-1]). 
+If it´s not possible to achieve it with quality parameter the quantisation range will be used in our algorithm.
+The plot below shows, that jxr stops at a low c-rate, this is of not using the quantisation here. Tests showed, that
+high quantisation parameter (is inverterd 255 means low quantisation 1 lossless) lead to grey images. Can be shown in paper!
 
 ### BPG
 
+Needs to be installed locally using the github repo described in [#13](https://github.com/AIS-22/UNI-AIS-MediaDataFormats/issues/13)
+
 ### AVIF
+
+PIL with avif can be used here, therefore just install pillow-avif-plugin python lib and import pillow_avif at the very beginning. Read description of [#7](https://github.com/AIS-22/UNI-AIS-MediaDataFormats/issues/7)
+
+___
+### PSNR over Compression Ratio of the Codecs (Mean over 5 images)
+![PSNR](Plots/psnr.png)

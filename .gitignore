@@ -131,8 +131,15 @@ dmypy.json
 # Pycharm
 .idea/
 
-#Images folder
-Images/
+#Images
+*.png
+*.avif
+*.heic
+*.webp
+*.jxr
+*.jxl
+*.bpg
+*.tif
 
 #Mac OS
 .DS_Store
@@ -140,3 +147,4 @@ Images/
 # PyTorch
 *.pt
 *.pth
+
