@@ -3,7 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.autograd import Variable
-from torchvision.models import resnet152, resnet34
+from torchvision.models import resnet152, resnet34, resnet18
+from torchvision import models
 import os
 import torchinfo
 import cnnModel
@@ -52,6 +53,7 @@ if __name__ == "__main__":
     #trainModel = False
     printModel = False
     trainModel = True
+    loadModel = True
     trainloader, testloader = cnnDataset.create_dataset()
     # print the content of the dataset
     #file = trainloader.dataset[0][0].numpy().transpose(1, 2, 0)
@@ -64,12 +66,16 @@ if __name__ == "__main__":
     if trainModel:
         #model = cnnModel.CNN(num_output=len(trainloader.dataset.classes)).to(dev)
         #model = cnnModel.BasicNet().to(dev)
-        model = resnet34(num_classes=len(trainloader.dataset.classes)).to(dev)
+        if loadModel:
+            model = resnet18(num_classes=len(trainloader.dataset.classes)).to(dev)
+            model.load_state_dict(torch.load("models/cnnParams.pt"))
+        else:
+            model = resnet18(num_classes=len(trainloader.dataset.classes)).to(dev)
         # define the loss function and the optimizer
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.Adam(model.parameters(), lr=0.001, weight_decay=0.0001)
         #model_compile = torch.compile(model)
-        epochs = 5
+        epochs = 20
 
         print("Start training:\n")
         for epoch in range(1, epochs + 1):
