@@ -143,3 +143,8 @@ dmypy.json
 
 #Mac OS
 .DS_Store
+
+# PyTorch
+*.pt
+*.pth
+
