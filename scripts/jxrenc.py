@@ -112,7 +112,8 @@ def encode_jxr_q(image_path, decoded_path, q):
     tif_path = decoded_path.split(sep='.')[0] + '.tif'
     im = Image.open(image_path)
     im.save(tif_path, quality=100)
-    os.system('JxrEncApp -q ' + str(q/maxQ) + ' -o ' + outputPath + ' -i ' + tif_path)
+    q_string = str(q) if q <= 1 else str(int(q))
+    os.system('JxrEncApp -q ' + q_string + ' -o ' + outputPath + ' -i ' + tif_path)
     enc_size = os.path.getsize(outputPath)
     decode_jxr(outputPath, tif_path)
     os.system('rm temp*')

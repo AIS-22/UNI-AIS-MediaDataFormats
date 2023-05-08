@@ -37,11 +37,13 @@ def measure_quality():
     n_images = 5
     indices = np.floor(np.random.uniform(low=0, high=n_files - 1, size=n_images)).astype(int)
     image_paths = [files[i] for i in indices]
-    # make 50 quality steps (2 per step)
+    # make 50 quality steps
     steps = 50
     qualities = np.linspace(1, 100, steps).astype(int)
-    # qualities for jxr since range can be 0-10_000
-    qualities_jxr = np.linspace(0, 10_000, steps).astype(int)
+    # qualities for jxr since range can be 0-1 for quality, whereas from 2-255 the quantisation gets changed
+    qualities_jxr = 0.
+    qualities_jxr = np.append(qualities_jxr, np.linspace(0.0001, 1, int(steps/2)-1).astype(float))
+    qualities_jxr = np.append(qualities_jxr, np.linspace(2,255, int(steps/2)).astype(int))
     codecs = ['avif', 'webP', 'bpg', 'heic', 'jxl', 'jxr']
 
     codec_dictionary = {
@@ -61,7 +63,8 @@ def measure_quality():
             c_rates = np.zeros(n_images).astype(float)
             psnr = np.zeros(n_images).astype(float)
             for i, file_path in enumerate(image_paths):
-                file_name = file_path.split(sep='/')[-1].split(sep='.')[0] + '_' + str(q) + '_' + codec + '.png'
+                q_string = str(q).replace('.', '_')
+                file_name = file_path.split(sep='/')[-1].split(sep='.')[0] + '_' + q_string + '_' + codec + '.png'
                 decoded_path = 'Quality/Decoded/' + file_name
                 enc_size = codec_dictionary[codec](file_path, decoded_path, q)
                 c_rates[i] = os.path.getsize(file_path) / enc_size
@@ -79,3 +82,4 @@ def measure_quality():
 
 if __name__ == '__main__':
     measure_quality()
+    print('Quality measurement successful.')
