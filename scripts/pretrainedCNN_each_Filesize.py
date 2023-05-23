@@ -55,7 +55,7 @@ for filesize in filesizes:
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
     print('-------------------------------------------------------------------------------------')
-    print('Train model wiht filesize = ' + filesize + ' kB')
+    print('Train model with filesize = ' + filesize + ' kB')
     train_loader, val_loader = cnnDataset.create_dataset(transform=transform, filesize=filesize)
 
     model_name = 'vgg16'
