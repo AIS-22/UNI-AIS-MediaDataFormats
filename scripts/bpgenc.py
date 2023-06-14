@@ -16,6 +16,9 @@ pngExtension = '.png'
 
 def decode_bpg(enc_file, dec_file):
     os.system('bpgdec -o ' + dec_file + ' ' + enc_file)
+    file_size = dec_file.split('/')[-1].split('_')[-1].split('.')[0]
+    dec_filesize_folder = dec_file.replace('all', file_size)
+    os.system('bpgdec -o ' + dec_filesize_folder + ' ' + enc_file)
 
 def encode_bpg(printProgress=False, maxFileSizeKb = 32):
     i = 0
