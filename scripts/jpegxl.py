@@ -11,14 +11,18 @@ trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG_XL/'
-decodedFolder = 'Decoded/'
+decodedFolder = 'Decoded/all/'
 outputPrefix = 'jpegxl_'
 outputFileExtension = '.jxl'
 pngExtension = '.png'
 
+
 def decode_jpgxl(enc_file, dec_file):
     image = imread(enc_file)
-    imwrite(dec_file,image,'png')
+    imwrite(dec_file, image, 'png')
+    file_size = dec_file.split('/')[-1].split('_')[-1].split('.')[0]
+    dec_filesize_folder = dec_file.replace('all', file_size)
+    imwrite(dec_filesize_folder, image, 'png')
 
 def encode_jpgxl(printProgress=False, maxFileSizeKb = 32):
     i = 0

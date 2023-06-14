@@ -1,9 +1,11 @@
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import transforms, models
 from sklearn.metrics import precision_recall_fscore_support
 import cnnDataset
+import evaluateMixedModel
 
 
 def evaluate_model(model, test_loader):
@@ -57,29 +59,14 @@ Different models can be used, see examples in
 https://pyimagesearch.com/2021/07/26/pytorch-image-classification-with-pre-trained-networks/
 """
 # resNet
-# model_name = 'resnet18'
-# model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
-
-model_name = 'vgg16'
-model = models.vgg16(weights=models.VGG16_Weights.DEFAULT)
+model_name = 'resnet18'
+model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
 
 num_new_classes = 6
 
-"""
-VGG16 Network (model):
-Index 0: Fully connected layer (nn.Linear)
-Index 1: ReLU activation (nn.ReLU)
-Index 2: Dropout layer (nn.Dropout)
-Index 3: Fully connected layer (nn.Linear)
-Index 4: ReLU activation (nn.ReLU)
-Index 5: Dropout layer (nn.Dropout)
-Index 6: Fully connected layer (nn.Linear) -- The output layer which needs to be replaced
-"""
-model.classifier[6] = nn.Linear(model.classifier[6].in_features, num_new_classes)
-
 # use this if e.g. resNet get used
-# num_ftrs = model.fc.in_features
-# model.fc = nn.Linear(num_ftrs, num_new_classes)  # Replace the final layer with the number of codec classes
+num_ftrs = model.fc.in_features
+model.fc = nn.Linear(num_ftrs, num_new_classes)  # Replace the final layer with the number of codec classes
 model = model.to(device)
 
 criterion = nn.CrossEntropyLoss()
@@ -88,8 +75,9 @@ optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
 # change the number of epochs here!
 num_epochs = 10
-
+losses = np.zeros((num_epochs, 2))
 for epoch in range(num_epochs):
+    print(f'Start to train epoch: {epoch + 1}')
     model.train()
     running_loss = 0.0
     for images, labels in train_loader:
@@ -109,6 +97,7 @@ for epoch in range(num_epochs):
     model.eval()
     correct = 0
     total = 0
+    test_loss = 0
     with torch.no_grad():
         for images, labels in val_loader:
             images, labels = images.to(device), labels.to(device)
@@ -116,10 +105,16 @@ for epoch in range(num_epochs):
             outputs = model(images)
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)  # Update the total count of processed samples
+            test_loss += criterion(outputs, labels).item() * images.size(0)
             correct += (predicted == labels).sum().item()
 
     accuracy = correct / total
-    print(f'Validation accuracy: {accuracy:.4f} in epoch: {epoch + 1}')
+    test_loss /= len(val_loader.dataset.samples)
+    print(f'Validation accuracy: {accuracy:.4f} loss: {test_loss} in epoch: {epoch + 1}')
+    losses[epoch, 0] = epoch_loss
+    losses[epoch, 1] = test_loss
+# store the results in a file
+np.save('results/losses_mixed_model.npy', losses)
 
 evaluate_model(model, val_loader)
 
@@ -127,3 +122,5 @@ save_model = True
 if save_model:
     torch.save(model.state_dict(), "models/cnnParams_" + model_name + ".pt")
     print("Model saved")
+
+evaluateMixedModel.main()
