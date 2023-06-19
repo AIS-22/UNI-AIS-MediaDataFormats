@@ -9,6 +9,8 @@ import heicEnc
 import jxrenc
 import webP
 import jpegxl
+import jpegenc
+import jpeg2000enc
 
 np.random.seed(86)
 
@@ -28,9 +30,7 @@ def calc_psnr(original_image, decoded_image):
 
 
 def measure_quality():
-    os.system('mkdir Quality')
-    os.system('mkdir Quality/Decoded')
-
+    # get all images
     files = glob.glob('Images/' + '*/Resized/' + '*.png')
     n_files = len(files)
     # pick 5 images for quality measurement
@@ -44,7 +44,8 @@ def measure_quality():
     qualities_jxr = 0.
     qualities_jxr = np.append(qualities_jxr, np.linspace(0.0001, 1, int(steps/2)-1).astype(float))
     qualities_jxr = np.append(qualities_jxr, np.linspace(2,255, int(steps/2)).astype(int))
-    codecs = ['avif', 'webP', 'bpg', 'heic', 'jxl', 'jxr']
+    qualities_j2k = np.concatenate((np.linspace(1, 100, int(steps/2)).astype(int), np.linspace(104, 1000, int(steps/2)).astype(int)))
+    codecs = ['avif', 'webP', 'bpg', 'heic', 'jxl', 'jxr', 'jpeg', 'jpeg2000']
 
     codec_dictionary = {
         'avif': avifenc.encode_avif_q,
@@ -52,14 +53,17 @@ def measure_quality():
         'bpg': bpgenc.encode_bpg_q,
         'heic': heicEnc.encode_heic_q,
         'jxl': jpegxl.encode_jxl_q,
-        'jxr': jxrenc.encode_jxr_q
+        'jxr': jxrenc.encode_jxr_q,
+        'jpeg': jpegenc.encode_jpeg_q,
+        'jpeg2000': jpeg2000enc.encode_jpeg2k_q
     }
 
     for codec in codecs:
         mean_crates = np.zeros(len(qualities))
         mean_psnr = np.zeros(len(qualities))
         codec_is_jxr = codec == 'jxr'
-        for x, q in enumerate(qualities_jxr if codec_is_jxr else qualities):
+        codec_is_j2k = codec == 'jpeg2000'
+        for x, q in enumerate(qualities_jxr if codec_is_jxr else qualities_j2k if codec_is_j2k else qualities):
             c_rates = np.zeros(n_images).astype(float)
             psnr = np.zeros(n_images).astype(float)
             for i, file_path in enumerate(image_paths):

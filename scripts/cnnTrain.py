@@ -1,3 +1,4 @@
+# TODO: Remove if not needed anymore!
 # import torch
 # import torch.nn as nn
 # import torch.nn.functional as F
@@ -98,6 +99,7 @@ from sklearn.metrics import precision_recall_fscore_support
 import cnnDataset
 import evaluateSelfModel
 
+#TODO: Log the output in a file
 
 def evaluate_model(model, test_loader):
     model.eval()

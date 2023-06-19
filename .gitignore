@@ -140,6 +140,8 @@ dmypy.json
 *.jxl
 *.bpg
 *.tif
+*.jpg
+*.jp2
 
 #Mac OS
 .DS_Store

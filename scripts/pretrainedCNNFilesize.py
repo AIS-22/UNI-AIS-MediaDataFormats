@@ -7,6 +7,7 @@ from sklearn.metrics import precision_recall_fscore_support
 import cnnDataset
 import evaluateFilesizeModel
 
+#TODO: Log the output in a file
 
 def evaluate_model(model, test_loader):
     model.eval()
