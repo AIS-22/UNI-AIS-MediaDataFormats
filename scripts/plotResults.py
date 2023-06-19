@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 RESULTS_FOLDER = 'results/'
+AVG_FILESIZE = 470
 
 
 def plot_accuracy_results():
@@ -12,23 +13,25 @@ def plot_accuracy_results():
     keys = [int(key) for key in mixed_results.keys()]
     cmap = plt.get_cmap('tab20')
     plt.figure(figsize=(20, 10))
-    plt.plot(keys, mixed_results.values(), color=cmap(0), label='Mixed (5-32)')
+    plt.plot(keys, mixed_results.values(), color=cmap(0), label='Mixed pre trained (5-32)')
 
     for i, filesize in enumerate(filesizes):
         res_dict = np.load(RESULTS_FOLDER + 'results_' + filesize + '_model.npy', allow_pickle=True).item()
         keys = [int(key) for key in res_dict.keys()]
         plt.plot(keys, res_dict.values(), color=cmap(i + 1),
-                 label=filesize + f'  c-rate: {(470 / float(filesize)):.2f}')
+                 label=filesize + f'  c-rate: {(AVG_FILESIZE / float(filesize)):.2f}')
 
     plt.title('Accuracy Comparison of the Models')
     plt.grid()
-    plt.axhline(y=0.1667, color='red', linestyle='--')
+    # TODO: add accuracy of self trained model
+    plt.axhline(y=0.1667, color='red', linestyle='--', label='Mixed self')
     plt.xlabel('Test Filesize')
     plt.ylabel('Accuracy')
     plt.legend(title='Trained file sizes (mean c-rate)')
     plt.savefig('Plots/accuracy_comparison.png')
     plt.show()
 
+#TODO: add confusion matrix plot
 
 def plot_loss_results():
     # load dic from file
@@ -66,6 +69,7 @@ def plot_dec_enc_time():
         'heic': 0.3,
         'jxl': 0.9,
         'jxr': 0.2
+        # TODO: Measure also jpeg2000 and jpeg of image (avg of train 0770.png and 0565.png
     }
 
     plt.figure(figsize=(20, 10))
