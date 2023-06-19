@@ -12,7 +12,7 @@ def plot_accuracy_results():
     keys = [int(key) for key in mixed_results.keys()]
     cmap = plt.get_cmap('tab20')
     plt.figure(figsize=(20, 10))
-    plt.plot(keys, mixed_results.values(), color=cmap(0), label='Mixed (5-32)')
+    plt.plot(keys, mixed_results.values(), color=cmap(0), label='Mixed pre trained (5-32)')
 
     for i, filesize in enumerate(filesizes):
         res_dict = np.load(RESULTS_FOLDER + 'results_' + filesize + '_model.npy', allow_pickle=True).item()
@@ -22,7 +22,8 @@ def plot_accuracy_results():
 
     plt.title('Accuracy Comparison of the Models')
     plt.grid()
-    plt.axhline(y=0.1667, color='red', linestyle='--')
+    # TODO: add accuracy of self trained model
+    plt.axhline(y=0.1667, color='red', linestyle='--', label='Mixed self')
     plt.xlabel('Test Filesize')
     plt.ylabel('Accuracy')
     plt.legend(title='Trained file sizes (mean c-rate)')
