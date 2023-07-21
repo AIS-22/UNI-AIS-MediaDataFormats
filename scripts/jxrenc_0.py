@@ -10,9 +10,10 @@ maxQuantisation = 255
 trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
-usedCodec = 'JPEG_XR/'
+usedCodec = 'JPEG_XR_0/'
+overlapParameter = '-l 0'
 decodedFolder = 'Decoded/all/'
-outputPrefix = 'jxr_'
+outputPrefix = 'jxr_0_'
 outputFileExtension = '.jxr'
 pngExtension = '.png'
 tifFileExtension = '.tif'
@@ -39,7 +40,7 @@ def _determine_q(max_q, max_file_size_kb, output_path, tif_path):
     upper_bound = max_q
     lower_bound = 0
 
-    os.system('JxrEncApp -q ' + str(1) + ' -o ' + output_path + ' -i ' + tif_path)
+    os.system('JxrEncApp -q ' + str(1) + ' -o ' + output_path + ' -i ' + tif_path + ' ' + overlapParameter)
 
     while True:
         f_size = os.path.getsize(output_path) / 1024
@@ -67,13 +68,13 @@ def _determine_q(max_q, max_file_size_kb, output_path, tif_path):
             return ((q / maxQ), False) if not is_quantization else (int(maxQuantisation - q), True)
 
         q_str = str(q / max_q) if not is_quantization else str(int(max_q - q))
-        os.system('JxrEncApp -q ' + q_str + ' -o ' + output_path + ' -i ' + tif_path)
+        os.system('JxrEncApp -q ' + q_str + ' -o ' + output_path + ' -i ' + tif_path + ' ' + overlapParameter)
         if terminate:
             # there was a rounding error caused by np.ceil() so just one more optimization step is needed
             if os.path.getsize(output_path) / 1024 > max_file_size_kb and q > 0:
                 q = q - 1
                 q_str = str(q / max_q) if not is_quantization else str(int(max_q - q))
-                os.system('JxrEncApp -q ' + q_str + ' -o ' + output_path + ' -i ' + tif_path)
+                os.system('JxrEncApp -q ' + q_str + ' -o ' + output_path + ' -i ' + tif_path + ' ' + overlapParameter)
             if not is_quantization and os.path.getsize(output_path) / 1024 > max_file_size_kb and q == 0:
                 # recursive call sec step determine quantization since quality parameter is not able to achieve file size
                 q, is_quantization = _determine_q(maxQuantisation, max_file_size_kb, output_path, tif_path)
@@ -116,7 +117,7 @@ def encode_jxr_q(image_path, decoded_path, q):
     im = Image.open(image_path)
     im.save(tif_path, quality=100)
     q_string = str(q) if q <= 1 else str(int(q))
-    os.system('JxrEncApp -q ' + q_string + ' -o ' + outputPath + ' -i ' + tif_path)
+    os.system('JxrEncApp -q ' + q_string + ' -o ' + outputPath + ' -i ' + tif_path + ' ' + overlapParameter)
     enc_size = os.path.getsize(outputPath)
     decode_jxr(outputPath, tif_path)
     os.system('rm temp*')
