@@ -12,7 +12,7 @@ validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG_XR_0/'
 overlapParameter = '-l 0'
-decodedFolder = 'Decoded/all/'
+decodedFolder = 'Decoded/'
 outputPrefix = 'jxr_0_'
 outputFileExtension = '.jxr'
 pngExtension = '.png'
@@ -46,7 +46,8 @@ def _determine_q(max_q, max_file_size_kb, output_path, tif_path):
         f_size = os.path.getsize(output_path) / 1024
         # filesize can´t be optimized, since max. quality is already under threshold
         if q == max_q and f_size <= max_file_size_kb:
-            break
+            return max_q, False
+            #break
 
         if f_size > max_file_size_kb:
             upper_bound = prev_q
@@ -89,11 +90,14 @@ def encode_jxr(printProgress=False, maxFileSizeKb = 32):
         pathImagesEncoded = 'Images/' + subFolder + usedCodec
         for image_path in glob.glob(pathImages + '*' + pngExtension):
             # filename is the last element of the file path also old file extension needs to be cropped
+            
             file_name = outputPrefix + image_path.split(sep='/')[-1].split(sep='.')[0] + outputFileExtension
             tif_path = image_path.split(sep='.')[0] + tifFileExtension
             # open image and in first step use the highest available quality to store
             outputPath = pathImagesEncoded + file_name
-
+            # print("file_name = " + file_name)
+            # print("tif path = " + tif_path)
+            # print("output path = " + outputPath)
             # convert png to tif format, otherwise jxr is not working
             im = Image.open(image_path)
             im.save(tif_path, quality=100)
@@ -108,7 +112,7 @@ def encode_jxr(printProgress=False, maxFileSizeKb = 32):
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
 
             dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + tifFileExtension
-            dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
+            dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + str(maxFileSizeKb)+ "/" + usedCodec + dec_file_name
             decode_jxr(outputPath, dec_path)
 
 def encode_jxr_q(image_path, decoded_path, q):
