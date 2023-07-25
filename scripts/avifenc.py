@@ -11,7 +11,7 @@ trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'AVIF/'
-decodedFolder = 'Decoded/all/'
+decodedFolder = 'Decoded/'
 outputPrefix = 'avif_'
 outputFileExtension = '.avif'
 pngExtension = '.png'
@@ -85,7 +85,7 @@ def encode_avif(printProgress=False, maxFileSizeKb = 32):
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
 
             dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + pngExtension
-            dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
+            dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + str(maxFileSizeKb)+ "/"   + usedCodec + dec_file_name
             decode_avif(outputPath, dec_path)
 
 def encode_avif_q(image_path, decoded_path, q):

@@ -12,7 +12,7 @@ validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG_XR_2/'
 overlapParameter = '-l 2'
-decodedFolder = 'Decoded/all/'
+decodedFolder = 'Decoded/'
 outputPrefix = 'jxr_2_'
 outputFileExtension = '.jxr'
 pngExtension = '.png'
@@ -108,7 +108,7 @@ def encode_jxr(printProgress=False, maxFileSizeKb = 32):
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
 
             dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + tifFileExtension
-            dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
+            dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + str(maxFileSizeKb)+ "/" + usedCodec + dec_file_name
             decode_jxr(outputPath, dec_path)
 
 def encode_jxr_q(image_path, decoded_path, q):

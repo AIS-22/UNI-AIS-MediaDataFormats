@@ -8,7 +8,7 @@ trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'BPG/'
-decodedFolder = 'Decoded/all/'
+decodedFolder = 'Decoded/'
 outputPrefix = 'bpg_'
 outputFileExtension = '.bpg'
 pngExtension = '.png'
@@ -81,7 +81,7 @@ def encode_bpg(printProgress=False, maxFileSizeKb = 32):
                 print('Image: ' + file_name + ' Quality: ' + str(maxQ - q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
 
             dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + pngExtension
-            dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
+            dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder +  str(maxFileSizeKb)+ "/" + usedCodec + dec_file_name
             decode_bpg(outputPath, dec_path)
 
 def encode_bpg_q(image_path, decoded_path, q):
