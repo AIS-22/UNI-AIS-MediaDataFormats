@@ -4,6 +4,60 @@ II Compress Test Data to a fixed filesize and use JPEG XL, WebP, HEIC/HEIF, JPEG
 
 Afterwards Classify the different Compression Algorithms by an ML Model.
 
+## Software & Preprocessing
+
+### Used Software
+
+- Generale Req
+
+```sh
+# Preprocessing
+conda install pillow imagecodecs
+# Training
+conda install torch torchvision
+```
+#### Pillow
+- JPEG
+- WebP
+#### Pillow Plugins
+- AVIF
+
+https://pypi.org/project/pillow-avif-plugin/
+```
+pip install pillow-avif-plugin
+```
+- HEIC
+
+https://pypi.org/project/pillow-heif/
+```
+pip install pillow-heif
+```
+#### apt
+- JPEG 2000
+```
+sudo apt install libopenjp2-7 libopenjp2-tools
+```
+
+- JPEG XR
+```sh
+sudo apt-get install libjxr-dev
+sudo apt-get install libjxr-tools
+```
+
+#### Homebrew / Linux Brew for 
+
+- BPG
+```
+brew install libbpg
+```
+- JPEX XL
+
+```
+brew install jpeg-xl
+```
+
+
+
 ## Compression Algorithms
 
 ### JPEG (handeled by other group)
