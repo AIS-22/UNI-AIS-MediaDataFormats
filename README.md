@@ -12,7 +12,8 @@ Afterwards Classify the different Compression Algorithms by an ML Model.
 
 ```sh
 # Preprocessing
-conda install pillow imagecodecs
+conda install pillow 
+pip install imagecodecs # min version 2023.3.16
 # Training
 conda install torch torchvision
 ```
