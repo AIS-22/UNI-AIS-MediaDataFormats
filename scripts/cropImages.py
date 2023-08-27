@@ -120,7 +120,7 @@ def crop_rightTop(outputWidth = 512, outputHeight = 512, pngs=[], pngsVal=[]):
                 bottom = center_y
 
             im = im.crop((left, top, right, bottom))
-            im.save(pathCropped + item[:-4] + '_2.png', 'PNG', quality=100)
+            im.save(pathCroppedVal + item[:-4] + '_2.png', 'PNG', quality=100)
     return
 
 def crop_leftBottom(outputWidth = 512, outputHeight = 512, pngs=[], pngsVal=[]):
@@ -167,7 +167,7 @@ def crop_leftBottom(outputWidth = 512, outputHeight = 512, pngs=[], pngsVal=[]):
                 bottom = center_y
 
             im = im.crop((left, top, right, bottom))
-            im.save(pathCropped + item[:-4] + '_3.png', 'PNG', quality=100)
+            im.save(pathCroppedVal + item[:-4] + '_3.png', 'PNG', quality=100)
     return
 
 def crop_rightBottom(outputWidth = 512, outputHeight = 512, pngs=[], pngsVal=[]):
@@ -213,7 +213,7 @@ def crop_rightBottom(outputWidth = 512, outputHeight = 512, pngs=[], pngsVal=[])
                 bottom = center_y + outputHeight
 
             im = im.crop((left, top, right, bottom))
-            im.save(pathCropped + item[:-4] + '_4.png', 'PNG', quality=100)
+            im.save(pathCroppedVal + item[:-4] + '_4.png', 'PNG', quality=100)
     return
 
 def crop(outputWidth = 512, outputHeight = 512, pieces = 1):
