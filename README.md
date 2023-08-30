@@ -5,7 +5,7 @@ Repositiory for the Media Data Formats Pro Seminar Group with the topic Detectio
 - JPEG XL
 - WebP
 - HEIC/HEIF
-- JPEG XR
+- JPEG XR (with overlap Parameter 0, 1 & 2)
 - BPG
 - AVIF
 - Additional Codecs added later
