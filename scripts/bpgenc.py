@@ -8,7 +8,7 @@ trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'BPG/'
-decodedFolder = 'Decoded/'
+decodedFolder = 'Decoded_pieces/'
 outputPrefix = 'bpg_'
 outputFileExtension = '.bpg'
 pngExtension = '.png'
@@ -24,7 +24,7 @@ def encode_bpg(printProgress=False, maxFileSizeKb = 32):
     i = 0
     number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     for subFolder in availableSubFolder:
-        pathImages = 'Images/' + subFolder + 'Resized/'
+        pathImages = 'Images/' + subFolder + 'ResizedInPieces/'
         pathImagesEncoded = 'Images/' + subFolder + usedCodec
         for image_path in glob.glob(pathImages + '*' + pngExtension):
             q = maxQ
