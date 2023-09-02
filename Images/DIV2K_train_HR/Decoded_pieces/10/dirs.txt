@@ -1,0 +1,11 @@
+.
+./JPEG_XR_0
+./JPEG
+./JPEG_XR_2
+./AVIF
+./BPG
+./WEBP
+./HEIC
+./JPEG_XL
+./JPEG2000
+./JPEG_XR_1
