@@ -5,6 +5,8 @@ from torchvision import transforms, models
 import numpy as np
 
 import cnnDataset
+# from PIL import ImageFile
+# ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 def evaluate_model(model, test_loader):
@@ -47,7 +49,7 @@ def evaluate_model(model, test_loader):
 
 
 def main():
-    filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
+    filesizes = [50, 60, 75, 100]
 
     for model_size in filesizes:
         model_name = 'cnnParams_resnet18' + "_fs_" + model_size + ".pt"
