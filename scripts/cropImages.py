@@ -195,7 +195,7 @@ def crop_rightBottom(outputWidth = 512, outputHeight = 512, pngs=[], pngsVal=[])
 
     for item in pngsVal:
         if os.path.isfile(pathVal + item):
-            im = Image.open(path + item)
+            im = Image.open(pathVal + item)
             # crop left top of the image
             width, height = im.size
             center_x = width/2
