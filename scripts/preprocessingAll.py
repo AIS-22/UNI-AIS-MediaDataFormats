@@ -17,12 +17,12 @@ async def preprocess(cropNeeded=False,
                      width=512,
                      height=512,
                      maxFileSizeKb=5,
-                     printProgress=True):
+                     printProgress=False):
     if cropNeeded:
         # first crop images
         print('Start to crop images to {}x{} pixel.'.format(width, height))
         cropImages.crop(width, height)
-    filesizes = [5, 10, 17, 25, 32, 40, 50, 60, 75, 100]
+    filesizes = [50, 60, 75, 100]
     for maxFileSizeKb in filesizes:
         # start the encoding and decoding task of each codec asynchronously
         print('Start to encode images. Filesize='+str(maxFileSizeKb))
