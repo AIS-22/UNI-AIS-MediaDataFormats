@@ -24,7 +24,7 @@ def plot_accuracy_results():
     plt.title('Accuracy Comparison of the Models')
     plt.grid()
     # TODO: add accuracy of self trained model
-    plt.axhline(y=0.1667, color='red', linestyle='--', label='Mixed self')
+    plt.axhline(y=0.1, color='red', linestyle='--', label='Mixed self')
     plt.xlabel('Test Filesize')
     plt.ylabel('Accuracy')
     plt.legend(title='Trained file sizes (mean c-rate)')
