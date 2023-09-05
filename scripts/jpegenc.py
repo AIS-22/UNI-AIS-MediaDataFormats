@@ -2,6 +2,7 @@ from PIL import Image
 import os
 import glob
 import numpy as np
+from filesizelogger import log_filesize
 
 minQ = 1
 maxQ = 100
@@ -82,6 +83,9 @@ def encode_jpeg(printProgress=False, maxFileSizeKb = 32):
                 i += 1
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
 
+            # log filesize of encoded image
+            log_filesize(outputPath,f'Logs/jpeg_filesize{maxFileSizeKb}_log.txt')
+            
             dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + pngExtension
             dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
             decode_jpeg(outputPath, dec_path)
