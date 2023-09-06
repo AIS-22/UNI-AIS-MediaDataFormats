@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 import seaborn as sn
+import pandas as pd
 
 RESULTS_FOLDER = 'results/'
 AVG_FILESIZE = 470
@@ -247,6 +248,10 @@ def main():
     plot_confusion_matrix_all()
     plot_loss_results()
     # plot_dec_enc_time()
+    #plot_accuracy_results()
+    #plot_loss_results()
+    #plot_dec_enc_time()
+    plot_filesize_to_target()
 
 
 if __name__ == '__main__':
