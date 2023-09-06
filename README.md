@@ -1,6 +1,6 @@
 # UNI-AIS-MediaDataFormats
 
-Repositiory for the Media Data Formats Pro Seminar Group with the topic Detection of Algorith used in Image Compression with the following Codecs:
+Repositiory for the Media Data Formats proseminar group with the topic compression of images to a fixed file size & detection of compression algorithm used in the compression with the following codecs:
 
 - JPEG XL
 - WebP
@@ -14,7 +14,7 @@ Repositiory for the Media Data Formats Pro Seminar Group with the topic Detectio
 
 ## Description
 
-The Goal of this project was to first compress images to a specified Filesize. This means that an image would be compressed to a file size of for example 5 KB by dialing in the quality setting of the encoder to get just below this threshold. Due to the fact that every image is different one need to figure out the matching quality setting for each image sepereatly. To reduce the calcualtion time a divide and conquer approach was used.
+The goal of this project was to first compress images to a specified filesize. This means that an image would be compressed to a file size of for example 5 KB by dialing in the quality setting of the encoder to get just below this threshold. Due to the fact that every image is different one need to figure out the matching quality setting for each image sepereatly. To reduce the calcualtion time a divide and conquer approach was used.
 
 In short the image was saved with the quality setting at half of the possible quality values. Then the resulting filesize is determied if its larger than determined the quality will be reduced to the lower half else to the upper half. E.g. First run with Quality 50 -> File size to large next quality step will be 25. If the file size is under the threshhold the next Quality step would be hafway between 25 and 50. And so on until the desired file size is reached for a quality setting with 100 values this would lead to a result within 8 steps.
 
@@ -81,7 +81,13 @@ To classify the compressed images the compressed images were converted back into
 
 ### Running the Scripts
 
-To runn the preprocessing the `preprocessingAll.py` script has to be executed. This will first crop the images t the 512x512 pixel size on witch the file sizes were based. After the crop the images ware first compressed to the right file size and afterwards saved as a png in the decoded folder.
+To runn the preprocessing the `preprocessingAll.py` script has to be executed. This will first crop the images the 512x512 pixel size on witch the file sizes were based. After the crop the images ware first compressed to the right file size and afterwards saved as a png in the decoded folder.
+
+> **Note:**
+>
+> This currently does not work for JPEG XR these should be excluded from the run and all run seperatly in seperate terminal instances.
+>
+> To crop more image out of one image (center, left upper -, left lower -, right upper - right lower corner). Run the `cropImages.py` script with the argument 5 (`python scripts/cropImages 5`) to get 5 images out of 1 image. This will ropt the Images to the ResizedInPecies Folder in the train and valid folders.
 
 To train the network use eatither the `cnnTrain.py`, `pretrainedCNN.py` or the `pretrainedCNNFilesize.py` scripts. These will either start the training form 0, use the pretrained resnet 18 weights for all files sizes or just a single file size. The pretrained networks will save the model weights to the models folder.
 
