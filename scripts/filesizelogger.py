@@ -1,6 +1,5 @@
 import os
 
-def log_filesize(file, log_file='filesize_log.txt'):
-    filesize = os.path.getsize(file)
+def log_filesize(filesize, target, codec, log_file='filesize_log.txt'):
     with open('filesize_log.txt', 'a') as f:
-        f.write(file + ' ' + str(filesize) + '\n')
+        f.write(f'{filesize}, {target}, {codec}\n')
