@@ -5,6 +5,7 @@
 \begin{document}
 
 \section{Encoding Software}
+\label{sec: encoder}
 
 To encode the loss less images into the respective codec for the experiment, several encoder where used. 
 \subsection{AVIF, JPEG and WebP}
@@ -60,8 +61,31 @@ os.system('JxrEncApp -q ' + q_str + \
 \end{lstlisting}
 
 \newpage
-\section{michi filesize}
+\section{Achieving Fixed Filesize Compression Through Binary Search Algorithm}
 \label{sec: filesize}
+
+The primary objective was to attain a consistent and fixed filesize for the encoder discussed in chapter \ref{sec: encoder}. To achieve this goal efficiently, we devised a binary search algorithm, strategically designed to conserve computational resources and time. This algorithm, when coupled with the encoders enabled us to successfully compress the original images while maintaining a specified filesize. The results are graphically represented in image \ref{fig: fsize_comparison}, which displays boxplots illustrating the distribution of the encoder performances for targeting file size 32kB.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=8cm]{filesize_comparison.png}
+	\caption{Archived filesizes for used encoder}
+	\label{fig: fsize_comparison}
+\end{figure}
+
+\noindent
+To ensure the proper functioning of the employed encoder, we conducted calculations of Peak Signal to Noise Ratio (PSNR) and generated plots depicting its relationship with the achieved compression rates. To maintain clarity in the plots, we utilized JPEGXR with its default overlapping parameter (1).
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=8cm]{psnr.png}
+	\caption{PSNR comparison of the used codecs}
+	\label{fig: psnr_comparison}
+\end{figure}
+
+\noindent
+As anticipated, the results presented in plot \ref{fig: psnr_comparison} affirm that the plain JPEG encoder consistently yields in reduced-quality images when operating at lower compression rates.
+The driving motivation behind this attempt was to intentionally introduce diverse encoding artifacts into the compressed images for later train a model and classify the used image encoder.
 \newpage
 
 \section{RESNET explanation (Stef)}
