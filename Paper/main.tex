@@ -1,5 +1,18 @@
+\begin{filecontents}{shortbib.bib}
+@misc{he2015deep,
+      title={Deep Residual Learning for Image Recognition}, 
+      author={Kaiming He and Xiangyu Zhang and Shaoqing Ren and Jian Sun},
+      year={2015},
+      eprint={1512.03385},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+\end{filecontents}
+
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
+\usepackage{biblatex}
+\bibliography{shortbib}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true, % Set this to true to remove the border
@@ -98,15 +111,6 @@ The driving motivation behind this attempt was to intentionally introduce divers
 
 \section{RESNET explanation}
 Residual Networks are deep learning models, that where developed by Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. This networks enable easier training of deep learning models. For an explicit explanation on how a ResNet works see \cite{he2015deep}.
-
-@misc{he2015deep,
-      title={Deep Residual Learning for Image Recognition}, 
-      author={Kaiming He and Xiangyu Zhang and Shaoqing Ren and Jian Sun},
-      year={2015},
-      eprint={1512.03385},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
-}
 
 \subsection{Training without transfer learning}
 
