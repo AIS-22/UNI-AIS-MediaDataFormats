@@ -1,15 +1,23 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, % Set this to true to remove the border
+    linkcolor=black, % Color for internal links
+    citecolor=black, % Color for citations
+    }
 \usepackage{listings}
+\usepackage{blindtext}
+\usepackage{geometry}
+\geometry{margin=25mm}
 \begin{document}
 
 \section{Encoding Software}
 \label{sec: encoder}
 
-To encode the loss less images into the respective codec for the experiment, several encoder where used. 
+To encode the loss less images into the respective codec for the experiment, several encoder where used.
 \subsection{AVIF, JPEG and WebP}
-For those encoders the python package pillow-avif-plugin and pillow was used. The additional pillow plugin can be installed via pip install pillow-avif-plugin. To encode a lossless image, the image is opened and save with a specific quality as seen in \ref{avif_1}. The quality parameter ranges from 1(lowest) to 100(highest). It is important to set the specific file extension for the software to 
+For those encoders the python package pillow-avif-plugin and pillow was used. The additional pillow plugin can be installed via pip install pillow-avif-plugin. To encode a lossless image, the image is opened and save with a specific quality as seen in listing \ref{avif_1}. The quality parameter ranges from 1(lowest) to 100(highest). It is important to set the specific file extension for the software to
 know in which codec the image needs to be encoded.
 \begin{lstlisting}[label={avif_1}, language=Python, caption=Encode AVIF\, JPEG and WebP]
 image = Image.open(image_path)
@@ -17,7 +25,7 @@ image.save(outputPath, quality=q)
 \end{lstlisting}
 
 \subsection{BPG}
-To encode the images in BPG the Linux distribution from Fabrice Bellard's website (https://bellard.org/bpg/) was used. As seen in \ref{bpg_1} the output path is given after the -o argument and the specific quality after the -q argument. The quality parameter ranges from 51(lowest) to 0(highest). The last argument that needs no specific indicator is the original image.
+To encode the images in BPG the Linux distribution from Fabrice Bellard's website (https://bellard.org/bpg/) was used. As seen in listing \ref{bpg_1} the output path is given after the -o argument and the specific quality after the -q argument. The quality parameter ranges from 51(lowest) to 0(highest). The last argument that needs no specific indicator is the original image.
 
 \begin{lstlisting}[label={bpg_1}, language=Python, caption=Encode BPG]
 os.system('bpgenc -o ' + outputPath + \
@@ -27,7 +35,7 @@ os.system('bpgenc -o ' + outputPath + \
 
 \subsection{HEIC}
 Same as with the AVIF codec HEIC is also supported in a python package. For this codec the package pillow\_heif which can be installed with pip pillow-heif. The quality parameter ranges from 1(lowest) to 100(highest).
-How the image can be encoded in HEIC is shown in \ref{heic_1}.
+How the image can be encoded in HEIC is shown in listing \ref{heic_1}.
 
 \begin{lstlisting}[label={heic_1}, language=Python, caption=Encode HEIC]
 image = pillow_heif.from_pillow(Image.open(image_path))
@@ -35,7 +43,7 @@ image.save(outputPath, quality=q)
 \end{lstlisting}
 
 \subsection{JPEG2000}
-For the JPEG standards JPEG itself provides software to encode images. In the experiment the libopenjp2 was used. This library is in the Linux package manager and can be installed with apt-get install libopenjp2-tools. The quality parameter which ranges from 1(lowest) to 1000(highest) is given to the software with the -r parameter. An example how this can be done in Python is shown in \ref{jpeg2k_1}.
+For the JPEG standards JPEG itself provides software to encode images. In the experiment the libopenjp2 was used. This library is in the Linux package manager and can be installed with apt-get install libopenjp2-tools. The quality parameter which ranges from 1(lowest) to 1000(highest) is given to the software with the -r parameter. An example how this can be done in Python is shown in listing \ref{jpeg2k_1}.
 \begin{lstlisting}[label={jpeg2k_1}, language=Python, caption=Encode JPEG 2000]
 subprocess.call('opj_compress -o ' + outputPath + \
                 ' -r ' + str(int(maxQ - q)) + \
@@ -48,12 +56,12 @@ subprocess.call('opj_compress -o ' + outputPath + \
 \subsection{JXL}
 For JPEG XL the JPEG organization also provides a package which can be installed in Linux. For that encoder the libjxl (apt install libjxl-devtools) was used. The quality parameter ranges from 1(lowest) to 100 (highest) and an example to encode a image is shown in \ref{jxl_1}
 \begin{lstlisting}[label={jxl_1}, language=Python, caption=Encode JPEG XL]
-subprocess.call(['cjxl', image_path, outputPath, 
+subprocess.call(['cjxl', image_path, outputPath,
                  '--quiet', '-q', str(q)])
 \end{lstlisting}
 \subsection{JXR}
 For JXR the package libjxr-devtools was used. This includes a specific encoder and decoder app. The quality ranges from 0(lowest) to 1(highest). Here floating point numbers need to be used for quality.
-An example how to encode a image with jxr is shown in \ref{jxr_1}. In addition to the quality parameter jxr also support quantization, although this results in very good compression rate, the image quality is affected drastically. 
+An example how to encode a image with jxr is shown in \ref{jxr_1}. In addition to the quality parameter jxr also support quantization, although this results in very good compression rate, the image quality is affected drastically.
 \begin{lstlisting}[label={jxr_1}, language=Python, caption=Encode BPG]
 os.system('JxrEncApp -q ' + q_str + \
             ' -o ' + output_path + \
@@ -88,18 +96,18 @@ As anticipated, the results presented in plot \ref{fig: psnr_comparison} affirm 
 The driving motivation behind this attempt was to intentionally introduce diverse encoding artifacts into the compressed images for later train a model and classify the used image encoder.
 \newpage
 
-\section{RESNET explanation (Stef)}
+\section{RESNET explanation}
 
 \subsection{Training without transfer learning}
 
-The idea behind training the network from scratch is that the network would be mor tailored to the given task since it has no previous information stored in the network. This contrasts with transfer learning since there prior information is present.
+The idea behind training the network from scratch is that the network would be more tailored to the given task since it has no previous information stored in the network. This contrasts with transfer learning since there prior information is present.
 \newline
 
 \noindent
 \textbf{Dataset Details:}
 
 \noindent
-To train the network the DIV2K training and validation Dataset was used. The dataset contains 800 train images and 100 test images. Since the images had different dimensions, we first had to crop them to specific in this case 512x512. Afterwards we compressed the images to specified file sizes as described in \ref{sec: filesize}. This leads to 10 classes – one for each compression algorithm – for each file size category. We trained the network by using the images that were compressed to a file size of 25kB.
+To train the network the DIV2K training and validation dataset was used. The dataset contains 800 train images and 100 test images. Since the images had different dimensions, we first had to crop them to specific in this case 512x512. Afterwards we compressed the images to specified file sizes as described in \ref{sec: filesize}. This leads to 10 classes – one for each compression algorithm – for each file size category. We trained the network by using the images that were compressed to a file size of 25kB.
 \newline
 
 \noindent
@@ -115,10 +123,10 @@ In the first iteration we trained the network on the original cropped 800 images
 After 10 epochs of training, we achieved a validation accuracy of 57,6 percent. For 10 epochs this is lower than the results we got for the transfer learning approach. However, if one would increase the number of epochs, we expect to reach the same levels of accuracy since the only defencemen is that the pretrained network has a preferable starting position compared to the one without transfer learning. This can be shown by changing the starting seed to something different leading to only 10 percent accuracy after 10 epochs.
 
 \subsection{Transferlearning}
-For this approach the ResNet18 model was used as a baseline. To adjust this pre trained model for the requirements of the experiment, the output layers where reconfigured to represent the 8 different codecs in which the images where encoded.
+For this approach the ResNet18 model was used as a baseline. To adjust this pretrained model for the requirements of the experiment, the output layers where reconfigured to represent the 8 different codecs in which the images where encoded.
 In addition the model uses just 224x224 images as inputs, thus the encoded images where center cropped to fit that size.
 
- 
+
 
 \noindent
 Then the model was trained over 10 epochs on 4000 test images. The learning rate was set to 0.001 with a momentum of 0.9 due to the model being already trained on a huge data set and in the experiment just the adjustment for the codec artifacts should be added. For the whole implementation see appendix.
@@ -138,13 +146,13 @@ For the classification each model was evaluated with each filesize. The result i
 \end{figure}
 
 \noindent
-The self trained model showed an accuracy over all filesizes of 10 percent. With ten different codecs, random guessing would lead to the same result as this model. For the self trained model 40000 images where used. The pretrained model was already trained on 1,2 million images. Therefore, the self trained model would need much more images to get a better performance. With only 2400 images used for training, this model represents the worst model for the classification task. 
+The self trained model showed an accuracy over all filesizes of 10 percent. With ten different codecs, random guessing would lead to the same result as this model. For the self trained model 40000 images where used. The pretrained model was already trained on 1,2 million images. Therefore, the self trained model would need much more images to get a better performance. With only 2400 images used for training, this model represents the worst model for the classification task.
 
 \noindent
 The models trained with the filesizes 60, 75 and 100 have a low accuracy for small filesizes and increase for bigger filesizes. Small filesize images have more artifacts, which are not taken into account in this models. For that reason the models of 60, 75 and 100 filesize could only be used to classify codecs with the same filesizes.
 
 \noindent
-The smaller filesize models have their peaks arround the filesizes they were trained on. However, for the images with less than 40kB this models have an accuracy of about 95 percent. For the bigger filesizes the accuracy is decreasing. The bigger filesizes have less artifacts in the images and also many codecs get the maximum quality after 60kB, which explains the decrease of accuracy for this models. 
+The smaller filesize models have their peaks around the filesizes they were trained on. However, for the images with less than 40kB this models have an accuracy of about 95 percent. For the bigger filesizes the accuracy is decreasing. The bigger filesizes have less artifacts in the images and also many codecs get the maximum quality after 60kB, which explains the decrease of accuracy for this models.
 
 \noindent
 An assumtion was that the mixed model would lead to the best result because of considering different filesizes for the model. As the figure \ref{fig: acc_comparison} shows, almost every small filesize model has a better performance than the mixed model. 
