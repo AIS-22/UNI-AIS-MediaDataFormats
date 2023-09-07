@@ -97,6 +97,10 @@ To train the network use eatither the `cnnTrain.py`, `pretrainedCNN.py` or the `
 
 ![PSNR](Plots/psnr.png)
 
+### SSIM over Compression Ratio of the Codecs (Mean over 5 images)
+
+![PSNR](Plots/ssim.png)
+
 ## Authors
 
 - Stefan Findenig
