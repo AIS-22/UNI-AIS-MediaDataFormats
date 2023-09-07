@@ -5,7 +5,7 @@ import torch.optim as optim
 from torchvision import transforms, models
 from sklearn.metrics import precision_recall_fscore_support
 import cnnDataset
-import evaluateMixedModel
+import scripts.evaluateMixedModel_withoutTransfer as evaluateMixedModel_withoutTransfer
 
 #TODO: Log the output in a file
 
@@ -124,4 +124,4 @@ if save_model:
     torch.save(model.state_dict(), "models/cnnParams_" + model_name + ".pt")
     print("Model saved")
 
-evaluateMixedModel.main()
+evaluateMixedModel_withoutTransfer.main()

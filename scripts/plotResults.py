@@ -86,34 +86,27 @@ def plot_filesize_to_target():
     #read csv
     df = pd.read_csv('filesize_log.txt', sep=',', header=None)
     df.columns = ['filesize', 'target', 'codec']
-    print(df.head())
-    #split dataframes into each codec
-    df_avif = df[df['codec'] == ' AVIF/']
-    df_webp = df[df['codec'] == ' WebP/']
-    df_bpg = df[df['codec'] == ' BPG/']
-    df_heic = df[df['codec'] == ' HEIC/']
-    df_jxl = df[df['codec'] == ' JPEG_XL/']
-    df_jxr = df[df['codec'] == ' JPEG_XR/']
-    df_jpeg2000 = df[df['codec'] == ' JPEG_2000/']
-    df_jpeg = df[df['codec'] == ' JPEG/']
+    #sort by string in codec column and reset index
+    df = df.sort_values(by=['codec']).reset_index(drop=True)
+    #remove / from codec column
+    df['codec'] = df['codec'].str.replace('/', '')
     #scatter plot with each codec in different color with filesize as y and index as x
     plt.figure(figsize=(20, 10))
-    plt.scatter(df_avif.index, df_avif['filesize'], c='r', label='AVIF')
-    plt.scatter(df_webp.index, df_webp['filesize'], c='g', label='WebP')
-    plt.scatter(df_bpg.index, df_bpg['filesize'], c='b', label='BPG')
-    plt.scatter(df_heic.index, df_heic['filesize'], c='y', label='HEIC')
-    plt.scatter(df_jxl.index, df_jxl['filesize'], c='c', label='JPEG XL')
-    plt.scatter(df_jxr.index, df_jxr['filesize'], c='m', label='JPEG XR')
-    plt.scatter(df_jpeg2000.index, df_jpeg2000['filesize'], c='k', label='JPEG 2000')
-    plt.scatter(df_jpeg.index, df_jpeg['filesize'], c='orange', label='JPEG')
+    #plt df with a color for each codec
+    label = df['codec'].unique()
+    #box plot
+    plot = plt.boxplot([df[df['codec'] == label]['filesize'] for label in label], labels=label)    
+    
+    #for i, label in enumerate(label):
+    #    plt.scatter(df[df['codec'] == label].index, df[df['codec'] == label]['filesize'], label=label)
     #plot line at target value
-    plt.axhline(y=32, color='black', linestyle='--', label='Target')
-    plt.ylim(0, 35)
-    plt.title('Filesize to Target Comparison')
+    plt.axhline(y=32, color='green', linestyle='--', label='Target')
+    #legend
+    plt.legend(title='Codec')
+    plt.title('Actual Filesize to Target Comparison')
     plt.grid()
-    plt.xlabel('Index')
+    plt.xlabel('Codec')
     plt.ylabel('Filesize (KB)')
-    plt.legend(title='Codecs')
     plt.savefig('Plots/filesize_to_target.png')
     plt.show()
 
