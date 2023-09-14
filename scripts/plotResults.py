@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.metrics import confusion_matrix
+import seaborn as sn
 
 RESULTS_FOLDER = 'results/'
 AVG_FILESIZE = 470
@@ -23,7 +25,7 @@ def plot_accuracy_results():
 
     plt.title('Accuracy Comparison of the Models')
     plt.grid()
-    # TODO: add accuracy of self trained model
+    
     plt.axhline(y=0.1, color='red', linestyle='--', label='Mixed self')
     plt.xlabel('Test Filesize')
     plt.ylabel('Accuracy')
@@ -31,7 +33,17 @@ def plot_accuracy_results():
     plt.savefig('Plots/accuracy_comparison.png')
     plt.show()
 
-#TODO: add confusion matrix plot
+
+def plot_confusion_matrix():
+    # load dic from file
+    mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_mixed_self_model.npy', allow_pickle=True).item()
+    keys = [int(key) for key in mixed_results.keys()]
+    cmap = plt.get_cmap('tab20')
+    plt.figure(figsize=(20, 10))
+    a = mixed_results['5']
+    categories = ['AVIF', 'BPG', 'HEIC', 'JPEG', 'JPEG2000', 'JPEG_XL', 'JPEG_XR_0', 'JPEG_XR_1', 'JPEG_XR_2', 'WEBP']
+    sn.heatmap(mixed_results['5'], xticklabels=categories, yticklabels=categories, annot=True, cmap='crest')
+    plt.show()
 
 def plot_loss_results():
     # load dic from file
@@ -83,9 +95,10 @@ def plot_dec_enc_time():
 
 
 def main():
-    plot_accuracy_results()
-    plot_loss_results()
-    plot_dec_enc_time()
+    # plot_accuracy_results()
+    # plot_loss_results()
+    # plot_dec_enc_time()
+    plot_confusion_matrix()
 
 
 if __name__ == '__main__':
