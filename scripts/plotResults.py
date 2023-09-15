@@ -11,27 +11,28 @@ def plot_accuracy_results():
     filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
 
     # load dic from file
-    mixed_results = np.load(RESULTS_FOLDER + 'mixed_results.npy', allow_pickle=True).item()
+    mixed_results = np.load(RESULTS_FOLDER + 'accuracy_mixed_model.npy', allow_pickle=True).item()
     keys = [int(key) for key in mixed_results.keys()]
     cmap = plt.get_cmap('tab20')
     plt.figure(figsize=(20, 10))
     plt.plot(keys, mixed_results.values(), color=cmap(0), label='Mixed pre trained (5-32)')
 
     for i, filesize in enumerate(filesizes):
-        res_dict = np.load(RESULTS_FOLDER + 'results_' + filesize + '_model.npy', allow_pickle=True).item()
+        res_dict = np.load(RESULTS_FOLDER + 'accuracy_fs_' + filesize + '_model.npy', allow_pickle=True).item()
         keys = [int(key) for key in res_dict.keys()]
         plt.plot(keys, res_dict.values(), color=cmap(i + 1),
                  label=filesize + f'  c-rate: {(AVG_FILESIZE / float(filesize)):.2f}')
+        
+    mixed_self_results = np.load(RESULTS_FOLDER + 'accuracy_mixed_self_model.npy', allow_pickle=True).item()
+    keys = [int(key) for key in mixed_self_results.keys()]
+    plt.figure(figsize=(20, 10))
+    plt.plot(keys, mixed_self_results.values(), color=cmap(0), label='Mixed self trained (5-32)')
 
-    plt.title('Accuracy Comparison of the Models')
-    plt.grid()
-    
-    plt.axhline(y=0.1, color='red', linestyle='--', label='Mixed self')
+    plt.grid()   
     plt.xlabel('Test Filesize')
     plt.ylabel('Accuracy')
     plt.legend(title='Trained file sizes (mean c-rate)')
-    plt.savefig('Plots/accuracy_comparison.png')
-    plt.show()
+    plt.savefig('Plots/accuracy/accuracy_comparison.png')
 
 
 def plot_confusion_matrix():
@@ -40,8 +41,7 @@ def plot_confusion_matrix():
 
     # mixed model
     # load dic from file
-    mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_mixed_model.npy', allow_pickle=True).item()
-    keys = [int(key) for key in mixed_results.keys()]
+    mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_mixed_model.npy', allow_pickle=True).tolist()
     cmap = plt.get_cmap('tab20')
     
     for fs in filesizes:
@@ -53,19 +53,13 @@ def plot_confusion_matrix():
                annot=True, 
                cmap='Blues',
                 fmt=".0f",
-               annot_kws={
-                'fontsize': 20,
-                #'fontweight': 'bold'
-            })
+               annot_kws={'fontsize': 20})
         plt.xticks(rotation=45)
-        #plt.tight_layout()
-        plt.savefig('Plots/conf_matrix/mixed/conf_matrix_mixed_fs_'+ fs + '.png')
-    
+        plt.savefig('Plots/conf_matrix/mixed/conf_matrix_mixed_model_fs_'+ fs + '.png')
+
     # mixed self model
     # load dic from file
     mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_mixed_self_model.npy', allow_pickle=True).item()
-    keys = [int(key) for key in mixed_results.keys()]
-    cmap = plt.get_cmap('tab20')
     
     for fs in filesizes:
         plt.figure(figsize=(15,10))
@@ -76,13 +70,10 @@ def plot_confusion_matrix():
                annot=True, 
                cmap='Blues',
                 fmt=".0f",
-               annot_kws={
-                'fontsize': 20,
-                #'fontweight': 'bold'
-            })
+               annot_kws={'fontsize': 20})
         plt.xticks(rotation=45)
         plt.tight_layout()
-        plt.savefig('Plots/conf_matrix/mixed_self/conf_matrix_mixed_self_fs_'+ fs + '.png')
+        plt.savefig('Plots/conf_matrix/mixed_self/conf_matrix_mixed_self_model_fs_'+ fs + '.png')
 
     # filesize model
     for fs in filesizes:
@@ -99,43 +90,42 @@ def plot_confusion_matrix():
                 annot=True, 
                 cmap='Blues',
                     fmt=".0f",
-                annot_kws={
-                    'fontsize': 20,
-                    #'fontweight': 'bold'
-                })
+                annot_kws={'fontsize': 20})
             plt.xticks(rotation=45)
             plt.tight_layout()
             plt.savefig('Plots/conf_matrix/' + fs + '/conf_matrix_fs_'+ ev_size + '.png')
    
-    
-
-
 def plot_loss_results():
-    # load dic from file
-    mixed_results = np.load(RESULTS_FOLDER + 'losses_mixed_model.npy', allow_pickle=True)
-    plt.figure(figsize=(20, 10))
-    plt.plot(range(1, 11), mixed_results[:, 0], c='r', label='Train Loss')
-    plt.plot(range(1, 11), mixed_results[:, 1], c='g', label='Validation Loss')
-    plt.title('Loss Comparison of Mixed Model')
-    plt.grid()
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.legend(title='Loss Functions')
-    plt.savefig('Plots/loss_comparison.png')
-    plt.show()
+    filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
 
+    # mixed model
     # load dic from file
-    mixed_results = np.load(RESULTS_FOLDER + 'losses_10_model.npy', allow_pickle=True)
+    mixed_loss = np.load(RESULTS_FOLDER + 'losses_mixed_model.npy', allow_pickle=True)
     plt.figure(figsize=(20, 10))
-    plt.plot(range(1, 11), mixed_results[:, 0], c='r', label='Train Loss')
-    plt.plot(range(1, 11), mixed_results[:, 1], c='g', label='Validation Loss')
-    plt.title('Loss Comparison of Filesize 10 Model (Others simnilar)')
+    plt.plot(range(1, 11), mixed_loss[:, 0], c='r', label='Train Loss')
+    plt.plot(range(1, 11), mixed_loss[:, 1], c='g', label='Validation Loss')
     plt.grid()
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend(title='Loss Functions')
-    plt.savefig('Plots/loss_comparison_filesize.png')
-    plt.show()
+    plt.savefig('Plots/loss_comparison_mixed_model.png')
+
+    # TODO: add self trained loss plot
+
+    #filesize models
+    for i, filesize in enumerate(filesizes):
+        # load dic from file
+        fs_model_loss = np.load(RESULTS_FOLDER + 'losses_'+filesize+'_model.npy', allow_pickle=True)
+        plt.figure(figsize=(20, 10))
+        plt.plot(range(1, 11), fs_model_loss [:, 0], c='r', label='Train Loss')
+        plt.plot(range(1, 11), fs_model_loss [:, 1], c='g', label='Validation Loss')
+        plt.grid()
+        plt.xlabel('Epoch')
+        plt.ylabel('Loss')
+        plt.legend(title='Loss Functions')
+        plt.savefig('Plots/loss_comparison_fs_' + filesize + '_model.png')
+
+    
 
 
 def plot_dec_enc_time():
