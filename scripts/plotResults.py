@@ -35,15 +35,80 @@ def plot_accuracy_results():
 
 
 def plot_confusion_matrix():
+    filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
+    categories = ['AVIF', 'BPG', 'HEIC', 'JPEG', 'JPEG2000', 'JPEG_XL', 'JPEG_XR_0', 'JPEG_XR_1', 'JPEG_XR_2', 'WEBP']
+
+    # mixed model
+    # load dic from file
+    mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_mixed_model.npy', allow_pickle=True).item()
+    keys = [int(key) for key in mixed_results.keys()]
+    cmap = plt.get_cmap('tab20')
+    
+    for fs in filesizes:
+        plt.figure(figsize=(15,10))
+        sn.set(font_scale=1.4)
+        sn.heatmap(mixed_results[fs], vmin=0, vmax=100,
+               xticklabels=categories, 
+               yticklabels=categories, 
+               annot=True, 
+               cmap='Blues',
+                fmt=".0f",
+               annot_kws={
+                'fontsize': 20,
+                #'fontweight': 'bold'
+            })
+        plt.xticks(rotation=45)
+        #plt.tight_layout()
+        plt.savefig('Plots/conf_matrix/mixed/conf_matrix_mixed_fs_'+ fs + '.png')
+    
+    # mixed self model
     # load dic from file
     mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_mixed_self_model.npy', allow_pickle=True).item()
     keys = [int(key) for key in mixed_results.keys()]
     cmap = plt.get_cmap('tab20')
-    plt.figure(figsize=(20, 10))
-    a = mixed_results['5']
-    categories = ['AVIF', 'BPG', 'HEIC', 'JPEG', 'JPEG2000', 'JPEG_XL', 'JPEG_XR_0', 'JPEG_XR_1', 'JPEG_XR_2', 'WEBP']
-    sn.heatmap(mixed_results['5'], xticklabels=categories, yticklabels=categories, annot=True, cmap='crest')
-    plt.show()
+    
+    for fs in filesizes:
+        plt.figure(figsize=(15,10))
+        sn.set(font_scale=1.4)
+        sn.heatmap(mixed_results[fs], vmin=0, vmax=100,
+               xticklabels=categories, 
+               yticklabels=categories, 
+               annot=True, 
+               cmap='Blues',
+                fmt=".0f",
+               annot_kws={
+                'fontsize': 20,
+                #'fontweight': 'bold'
+            })
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.savefig('Plots/conf_matrix/mixed_self/conf_matrix_mixed_self_fs_'+ fs + '.png')
+
+    # filesize model
+    for fs in filesizes:
+         # load dic from file
+        mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_fs_' + fs + '_model.npy', allow_pickle=True).item()
+        for ev_size in filesizes:
+            keys = [int(key) for key in mixed_results.keys()]
+            cmap = plt.get_cmap('tab20')
+            plt.figure(figsize=(15,10))
+            sn.set(font_scale=1.4)
+            sn.heatmap(mixed_results[ev_size], vmin=0, vmax=500,
+                xticklabels=categories, 
+                yticklabels=categories, 
+                annot=True, 
+                cmap='Blues',
+                    fmt=".0f",
+                annot_kws={
+                    'fontsize': 20,
+                    #'fontweight': 'bold'
+                })
+            plt.xticks(rotation=45)
+            plt.tight_layout()
+            plt.savefig('Plots/conf_matrix/' + fs + '/conf_matrix_fs_'+ ev_size + '.png')
+   
+    
+
 
 def plot_loss_results():
     # load dic from file
