@@ -81,6 +81,8 @@ def main():
         '100': np.zeros((10,10))
     }
 
+    conf_matrix_all = np.zeros((10,10))
+
     for filesize in filesizes:
         transform = transforms.Compose([
             # the model excepts just 224x224 images, maybe we need to crop our images before encoding them
@@ -101,9 +103,12 @@ def main():
         print('Evaluate pretrained model ( ' + model_name + ' ) with Filesize = ' + filesize + ' kB')
         result_dictionary[filesize], conf_matrix_dictionary[filesize] = evaluate_model(model, val_loader)
 
-        # store the results in a file
-        np.save('results/mixed_results.npy', result_dictionary)
-        np.save('results/conf_matrix_mixed_model.npy', conf_matrix_dictionary)
+        conf_matrix_all += conf_matrix_dictionary[filesize]
+
+    # store the results in a file
+    np.save('results/accuracy_mixed_model.npy', result_dictionary)
+    np.save('results/conf_matrix_mixed_model.npy', conf_matrix_dictionary)
+    np.save('results/conf_matrix_all_mixed_model.npy', conf_matrix_all)
 
 
 if __name__ == '__main__':

@@ -74,21 +74,22 @@ def main():
         #result_dictionary = np.load('results/'+ 'results_' + model_size + '_model.npy', allow_pickle=True).item()
 
         
-        # conf_matrix_dictionary = {
-        # '5': np.zeros((10,10)),
-        # '10': np.zeros((10,10)),
-        # '17': np.zeros((10,10)),
-        # '25': np.zeros((10,10)),
-        # '32': np.zeros((10,10)),
-        # '40': np.zeros((10,10)),
-        # '50': np.zeros((10,10)),
-        # '60': np.zeros((10,10)),
-        # '75': np.zeros((10,10)),
-        # '100': np.zeros((10,10))
-        # }
-        conf_matrix_dictionary = np.load('results/conf_matrix_fs_' + model_size + '_model.npy', allow_pickle=True).item()
+        conf_matrix_dictionary = {
+        '5': np.zeros((10,10)),
+        '10': np.zeros((10,10)),
+        '17': np.zeros((10,10)),
+        '25': np.zeros((10,10)),
+        '32': np.zeros((10,10)),
+        '40': np.zeros((10,10)),
+        '50': np.zeros((10,10)),
+        '60': np.zeros((10,10)),
+        '75': np.zeros((10,10)),
+        '100': np.zeros((10,10))
+        }
+        #conf_matrix_dictionary = np.load('results/conf_matrix_fs_' + model_size + '_model.npy', allow_pickle=True).item()
+        conf_matrix_all = np.zeros((10,10))
 
-        ev_filesizes = ['50', '60', '75', '100']
+        ev_filesizes = ['5', '10', '17', '25', '32', '40']
 
         for ev_size in ev_filesizes:
             transform = transforms.Compose([
@@ -104,9 +105,12 @@ def main():
             print('Evaluate pretrained model ( ' + model_name + ' ) with Filesize = ' + ev_size + ' kB')
             result_dictionary, conf_matrix_dictionary[ev_size] = evaluate_model(model, val_loader)
 
-            # store the results in a file
-            #np.save('results/results_' + model_size + '_model.npy', result_dictionary)
-            np.save('results/conf_matrix_fs_' + model_size + '_model.npy', conf_matrix_dictionary)
+            conf_matrix_all += conf_matrix_dictionary[ev_size]
+
+        # store the results in a file
+        np.save('results/accuracy_fs_' + model_size + '_model.npy', result_dictionary)
+        np.save('results/conf_matrix_fs_' + model_size + '_model.npy', conf_matrix_dictionary)
+        np.save('results/conf_matrix_all_fs_' + model_size + '_model.npy', conf_matrix_all)
 
 
 if __name__ == '__main__':

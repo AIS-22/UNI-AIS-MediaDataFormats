@@ -82,6 +82,7 @@ def main():
         '75': np.zeros((10,10)),
         '100': np.zeros((10,10))
     }
+    conf_matrix_all = np.zeros((10,10))
 
     for filesize in filesizes:
         transform = transforms.Compose([
@@ -98,9 +99,13 @@ def main():
         print('Evaluate pretrained model ( ' + model_name + ' ) with Filesize = ' + filesize + ' kB')
         result_dictionary[filesize], conf_matrix_dictionary[filesize] = evaluate_model(model, val_loader)
 
-        # store the results in a file
-        np.save('results/mixed_self_results.npy', result_dictionary)
-        np.save('results/conf_matrix_mixed_self_model.npy', conf_matrix_dictionary)
+        conf_matrix_all += conf_matrix_dictionary[filesize]
+
+    # store the results in a file
+    np.save('results/accuracy_mixed_self_model.npy', result_dictionary)
+    np.save('results/conf_matrix_mixed_self_model.npy', conf_matrix_dictionary)
+    np.save('results/conf_matrix_all_mixed_self_model.npy', conf_matrix_all)
+
 
 if __name__ == '__main__':
     main()
