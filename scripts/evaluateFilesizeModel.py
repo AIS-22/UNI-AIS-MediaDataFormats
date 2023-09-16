@@ -103,7 +103,7 @@ def main():
             _, val_loader = cnnDataset.create_dataset(transform=transform, filesize=ev_size)
 
             print('Evaluate pretrained model ( ' + model_name + ' ) with Filesize = ' + ev_size + ' kB')
-            result_dictionary, conf_matrix_dictionary[ev_size] = evaluate_model(model, val_loader)
+            result_dictionary[ev_size], conf_matrix_dictionary[ev_size] = evaluate_model(model, val_loader)
 
             conf_matrix_all += conf_matrix_dictionary[ev_size]
 
