@@ -19,8 +19,7 @@ def plot_accuracy_results():
      
     mixed_self_results = np.load(RESULTS_FOLDER + 'accuracy_mixed_self_model.npy', allow_pickle=True).item()
     keys = [int(key) for key in mixed_self_results.keys()]
-    plt.figure(figsize=(20, 10))
-    plt.plot(keys, mixed_self_results.values(), color=cmap(0), label='Mixed self trained (5-32)')
+    plt.plot(keys, mixed_self_results.values(), color=cmap(15), label='Mixed self trained (5-32)')
 
     for i, filesize in enumerate(filesizes):
         res_dict = np.load(RESULTS_FOLDER + 'accuracy_fs_' + filesize + '_model.npy', allow_pickle=True).item()
