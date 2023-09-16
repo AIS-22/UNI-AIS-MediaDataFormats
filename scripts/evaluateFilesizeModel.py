@@ -59,35 +59,37 @@ def main():
         model_name = 'cnnParams_resnet18' + "_fs_" + model_size + ".pt"
         model = torch.load('models/' + model_name)
 
-        result_dictionary = {
-            '5': 0,
-            '10': 0,
-            '17': 0,
-            '25': 0,
-            '32': 0,
-            '40': 0,
-            '50': 0,
-            '60': 0,
-            '75': 0,
-            '100': 0
-        }
-        #result_dictionary = np.load('results/'+ 'results_' + model_size + '_model.npy', allow_pickle=True).item()
+        # result_dictionary = {
+        #     '5': 0,
+        #     '10': 0,
+        #     '17': 0,
+        #     '25': 0,
+        #     '32': 0,
+        #     '40': 0,
+        #     '50': 0,
+        #     '60': 0,
+        #     '75': 0,
+        #     '100': 0
+        # }
+        result_dictionary = np.load('results/'+ 'accuracy_fs_' + model_size + '_model.npy', allow_pickle=True).item()
 
         
-        conf_matrix_dictionary = {
-        '5': np.zeros((10,10)),
-        '10': np.zeros((10,10)),
-        '17': np.zeros((10,10)),
-        '25': np.zeros((10,10)),
-        '32': np.zeros((10,10)),
-        '40': np.zeros((10,10)),
-        '50': np.zeros((10,10)),
-        '60': np.zeros((10,10)),
-        '75': np.zeros((10,10)),
-        '100': np.zeros((10,10))
-        }
-        #conf_matrix_dictionary = np.load('results/conf_matrix_fs_' + model_size + '_model.npy', allow_pickle=True).item()
-        conf_matrix_all = np.zeros((10,10))
+        # conf_matrix_dictionary = {
+        # '5': np.zeros((10,10)),
+        # '10': np.zeros((10,10)),
+        # '17': np.zeros((10,10)),
+        # '25': np.zeros((10,10)),
+        # '32': np.zeros((10,10)),
+        # '40': np.zeros((10,10)),
+        # '50': np.zeros((10,10)),
+        # '60': np.zeros((10,10)),
+        # '75': np.zeros((10,10)),
+        # '100': np.zeros((10,10))
+        # }
+        conf_matrix_dictionary = np.load('results/conf_matrix_fs_' + model_size + '_model.npy', allow_pickle=True).item()
+        
+        # conf_matrix_all = np.zeros((10,10))
+        conf_matrix_all = np.load('results/conf_matrix_all_fs_' + model_size + '_model.npy', allow_pickle=True).item()
 
         ev_filesizes = ['5', '10', '17', '25', '32', '40']
 
