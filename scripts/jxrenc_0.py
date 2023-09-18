@@ -12,7 +12,15 @@ validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG_XR_0/'
 overlapParameter = '-l 0'
-decodedFolder = 'Decoded_pieces/'
+
+useMultiCropPerImage = True
+if useMultiCropPerImage:
+    decodedFolder = 'Decoded_pieces/'
+    croppedFolder = 'ResizedInPieces/'
+else:
+    decodedFolder = 'Decoded/'
+    croppedFolder = 'Resized/'
+
 outputPrefix = 'jxr_0_'
 outputFileExtension = '.jxr'
 pngExtension = '.png'
@@ -84,9 +92,11 @@ def _determine_q(max_q, max_file_size_kb, output_path, tif_path):
 
 def encode_jxr(printProgress=False, maxFileSizeKb = 32):
     i = 0
-    number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
+#    number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
+    number_of_files = len(glob.glob('Images/*/' + croppedFolder + '/*.png'))
+
     for subFolder in availableSubFolder:
-        pathImages = 'Images/' + subFolder + 'ResizedInPieces/'
+        pathImages = 'Images/' + subFolder + croppedFolder
         pathImagesEncoded = 'Images/' + subFolder + usedCodec
         for image_path in glob.glob(pathImages + '*' + pngExtension):
             # filename is the last element of the file path also old file extension needs to be cropped
