@@ -12,6 +12,7 @@ validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG_XR_0/'
 overlapParameter = '-l 0'
+
 decodedFolder = 'Decoded/'
 outputPrefix = 'jxr_0_'
 outputFileExtension = '.jxr'
@@ -83,7 +84,6 @@ def _determine_q(max_q, max_file_size_kb, output_path, tif_path):
         prev_q = q
 
 def encode_jxr(printProgress=False, maxFileSizeKb = 32):
-    i = 0
     number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     for subFolder in availableSubFolder:
         pathImages = 'Images/' + subFolder + 'Resized/'

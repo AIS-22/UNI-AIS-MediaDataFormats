@@ -5,7 +5,8 @@ from torchvision import transforms, models
 import numpy as np
 
 import cnnDataset
-
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 def evaluate_model(model, test_loader):
     device = (
@@ -23,6 +24,7 @@ def evaluate_model(model, test_loader):
     all_preds = []
     all_labels = []
 
+    confusion_matrix = np.zeros((10,10))
     with torch.no_grad():
         for images, labels in test_loader:
             images, labels = images.to(device), labels.to(device)
@@ -35,6 +37,9 @@ def evaluate_model(model, test_loader):
             all_preds.extend(predicted.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
 
+            for t, p in zip(labels.view(-1), predicted.view(-1)):
+                confusion_matrix[t.long(), p.long()] += 1
+
     accuracy = correct / total
     precision, recall, f1_score, _ = precision_recall_fscore_support(all_labels, all_preds, average='weighted')
 
@@ -43,11 +48,14 @@ def evaluate_model(model, test_loader):
     print(f'Recall: {recall:.4f}')
     print(f'F1-score: {f1_score:.4f}')
 
-    return accuracy
+    return accuracy, confusion_matrix
 
 
 def main():
     filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
+    
+    model_name = 'cnnParams_self_resnet18.pt'
+    model = torch.load('models/' + model_name)
 
     result_dictionary = {
         '5': 0,
@@ -62,6 +70,20 @@ def main():
         '100': 0
     }
 
+    conf_matrix_dictionary = {
+        '5': np.zeros((10,10)),
+        '10': np.zeros((10,10)),
+        '17': np.zeros((10,10)),
+        '25': np.zeros((10,10)),
+        '32': np.zeros((10,10)),
+        '40': np.zeros((10,10)),
+        '50': np.zeros((10,10)),
+        '60': np.zeros((10,10)),
+        '75': np.zeros((10,10)),
+        '100': np.zeros((10,10))
+    }
+    conf_matrix_all = np.zeros((10,10))
+
     for filesize in filesizes:
         transform = transforms.Compose([
             # the model excepts just 224x224 images, maybe we need to crop our images before encoding them
@@ -73,17 +95,16 @@ def main():
 
         _, val_loader = cnnDataset.create_dataset(transform=transform, filesize=filesize)
 
-        model_name = 'resnet18'
-        model = models.resnet18()
-        num_ftrs = model.fc.in_features
-        num_new_classes = 6
-        model.fc = nn.Linear(num_ftrs, num_new_classes)  # Replace the final layer with the number of codec classes
-        model.load_state_dict(torch.load('models/cnnParams_self_resnet18.pt'))
+        
         print('Evaluate pretrained model ( ' + model_name + ' ) with Filesize = ' + filesize + ' kB')
-        result_dictionary[filesize] = evaluate_model(model, val_loader)
+        result_dictionary[filesize], conf_matrix_dictionary[filesize] = evaluate_model(model, val_loader)
 
-        # store the results in a file
-        np.save('results/mixed_self_results.npy', result_dictionary)
+        conf_matrix_all += conf_matrix_dictionary[filesize]
+
+    # store the results in a file
+    np.save('results/accuracy_mixed_self_model.npy', result_dictionary)
+    np.save('results/conf_matrix_mixed_self_model.npy', conf_matrix_dictionary)
+    np.save('results/conf_matrix_all_mixed_self_model.npy', conf_matrix_all)
 
 
 if __name__ == '__main__':

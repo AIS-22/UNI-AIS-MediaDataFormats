@@ -12,6 +12,7 @@ trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG_XL/'
+
 decodedFolder = 'Decoded/'
 outputPrefix = 'jpegxl_'
 outputFileExtension = '.jxl'
@@ -27,9 +28,11 @@ def decode_jpgxl(enc_file, dec_file):
 
 def encode_jpgxl(printProgress=False, maxFileSizeKb = 32):
     i = 0
-    number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
+    #number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
+    number_of_files = len(glob.glob('Images/*/' + croppedFolder + '/*.png'))
+
     for subFolder in availableSubFolder:
-        pathImages = 'Images/' + subFolder + 'Resized/'
+        pathImages = 'Images/' + subFolder + croppedFolder
         pathImagesEncoded = 'Images/' + subFolder + usedCodec
         for image_path in glob.glob(pathImages + '*' + pngExtension):
             q = maxQ
