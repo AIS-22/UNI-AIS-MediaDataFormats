@@ -11,15 +11,7 @@ trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'AVIF/'
-
-useMultiCropPerImage = True
-if useMultiCropPerImage:
-    decodedFolder = 'Decoded_pieces/'
-    croppedFolder = 'ResizedInPieces/'
-else:
-    decodedFolder = 'Decoded/'
-    croppedFolder = 'Resized/'
-
+decodedFolder = 'Decoded/'
 outputPrefix = 'avif_'
 outputFileExtension = '.avif'
 pngExtension = '.png'

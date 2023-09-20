@@ -10,13 +10,7 @@ validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG2000/'
 
-useMultiCropPerImage = True
-if useMultiCropPerImage:
-    decodedFolder = 'Decoded_pieces/'
-    croppedFolder = 'ResizedInPieces/'
-else:
-    decodedFolder = 'Decoded/'
-    croppedFolder = 'Resized/'
+decodedFolder = 'Decoded/'
 outputPrefix = 'jpeg2k_'
 outputFileExtension = '.jp2'
 pngExtension = '.png'
