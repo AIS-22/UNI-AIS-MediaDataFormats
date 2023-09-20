@@ -6,7 +6,7 @@ from PIL import Image
 import avifenc
 import bpgenc
 import heicEnc
-import jxrenc
+import jxrenc_1
 import webP
 import jpegxl
 import jpegenc

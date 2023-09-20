@@ -3,7 +3,9 @@ import avifenc
 import bpgenc
 import cropImages
 import heicEnc
-import jxrenc
+import jxrenc_0
+import jxrenc_1
+import jxrenc_2
 import webP
 import jpegxl
 import jpeg2000enc
@@ -28,7 +30,9 @@ async def preprocess(cropNeeded=False,
             executor.submit(avifenc.encode_avif, printProgress, maxFileSizeKb),
             executor.submit(bpgenc.encode_bpg, printProgress, maxFileSizeKb),
             executor.submit(heicEnc.encode_heic, printProgress, maxFileSizeKb),
-            executor.submit(jxrenc.encode_jxr, printProgress, maxFileSizeKb),
+            executor.submit(jxrenc_0.encode_jxr, printProgress, maxFileSizeKb),
+            executor.submit(jxrenc_1.encode_jxr, printProgress, maxFileSizeKb),
+            executor.submit(jxrenc_2.encode_jxr, printProgress, maxFileSizeKb),
             executor.submit(webP.encode_webp, printProgress, maxFileSizeKb),
             executor.submit(jpegxl.encode_jpgxl, printProgress, maxFileSizeKb),
             executor.submit(jpeg2000enc.encode_jpeg2k, printProgress, maxFileSizeKb),

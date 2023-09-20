@@ -63,7 +63,7 @@ https://pyimagesearch.com/2021/07/26/pytorch-image-classification-with-pre-train
 model_name = 'resnet18'
 model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
 
-num_new_classes = 8  # number of codecs
+num_new_classes = 10  # number of codecs
 
 # use this if e.g. resNet get used
 num_ftrs = model.fc.in_features
