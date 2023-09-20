@@ -136,7 +136,7 @@ def plot_confusion_matrix_all():
         fs_results = np.load(RESULTS_FOLDER + 'conf_matrix_all_fs_' + fs + '_model.npy', allow_pickle=True).tolist()
         plt.figure(figsize=(15,10))
         sn.set(font_scale=1.4)
-        sn.heatmap(fs_results, vmin=0, vmax=50000,
+        sn.heatmap(fs_results, vmin=0, vmax=5000,
                xticklabels=categories, 
                yticklabels=categories, 
                annot=True, 
@@ -161,9 +161,17 @@ def plot_loss_results():
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend(title='Loss Functions')
-    plt.savefig('Plots/loss_comparison_mixed_model.png')
+    plt.savefig('Plots/loss_comparison/loss_comparison_mixed_model.png')
 
-    # TODO: add self trained loss plot
+    mixed_self_loss = np.load(RESULTS_FOLDER + 'losses_mixed_self_model.npy', allow_pickle=True)
+    plt.figure(figsize=(20, 10))
+    plt.plot(range(1, 11), mixed_self_loss[:, 0], c='r', label='Train Loss')
+    plt.plot(range(1, 11), mixed_self_loss[:, 1], c='g', label='Validation Loss')
+    plt.grid()
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.legend(title='Loss Functions')
+    plt.savefig('Plots/loss_comparison/loss_comparison_mixed_self_model.png')
 
     #filesize models
     for i, filesize in enumerate(filesizes):
@@ -176,7 +184,7 @@ def plot_loss_results():
         plt.xlabel('Epoch')
         plt.ylabel('Loss')
         plt.legend(title='Loss Functions')
-        plt.savefig('Plots/loss_comparison_fs_' + filesize + '_model.png')
+        plt.savefig('Plots/loss_comparison/loss_comparison_fs_' + filesize + '_model.png')
 
 def plot_dec_enc_time():
     exec_time_dict = {
@@ -201,9 +209,9 @@ def plot_dec_enc_time():
 
 def main():
     plot_accuracy_results()
-    #plot_confusion_matrix()
-    #plot_confusion_matrix_all()
-    # plot_loss_results()
+    plot_confusion_matrix()
+    plot_confusion_matrix_all()
+    plot_loss_results()
     # plot_dec_enc_time()
 
 
