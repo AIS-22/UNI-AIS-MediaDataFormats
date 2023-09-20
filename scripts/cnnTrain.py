@@ -99,6 +99,8 @@ from sklearn.metrics import precision_recall_fscore_support
 import cnnDataset
 import evaluateSelfModel
 
+torch.manual_seed(42)
+
 #TODO: Log the output in a file
 
 def evaluate_model(model, test_loader):
@@ -155,7 +157,7 @@ https://pyimagesearch.com/2021/07/26/pytorch-image-classification-with-pre-train
 model_name = 'resnet18'
 model = models.resnet18()
 
-num_new_classes = 8  # number of codecs
+num_new_classes = 10  # number of codecs
 
 # use this if e.g. resNet get used
 num_ftrs = model.fc.in_features
@@ -164,7 +166,9 @@ model = model.to(device)
 
 criterion = nn.CrossEntropyLoss()
 # take a low learning rate since, the model is already pretrained
-optimizer = optim.SGD(model.parameters(), lr=0.013, momentum=1.0)
+#optimizer = optim.SGD(model.parameters(), lr=0.013, momentum=1.0)
+# use an Adam optimizer with parameters that mach a batch size of 128
+optimizer = optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.0001)
 
 # change the number of epochs here!
 num_epochs = 10

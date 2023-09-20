@@ -236,3 +236,191 @@ Recall: 0.2100
 F1-score: 0.1393
 Model saved
 
+
+
+
+## Train CNN for each filesize and compare with mixed model. (Same number of images for filesize model and mixed model)
+
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_5.pt ) with Filesize = 5 kB
+Accuracy: 0.9692
+Precision: 0.9691
+Recall: 0.9692
+F1-score: 0.9689
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_5.pt ) with Filesize = 10 kB
+Accuracy: 0.9294
+Precision: 0.9311
+Recall: 0.9294
+F1-score: 0.9289
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_5.pt ) with Filesize = 17 kB
+Accuracy: 0.7662
+Precision: 0.7902
+Recall: 0.7662
+F1-score: 0.7626
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_5.pt ) with Filesize = 25 kB
+Accuracy: 0.5732
+Precision: 0.6369
+Recall: 0.5732
+F1-score: 0.5629
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_5.pt ) with Filesize = 32 kB
+Accuracy: 0.4160
+Precision: 0.5125
+Recall: 0.4160
+F1-score: 0.4011
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_5.pt ) with Filesize = 40 kB
+Accuracy: 0.3156
+Precision: 0.4403
+Recall: 0.3156
+F1-score: 0.2941
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_10.pt ) with Filesize = 5 kB
+Accuracy: 0.9630
+Precision: 0.9656
+Recall: 0.9630
+F1-score: 0.9635
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_10.pt ) with Filesize = 10 kB
+Accuracy: 0.9716
+Precision: 0.9720
+Recall: 0.9716
+F1-score: 0.9712
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_10.pt ) with Filesize = 17 kB
+Accuracy: 0.9424
+Precision: 0.9461
+Recall: 0.9424
+F1-score: 0.9416
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_10.pt ) with Filesize = 25 kB
+Accuracy: 0.8380
+Precision: 0.8610
+Recall: 0.8380
+F1-score: 0.8345
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_10.pt ) with Filesize = 32 kB
+Accuracy: 0.7184
+Precision: 0.7819
+Recall: 0.7184
+F1-score: 0.7146
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_10.pt ) with Filesize = 40 kB
+Accuracy: 0.5834
+Precision: 0.7007
+Recall: 0.5834
+F1-score: 0.5738
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_17.pt ) with Filesize = 5 kB
+Accuracy: 0.9040
+Precision: 0.9287
+Recall: 0.9040
+F1-score: 0.9047
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_17.pt ) with Filesize = 10 kB
+Accuracy: 0.9652
+Precision: 0.9653
+Recall: 0.9652
+F1-score: 0.9651
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_17.pt ) with Filesize = 17 kB
+Accuracy: 0.9586
+Precision: 0.9587
+Recall: 0.9586
+F1-score: 0.9584
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_17.pt ) with Filesize = 25 kB
+Accuracy: 0.9270
+Precision: 0.9297
+Recall: 0.9270
+F1-score: 0.9267
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_17.pt ) with Filesize = 32 kB
+Accuracy: 0.8934
+Precision: 0.9005
+Recall: 0.8934
+F1-score: 0.8932
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_17.pt ) with Filesize = 40 kB
+Accuracy: 0.8296
+Precision: 0.8497
+Recall: 0.8296
+F1-score: 0.8312
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_25.pt ) with Filesize = 5 kB
+Accuracy: 0.8424
+Precision: 0.8763
+Recall: 0.8424
+F1-score: 0.8373
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_25.pt ) with Filesize = 10 kB
+Accuracy: 0.9530
+Precision: 0.9583
+Recall: 0.9530
+F1-score: 0.9532
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_25.pt ) with Filesize = 17 kB
+Accuracy: 0.9662
+Precision: 0.9677
+Recall: 0.9662
+F1-score: 0.9662
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_25.pt ) with Filesize = 25 kB
+Accuracy: 0.9630
+Precision: 0.9635
+Recall: 0.9630
+F1-score: 0.9630
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_25.pt ) with Filesize = 32 kB
+Accuracy: 0.9518
+Precision: 0.9530
+Recall: 0.9518
+F1-score: 0.9518
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_25.pt ) with Filesize = 40 kB
+Accuracy: 0.9260
+Precision: 0.9284
+Recall: 0.9260
+F1-score: 0.9261
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_32.pt ) with Filesize = 5 kB
+Accuracy: 0.8296
+Precision: 0.8625
+Recall: 0.8296
+F1-score: 0.8204
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_32.pt ) with Filesize = 10 kB
+Accuracy: 0.9334
+Precision: 0.9400
+Recall: 0.9334
+F1-score: 0.9337
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_32.pt ) with Filesize = 17 kB
+Accuracy: 0.9544
+Precision: 0.9562
+Recall: 0.9544
+F1-score: 0.9544
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_32.pt ) with Filesize = 25 kB
+Accuracy: 0.9550
+Precision: 0.9555
+Recall: 0.9550
+F1-score: 0.9550
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_32.pt ) with Filesize = 32 kB
+Accuracy: 0.9448
+Precision: 0.9449
+Recall: 0.9448
+F1-score: 0.9446
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_32.pt ) with Filesize = 40 kB
+Accuracy: 0.9282
+Precision: 0.9292
+Recall: 0.9282
+F1-score: 0.9275
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_40.pt ) with Filesize = 5 kB
+Accuracy: 0.7325
+Precision: 0.7915
+Recall: 0.7325
+F1-score: 0.7235
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_40.pt ) with Filesize = 10 kB
+Accuracy: 0.9006
+Precision: 0.9167
+Recall: 0.9006
+F1-score: 0.9007
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_40.pt ) with Filesize = 17 kB
+Accuracy: 0.9380
+Precision: 0.9446
+Recall: 0.9380
+F1-score: 0.9379
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_40.pt ) with Filesize = 25 kB
+Accuracy: 0.9542
+Precision: 0.9562
+Recall: 0.9542
+F1-score: 0.9541
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_40.pt ) with Filesize = 32 kB
+Accuracy: 0.9572
+Precision: 0.9588
+Recall: 0.9572
+F1-score: 0.9572
+Evaluate pretrained model ( cnnParams_resnet18bigModel_fs_40.pt ) with Filesize = 40 kB
+Accuracy: 0.9494
+Precision: 0.9505
+Recall: 0.9494
+F1-score: 0.9491
+
+
+

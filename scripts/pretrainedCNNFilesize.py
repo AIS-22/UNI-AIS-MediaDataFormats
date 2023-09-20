@@ -6,6 +6,8 @@ from torchvision import transforms, models
 from sklearn.metrics import precision_recall_fscore_support
 import cnnDataset
 import evaluateFilesizeModel
+# from PIL import ImageFile
+# ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 #TODO: Log the output in a file
 
@@ -45,7 +47,7 @@ device = (
     else "cpu"
 )
 
-filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
+filesizes = [50, 60, 75, 100]
 
 for filesize in filesizes:
     transform = transforms.Compose([
