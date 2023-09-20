@@ -76,7 +76,7 @@ def main():
         model_name = 'resnet18'
         model = models.resnet18()
         num_ftrs = model.fc.in_features
-        num_new_classes = 6
+        num_new_classes = 10
         model.fc = nn.Linear(num_ftrs, num_new_classes)  # Replace the final layer with the number of codec classes
         model.load_state_dict(torch.load('models/cnnParams_resnet18.pt'))
         print('Evaluate pretrained model ( ' + model_name + ' ) with Filesize = ' + filesize + ' kB')
