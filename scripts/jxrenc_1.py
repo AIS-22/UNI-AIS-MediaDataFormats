@@ -12,6 +12,7 @@ validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG_XR_1/'
 overlapParameter = '-l 1'
+
 decodedFolder = 'Decoded/'
 outputPrefix = 'jxr_1_'
 outputFileExtension = '.jxr'

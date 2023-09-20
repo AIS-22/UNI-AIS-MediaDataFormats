@@ -85,7 +85,7 @@ def get_empty_result_dict(len_qualities):
 
 def measure_quality():
     # get all images
-    files = glob.glob('Images/' + '*/Resized/' + '*.png')
+    files = glob.glob('Images/' + '*/ResizedInPieces/' + '*.png')
     n_files = len(files)
     # pick 5 images for quality measurement
     n_images = 5
