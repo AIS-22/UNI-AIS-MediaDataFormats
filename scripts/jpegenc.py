@@ -10,7 +10,7 @@ trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG/'
-decodedFolder = 'Decoded/all/'
+decodedFolder = 'Decoded/'
 outputPrefix = 'jpeg_'
 outputFileExtension = '.jpg'
 pngExtension = '.png'
@@ -87,7 +87,7 @@ def encode_jpeg(printProgress=False, maxFileSizeKb = 32):
 
             
             dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + pngExtension
-            dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
+            dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + str(maxFileSizeKb)+ "/" + usedCodec + dec_file_name
             decode_jpeg(outputPath, dec_path)
 
 def encode_jpeg_q(image_path, decoded_path, q):
