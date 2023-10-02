@@ -2,6 +2,7 @@ from PIL import Image
 import os
 import glob
 import numpy as np
+from filesizelogger import log_filesize
 
 minQ = 1
 maxQ = 100
@@ -9,7 +10,7 @@ trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'WebP/'
-decodedFolder = 'Decoded/all/'
+decodedFolder = 'Decoded/32/'
 outputPrefix = 'webp_'
 outputFileExtension = '.webp'
 pngExtension = '.png'
@@ -81,6 +82,8 @@ def encode_webp(printProgress=False, maxFileSizeKb = 32):
                 f_size = os.path.getsize(outputPath) / 1024
                 i += 1
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+                #log into file
+                log_filesize(f_size, maxFileSizeKb, usedCodec)
 
             dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + pngExtension
             dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
