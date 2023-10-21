@@ -127,3 +127,26 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Pycharm
+.idea/
+
+#Images
+*.png
+*.avif
+*.heic
+*.webp
+*.jxr
+*.jxl
+*.bpg
+*.tif
+*.jpg
+*.jp2
+
+#Mac OS
+.DS_Store
+
+# PyTorch
+*.pt
+*.pth
+
