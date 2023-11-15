@@ -14,7 +14,7 @@ from concurrent.futures import ThreadPoolExecutor
 async def preprocess(cropNeeded=False,
                      width=512,
                      height=512,
-                     maxFileSizeKb=32,
+                     maxFileSizeKb=5,
                      printProgress=True):
     if cropNeeded:
         # first crop images
@@ -40,4 +40,8 @@ async def preprocess(cropNeeded=False,
 
 
 if __name__ == '__main__':
-    asyncio.run(preprocess())
+    #filesizes = [5, 10, 17, 25, 32, 40, 50, 60, 75, 100]
+    filesizes = [10]
+    for filesize in filesizes:
+        asyncio.run(preprocess(maxFileSizeKb=filesize))
+   

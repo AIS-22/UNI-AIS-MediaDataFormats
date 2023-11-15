@@ -89,8 +89,6 @@ def encode_jpgxl(printProgress=False, maxFileSizeKb = 32):
                 #log into file
                 log_filesize(f_size, maxFileSizeKb, usedCodec)
                 
-            # log filesize of encoded image
-            log_filesize(outputPath,f'Logs/jpegxl_filesize{maxFileSizeKb}_log.txt')
             dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + pngExtension
             dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + usedCodec + dec_file_name
             decode_jpgxl(outputPath, dec_path)

@@ -4,6 +4,7 @@ from torch import nn
 from torchvision import transforms, models
 import numpy as np
 from matplotlib import pyplot as plt
+from sklearn.decomposition import PCA
 
 import cnnDataset
 
@@ -29,19 +30,38 @@ def evaluate_model(model, test_loader):
             images, labels = images.to(device), labels.to(device)
 
             outputs = model(images)
-            #L2 normalization of the output
-            prediction = np.sqrt(np.sum(np.square(outputs.cpu().numpy()), axis=1))
-            prediction = np.sqrt(np.sum(np.square(prediction), axis=0))
+            #l2 norm
+            outputs = nn.functional.normalize(outputs, p=2, dim=1)
+            
             total += labels.size(0)  # Update the total count of processed samples
 
-            all_preds.append(prediction)
+            all_preds.append(outputs.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
 
     #scatter plot all_preds color coded by all_labels
-    
-    plt.scatter(all_preds,range(len(all_preds)))
+    all_preds = np.array(all_preds)
+    all_labels = np.array(all_labels)
+    all_preds = all_preds.reshape(all_preds.shape[0], all_preds.shape[2])
+    print(all_preds.shape)
+    print(all_labels.shape)
+    pca = PCA(n_components=2)
+    pca.fit(all_preds)
+    print("explained variance ratio:")
+    print(pca.explained_variance_ratio_)
+    print("singular values:")
+    print(pca.singular_values_)
+    all_preds = pca.transform(all_preds)
+    #print(all_preds.shape)
+    #print(all_labels.shape)
+    print(test_loader.dataset.classes)
+    #scatterplot regards to classes
+    for i in range(len(test_loader.dataset.classes)):
+        plt.scatter(all_preds[all_labels == i,0], all_preds[all_labels == i,1], label=test_loader.dataset.classes[i])
+    plt.legend()
     plt.show()
-    plt.savefig('results/scatter_plot_withoutTrain.png')
+
+    #plt.scatter(all_preds[:,0], all_preds[:,1], c=all_labels)
+    #plt.show()
 
 
     return 
@@ -49,7 +69,7 @@ def evaluate_model(model, test_loader):
 
 def main():
     #filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
-    filesizes = ['5']
+    filesizes = ['10']
 
     result_dictionary = {
         '5': 0,
