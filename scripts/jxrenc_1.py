@@ -4,7 +4,6 @@ import numpy as np
 from PIL import Image
 from filesizelogger import log_filesize
 
-
 minQ = 1
 # to increase the floating point precision this high value is needed (q needs to be in range 0-1)
 maxQ = 10_000

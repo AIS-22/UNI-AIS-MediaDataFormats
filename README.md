@@ -18,9 +18,37 @@ The goal of this project was to first compress images to a specified filesize. T
 
 In short the image was saved with the quality setting at half of the possible quality values. Then the resulting filesize is determied if its larger than determined the quality will be reduced to the lower half else to the upper half. E.g. First run with Quality 50 -> File size to large next quality step will be 25. If the file size is under the threshhold the next Quality step would be hafway between 25 and 50. And so on until the desired file size is reached for a quality setting with 100 values this would lead to a result within 8 steps.
 
-Since every compression algorithm has different charachterristics at different leves of compression there is a need to compress to differnt file sizes. The ituition beeing that a more compressed image would be easier to classify than a less compressed since the artifacts inherent to the algorithm would not be as strong. The files sizes used were: 5, 10, 17, 25, 32, (40, 50, 60, 75, 100). while the Former ones were used to train the models and the ladder ones only to observe the accuracy of the network with less compressed images.
+
+Since every compression algorithm has different charachterristics at different leves of compression there is a need to compress to differnt file sizes. The ituition beeing that a more compressed image would be easier to classify than a less compressed since the artifacts inherent to the algorithm would not be as strong. The files sizes used were: 5, 10, 17, 25, 32, (40, 50, 60, 75, 100). While the Former ones were used to train the models and the ladder ones only to observe the accuracy of the network with less compressed images.
 
 To classify the compressed images the compressed images were converted back into a png so all the compression types would behave the same. To classify the compressed images a resnet-18 in pyytorch was used. On the one hand with transfere learning and on the other hand by starting from scrach.
+
+## Dataset & Structure
+
+The dataset used for this project is the DIV2K dataset. This dataset contains 900 images. The images are split into 800 train and 100 validation images.
+The folders under the DIV2K folder with the codes are just for working within. After this the file is saved as a lossless png in the Decoded folder. This is done so the Training of the model can happen without compatiability problems of the training framework. The images are saved in the following structure:
+
+```
+Images
+├── DIV2K_train_HR
+│   (Folders for Encoding, Decoding and working with the images)
+│   ├── Reziezed (original images resized to 512x512)
+│   ├── JPEG / JPEG2000 / ... (Folders for Encoding and working with the images)
+│   ├── Decoded (Images after decoding to png, used for training)
+│   ├── ...
+│   (Images from DIV2K)
+│   ├── 0001.png
+│   ├── 0002.png
+│   ├── ...
+├── DIV2K_train_HR
+│   ├── Reziezed
+│   ├── JPEG / JPEG2000 / ...
+│   ├── Decoded
+│   ├── ...
+│   ├── 0801.png
+│   ├── 0802.png
+│   ├── ...
+```
 
 ## Software & Preprocessing
 

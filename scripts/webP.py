@@ -12,6 +12,7 @@ availableSubFolder = [trainFolder, validFolder]
 #availableSubFolder = [validFolder]
 usedCodec = 'WEBP/'
 decodedFolder = 'Decoded/all/'
+
 outputPrefix = 'webp_'
 outputFileExtension = '.webp'
 pngExtension = '.png'
