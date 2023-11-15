@@ -9,9 +9,9 @@ maxQ = 100
 trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
-#availableSubFolder = [validFolder]
 usedCodec = 'WEBP/'
-decodedFolder = 'Decoded/all/'
+
+decodedFolder = 'Decoded/'
 outputPrefix = 'webp_'
 outputFileExtension = '.webp'
 pngExtension = '.png'
