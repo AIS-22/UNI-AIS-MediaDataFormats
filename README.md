@@ -83,7 +83,7 @@ Images
   - JPEG 2000
 
     ```sh
-    sudo apt install libopenjp2-7 libopenjp2-tools # verion openJPEG 2.5.0
+    sudo apt install libopenjp2-7 libopenjp2-tools # version openJPEG 2.5.0
     ```
 
     _Alternatively this will be installed with pytorch / torchvision in the environment_
