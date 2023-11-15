@@ -56,28 +56,20 @@ Images
 - General Requirements
 
     ```sh
-    # For Preprocessing
-    conda install pillow # version 9.4.0
-    pip install imagecodecs # version 2023.3.16
-    # Training
-    conda install torch torchvision # torch version 2.0 torchvision version 0.15
+    conda env create -f environment.yml
+    conda activate mdf
     ```
 
 - Pillow
   - JPEG
   - WebP
 - Pillow Plugins
-  - AVIF [Pip Pillow AVIV Plugin](https://pypi.org/project/pillow-avif-plugin/)
+  - AVIF [Pip Pillow AVIV Plugin](https://pypi.org/project/pillow-avif-plugin/) installed via env
 
-    ```sh
-    pip install pillow-avif-plugin # version 1.3.1
-    ```
 
-  - HEIC [Pip Pillow HEIF Plugin](https://pypi.org/project/pillow-heif/)
+  - HEIC [Pip Pillow HEIF Plugin](https://pypi.org/project/pillow-heif/) installed via env
 
-    ```sh
-    pip install pillow-heif # version 0.10.1
-    ```
+
 
 - apt
   - JPEG 2000
