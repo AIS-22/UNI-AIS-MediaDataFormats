@@ -56,54 +56,50 @@ Images
 - General Requirements
 
     ```sh
-    # For Preprocessing
-    conda install pillow
-    pip install imagecodecs # min version 2023.3.16
-    # Training
-    conda install torch torchvision
+    conda env create -f environment.yml
+    conda activate mdf
     ```
 
 - Pillow
   - JPEG
   - WebP
 - Pillow Plugins
-  - AVIF [Pip Pillow AVIV Plugin](https://pypi.org/project/pillow-avif-plugin/)
+  - AVIF [Pip Pillow AVIV Plugin](https://pypi.org/project/pillow-avif-plugin/) installed via env
 
-    ```sh
-    pip install pillow-avif-plugin
-    ```
 
-  - HEIC [Pip Pillow HEIF Plugin](https://pypi.org/project/pillow-heif/)
+  - HEIC [Pip Pillow HEIF Plugin](https://pypi.org/project/pillow-heif/) installed via env
 
-    ```sh
-    pip install pillow-heif
-    ```
+
 
 - apt
   - JPEG 2000
 
     ```sh
-    sudo apt install libopenjp2-7 libopenjp2-tools
+    sudo apt install libopenjp2-7 libopenjp2-tools # version openJPEG 2.5.0
     ```
+
+    _Alternatively this will be installed with pytorch / torchvision in the environment_
 
   - JPEG XR
 
     ```sh
     sudo apt-get install libjxr-dev
-    sudo apt-get install libjxr-tools
+    sudo apt-get install libjxr-tools # version 1.1
     ```
+
+    _Alternatively this will be installed with imagecodes in the environment_
 
 - Homebrew / Linux Brew for
   - BPG
 
     ```sh
-    brew install libbpg
+    brew install libbpg # version 0.9.8
     ```
 
   - JPEX XL
 
     ```sh
-    brew install jpeg-xl
+    brew install jpeg-xl # version 0.8.2
     ```
 
 ### Running the Scripts
