@@ -2,6 +2,7 @@ from PIL import Image
 import os
 import glob
 import numpy as np
+from filesizelogger import log_filesize
 
 minQ = 1
 maxQ = 100
@@ -23,7 +24,7 @@ def decode_webP(enc_file, dec_file):
     dec_filesize_folder = dec_file.replace('all', file_size)
     image.save(dec_filesize_folder, quality=100)
 
-def encode_webp(printProgress=False, maxFileSizeKb = 32):
+def encode_webp(printProgress=False, maxFileSizeKb = 10):
     i = 0
 #    number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     number_of_files = len(glob.glob('Images/*/' + croppedFolder + '/*.png'))
@@ -84,6 +85,8 @@ def encode_webp(printProgress=False, maxFileSizeKb = 32):
                 f_size = os.path.getsize(outputPath) / 1024
                 i += 1
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+                #log into file
+                log_filesize(f_size, maxFileSizeKb, usedCodec)
 
             dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + pngExtension
             dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + str(maxFileSizeKb)+ "/" + usedCodec + dec_file_name

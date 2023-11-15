@@ -3,6 +3,7 @@ import subprocess
 import glob
 import numpy as np
 from imagecodecs import imread, imwrite
+from filesizelogger import log_filesize
 
 
 minQ = 1
@@ -88,7 +89,9 @@ def encode_jpgxl(printProgress=False, maxFileSizeKb = 32):
                 f_size = os.path.getsize(outputPath) / 1024
                 i += 1
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
-
+                #log into file
+                log_filesize(f_size, maxFileSizeKb, usedCodec)
+                
             dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + pngExtension
             dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + str(maxFileSizeKb)+ "/" + usedCodec + dec_file_name
             decode_jpgxl(outputPath, dec_path)

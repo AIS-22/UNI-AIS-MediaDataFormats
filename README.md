@@ -64,6 +64,7 @@ Images
   - JPEG
   - WebP
 - Pillow Plugins
+
   - AVIF [Pip Pillow AVIV Plugin](https://pypi.org/project/pillow-avif-plugin/) installed via env
 
 
@@ -84,10 +85,6 @@ Images
 
     ```sh
     sudo apt-get install libjxr-dev
-    sudo apt-get install libjxr-tools # version 1.1
-    ```
-
-    _Alternatively this will be installed with imagecodes in the environment_
 
 - Homebrew / Linux Brew for
   - BPG

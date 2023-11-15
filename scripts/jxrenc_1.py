@@ -2,6 +2,7 @@ import os
 import glob
 import numpy as np
 from PIL import Image
+from filesizelogger import log_filesize
 
 minQ = 1
 # to increase the floating point precision this high value is needed (q needs to be in range 0-1)
@@ -107,6 +108,8 @@ def encode_jxr(printProgress=False, maxFileSizeKb = 32):
                 f_size = os.path.getsize(outputPath) / 1024
                 i += 1
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+                #log into file
+                log_filesize(f_size, maxFileSizeKb, usedCodec)
 
             dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + tifFileExtension
             dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + str(maxFileSizeKb)+ "/" + usedCodec + dec_file_name

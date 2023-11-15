@@ -1,7 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from sklearn.metrics import confusion_matrix
 import seaborn as sn
+import pandas as pd
+
 
 RESULTS_FOLDER = 'results/'
 AVG_FILESIZE = 470
@@ -206,13 +209,51 @@ def plot_dec_enc_time():
     plt.savefig('Plots/encoding_time_comparison.png')
     plt.show()
 
+def plot_filesize_to_target():
+    #read csv
+    df = pd.read_csv('filesize_log.txt', sep=',', header=None)
+    df.columns = ['filesize', 'target', 'codec']
+    #sort by string in codec column and reset index
+    df = df.sort_values(by=['codec']).reset_index(drop=True)
+    #remove / from codec column
+    df['codec'] = df['codec'].str.replace('/', '')
+    #scatter plot with each codec in different color with filesize as y and index as x
+    plt.figure(figsize=(20, 10))
+    #plt df with a color for each codec
+    label = df['codec'].unique()
+    #box plot
+    plot = plt.boxplot([df[df['codec'] == label]['filesize'] for label in label], labels=label)    
+    
+    #for i, label in enumerate(label):
+    #    plt.scatter(df[df['codec'] == label].index, df[df['codec'] == label]['filesize'], label=label)
+    #plot line at target value
+    plt.axhline(y=32, color='green', linestyle='--', label='Target')
+    #legend
+    plt.legend(title='Codec')
+    plt.title('Actual Filesize to Target Comparison')
+    plt.grid()
+    plt.xlabel('Codec')
+    plt.ylabel('Filesize (KB)')
+    plt.savefig('Plots/filesize_to_target.png')
+    plt.show()
+
+
 
 def main():
+    #plot_accuracy_results()
+    #plot_loss_results()
+    #plot_dec_enc_time()
+    plot_filesize_to_target()
     plot_accuracy_results()
     plot_confusion_matrix()
     plot_confusion_matrix_all()
     plot_loss_results()
     # plot_dec_enc_time()
+    #plot_accuracy_results()
+    #plot_loss_results()
+    #plot_dec_enc_time()
+    plot_filesize_to_target()
+
 
 
 if __name__ == '__main__':
