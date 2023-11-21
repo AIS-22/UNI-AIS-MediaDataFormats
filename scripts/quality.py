@@ -1,17 +1,21 @@
-import os
-import numpy as np
-import matplotlib.pyplot as plt
 import glob
+import os
+
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
 from PIL import Image
+
 import avifenc
 import bpgenc
 import heicEnc
-import jxrenc_1
-import webP
-import jpegxl
-import jpegenc
 import jpeg2000enc
-import cv2
+import jpegenc
+import jpegxl
+import jxrenc_0
+import jxrenc_1
+import jxrenc_2
+import webP
 
 np.random.seed(86)
 
@@ -77,7 +81,9 @@ def get_empty_result_dict(len_qualities):
         'bpg': np.zeros((len_qualities, len_qualities)).astype(float),
         'heic': np.zeros((len_qualities, len_qualities)).astype(float),
         'jxl': np.zeros((len_qualities, len_qualities)).astype(float),
-        'jxr': np.zeros((len_qualities, len_qualities)).astype(float),
+        'jxr_0': np.zeros((len_qualities, len_qualities)).astype(float),
+        'jxr_1': np.zeros((len_qualities, len_qualities)).astype(float),
+        'jxr_2': np.zeros((len_qualities, len_qualities)).astype(float),
         'jpeg': np.zeros((len_qualities, len_qualities)).astype(float),
         'jpeg2000': np.zeros((len_qualities, len_qualities)).astype(float)
     }
@@ -99,7 +105,6 @@ def measure_quality():
     qualities_jxr = np.append(qualities_jxr, np.linspace(0.0001, 1, int(steps/2)-1).astype(float))
     qualities_jxr = np.append(qualities_jxr, np.linspace(2,255, int(steps/2)).astype(int))
     qualities_j2k = np.concatenate((np.linspace(1, 100, int(steps/2)).astype(int), np.linspace(104, 1000, int(steps/2)).astype(int)))
-    codecs = ['avif', 'webP', 'bpg', 'heic', 'jxl', 'jxr', 'jpeg', 'jpeg2000']
     len_qualities = len(qualities)
 
 
@@ -109,7 +114,9 @@ def measure_quality():
         'bpg': bpgenc.encode_bpg_q,
         'heic': heicEnc.encode_heic_q,
         'jxl': jpegxl.encode_jxl_q,
-        'jxr': jxrenc.encode_jxr_q,
+        'jxr_0': jxrenc_0.encode_jxr_q,
+        'jxr_1': jxrenc_1.encode_jxr_q,
+        'jxr_2': jxrenc_2.encode_jxr_q,
         'jpeg': jpegenc.encode_jpeg_q,
         'jpeg2000': jpeg2000enc.encode_jpeg2k_q
     }
@@ -117,11 +124,11 @@ def measure_quality():
     results_psnr = get_empty_result_dict(len_qualities)
     results_ssim = get_empty_result_dict(len_qualities)
 
-    for codec in codecs:
+    for codec in codec_dictionary.keys():
         mean_crates = np.zeros(len_qualities)
         mean_psnr = np.zeros(len_qualities)
         mean_ssim = np.zeros(len_qualities)
-        codec_is_jxr = codec == 'jxr'
+        codec_is_jxr = 'jxr' in codec
         codec_is_j2k = codec == 'jpeg2000'
         for x, q in enumerate(qualities_jxr if codec_is_jxr else qualities_j2k if codec_is_j2k else qualities):
             c_rates = np.zeros(n_images).astype(float)
@@ -168,10 +175,10 @@ def _plot_results(codecs, results, metric, save_path):
 
 
 def plot_results():
-    codecs = ['avif', 'webP', 'bpg', 'heic', 'jxl', 'jxr', 'jpeg', 'jpeg2000']
     # load dic from file
     psnr_results = np.load('results/results_quality_psnr.npy', allow_pickle=True).item()
     ssim_results = np.load('results/results_quality_ssim.npy', allow_pickle=True).item()
+    codecs = psnr_results.keys()
 
     _plot_results(codecs, psnr_results, 'PSNR', 'Plots/psnr.png')
     _plot_results(codecs, ssim_results, 'SSIM', 'Plots/ssim.png')
