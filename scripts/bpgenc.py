@@ -11,13 +11,7 @@ validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'BPG/'
 
-useMultiCropPerImage = True
-if useMultiCropPerImage:
-    decodedFolder = 'Decoded_pieces/'
-    croppedFolder = 'ResizedInPieces/'
-else:
-    decodedFolder = 'Decoded/'
-    croppedFolder = 'Resized/'
+
 
 outputPrefix = 'bpg_'
 outputFileExtension = '.bpg'
@@ -30,8 +24,14 @@ def decode_bpg(enc_file, dec_file):
     dec_filesize_folder = dec_file.replace('all', file_size)
     os.system('bpgdec -o ' + dec_filesize_folder + ' ' + enc_file)
 
-def encode_bpg(printProgress=False, maxFileSizeKb = 32):
+def encode_bpg(printProgress=False, maxFileSizeKb = 32, useMultiCropPerImage = True):
     i = 0
+    if useMultiCropPerImage:
+        decodedFolder = 'Decoded_pieces/'
+        croppedFolder = 'ResizedInPieces/'
+    else:
+        decodedFolder = 'Decoded/'
+        croppedFolder = 'Resized/'
     #number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     number_of_files = len(glob.glob('Images/*/' + croppedFolder + '/*.png'))
     for subFolder in availableSubFolder:
