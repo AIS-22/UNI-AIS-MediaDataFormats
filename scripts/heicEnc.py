@@ -34,7 +34,6 @@ def encode_heic(printProgress=False, maxFileSizeKb = 32, useMultiCropPerImage = 
     else:
         decodedFolder = 'Decoded/'
         croppedFolder = 'Resized/'
-#    number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     number_of_files = len(glob.glob('Images/*/' + croppedFolder + '/*.png'))
 
     for subFolder in [trainFolder, validFolder]:
