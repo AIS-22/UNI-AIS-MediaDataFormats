@@ -11,7 +11,7 @@ maxQ = 100
 trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 usedCodec = 'HEIC/'
-decodedFolder = 'Decoded/'
+    
 outputPrefix = 'heic_'
 outputFileExtension = '.heic'
 pngExtension = '.png'
@@ -26,9 +26,14 @@ def decode_heic(enc_file, dec_file):
     dec_filesize_folder = dec_file.replace('all', file_size)
     image.save(dec_filesize_folder, quality=100)
 
-def encode_heic(printProgress=False, maxFileSizeKb = 32):
+def encode_heic(printProgress=False, maxFileSizeKb = 32, useMultiCropPerImage = True):
     i = 0
-#    number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
+    if useMultiCropPerImage:
+        decodedFolder = 'Decoded_pieces/'
+        croppedFolder = 'ResizedInPieces/'
+    else:
+        decodedFolder = 'Decoded/'
+        croppedFolder = 'Resized/'
     number_of_files = len(glob.glob('Images/*/' + croppedFolder + '/*.png'))
 
     for subFolder in [trainFolder, validFolder]:

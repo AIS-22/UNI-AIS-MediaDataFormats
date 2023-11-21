@@ -11,7 +11,6 @@ validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG/'
 
-decodedFolder = 'Decoded/'
 outputPrefix = 'jpeg_'
 outputFileExtension = '.jpg'
 pngExtension = '.png'
@@ -24,9 +23,14 @@ def decode_jpeg(enc_file, dec_file):
     dec_filesize_folder = dec_file.replace('all', file_size)
     image.save(dec_filesize_folder, quality=100)
 
-def encode_jpeg(printProgress=False, maxFileSizeKb = 32):
+def encode_jpeg(printProgress=False, maxFileSizeKb = 32, useMultiCropPerImage = True):
     i = 0
-    #number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
+    if useMultiCropPerImage:
+        decodedFolder = 'Decoded_pieces/'
+        croppedFolder = 'ResizedInPieces/'
+    else:
+        decodedFolder = 'Decoded/'
+        croppedFolder = 'Resized/'
     number_of_files = len(glob.glob('Images/*/' + croppedFolder + '/*.png'))
     for subFolder in availableSubFolder:
         pathImages = 'Images/' + subFolder + croppedFolder
