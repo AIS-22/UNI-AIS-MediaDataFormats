@@ -26,7 +26,8 @@ def decode_heic(enc_file, dec_file):
     dec_filesize_folder = dec_file.replace('all', file_size)
     image.save(dec_filesize_folder, quality=100)
 
-def encode_heic(printProgress=False, maxFileSizeKb = 32, useMultiCropPerImage = True):
+
+def encode_heic(printProgress=False, maxFileSizeKb=32, useMultiCropPerImage=False):
     i = 0
     if useMultiCropPerImage:
         decodedFolder = 'Decoded_pieces/'

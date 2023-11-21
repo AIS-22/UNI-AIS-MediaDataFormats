@@ -81,7 +81,8 @@ def _determine_q(max_q, max_file_size_kb, output_path, tif_path):
             return ((q / maxQ), False) if not is_quantization else (int(maxQuantisation - q), True)
         prev_q = q
 
-def encode_jxr(printProgress=False, maxFileSizeKb = 32, useMultiCropPerImage = True):
+
+def encode_jxr(printProgress=False, maxFileSizeKb=32, useMultiCropPerImage=False):
     i = 0
     if useMultiCropPerImage:
         decodedFolder = 'Decoded_pieces/'

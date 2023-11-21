@@ -29,7 +29,8 @@ def decode_jpeg2k(enc_file, dec_file):
                     stderr=subprocess.DEVNULL,
                     shell=True)
 
-def encode_jpeg2k(printProgress=False, maxFileSizeKb = 32, useMultiCropPerImage = True):
+
+def encode_jpeg2k(printProgress=False, maxFileSizeKb=32, useMultiCropPerImage=False):
     i = 0
     if useMultiCropPerImage:
         decodedFolder = 'Decoded_pieces/'
