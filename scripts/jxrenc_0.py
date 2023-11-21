@@ -19,15 +19,16 @@ pngExtension = '.png'
 tifFileExtension = '.tif'
 
 
-def decode_jxr(enc_file, dec_file):
+def decode_jxr(enc_file, dec_file, subfolder_needed=True):
     os.system('JxrDecApp -i ' + enc_file + ' -o ' + dec_file)
     # convert tif to png
     im = Image.open(dec_file)
     png_file_name = dec_file.split(sep='.')[0] + pngExtension
     im.save(png_file_name, quality=100)
-    file_size = png_file_name.split('/')[-1].split('_')[-1].split('.')[0]
-    dec_filesize_folder = png_file_name.replace('all', file_size)
-    im.save(dec_filesize_folder, quality=100)
+    if subfolder_needed:
+        file_size = png_file_name.split('/')[-1].split('_')[-1].split('.')[0]
+        dec_filesize_folder = png_file_name.replace('all', file_size)
+        im.save(dec_filesize_folder, quality=100)
     # remove the created tif image
     os.system('rm ' + dec_file)
 
@@ -130,7 +131,7 @@ def encode_jxr_q(image_path, decoded_path, q):
     q_string = str(q) if q <= 1 else str(int(q))
     os.system('JxrEncApp -q ' + q_string + ' -o ' + outputPath + ' -i ' + tif_path + ' ' + overlapParameter)
     enc_size = os.path.getsize(outputPath)
-    decode_jxr(outputPath, tif_path)
+    decode_jxr(outputPath, tif_path, False)
     os.system('rm temp*')
     return enc_size
 

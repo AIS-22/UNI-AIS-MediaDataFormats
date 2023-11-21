@@ -18,11 +18,12 @@ outputFileExtension = '.bpg'
 pngExtension = '.png'
 
 
-def decode_bpg(enc_file, dec_file):
+def decode_bpg(enc_file, dec_file, subfolder_needed=True):
     os.system('bpgdec -o ' + dec_file + ' ' + enc_file)
-    file_size = dec_file.split('/')[-1].split('_')[-1].split('.')[0]
-    dec_filesize_folder = dec_file.replace('all', file_size)
-    os.system('bpgdec -o ' + dec_filesize_folder + ' ' + enc_file)
+    if subfolder_needed:
+        file_size = dec_file.split('/')[-1].split('_')[-1].split('.')[0]
+        dec_filesize_folder = dec_file.replace('all', file_size)
+        os.system('bpgdec -o ' + dec_filesize_folder + ' ' + enc_file)
 
 
 def encode_bpg(printProgress=False, maxFileSizeKb=32, useMultiCropPerImage=False):
@@ -103,7 +104,7 @@ def encode_bpg_q(image_path, decoded_path, q):
     outputPath = 'temp' + outputFileExtension
     os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(maxQ - normalized_q)) + ' ' + image_path)
     enc_size = os.path.getsize(outputPath)
-    decode_bpg(outputPath, decoded_path)
+    decode_bpg(outputPath, decoded_path, False)
     os.system('rm ' + outputPath)
     return enc_size
 

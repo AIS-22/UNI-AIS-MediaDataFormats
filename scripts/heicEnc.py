@@ -19,12 +19,13 @@ pngExtension = '.png'
 pillow_heif.register_heif_opener()
 
 
-def decode_heic(enc_file, dec_file):
+def decode_heic(enc_file, dec_file, subfolder_needed=True):
     image = Image.open(enc_file)
     image.save(dec_file, quality=100)
-    file_size = dec_file.split('/')[-1].split('_')[-1].split('.')[0]
-    dec_filesize_folder = dec_file.replace('all', file_size)
-    image.save(dec_filesize_folder, quality=100)
+    if subfolder_needed:
+        file_size = dec_file.split('/')[-1].split('_')[-1].split('.')[0]
+        dec_filesize_folder = dec_file.replace('all', file_size)
+        image.save(dec_filesize_folder, quality=100)
 
 
 def encode_heic(printProgress=False, maxFileSizeKb=32, useMultiCropPerImage=False):
@@ -105,7 +106,7 @@ def encode_heic_q(image_path, decoded_path, q):
     outputPath = 'temp' + outputFileExtension
     image.save(outputPath, quality=int(q))
     enc_size = os.path.getsize(outputPath)
-    decode_heic(outputPath, decoded_path)
+    decode_heic(outputPath, decoded_path, False)
     os.system('rm ' + outputPath)
     return enc_size
 
