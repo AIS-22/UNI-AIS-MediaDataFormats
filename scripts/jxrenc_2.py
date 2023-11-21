@@ -13,7 +13,14 @@ availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG_XR_2/'
 overlapParameter = '-l 2'
 
-decodedFolder = 'Decoded/'
+useMultiCropPerImage = True
+if useMultiCropPerImage:
+    decodedFolder = 'Decoded_pieces/'
+    croppedFolder = 'ResizedInPieces/'
+else:
+    decodedFolder = 'Decoded/'
+    croppedFolder = 'Resized/'
+
 outputPrefix = 'jxr_2_'
 outputFileExtension = '.jxr'
 pngExtension = '.png'

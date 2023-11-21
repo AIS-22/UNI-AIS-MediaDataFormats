@@ -11,7 +11,15 @@ maxQ = 100
 trainFolder = 'DIV2K_train_HR/'
 validFolder = 'DIV2K_valid_HR/'
 usedCodec = 'HEIC/'
-decodedFolder = 'Decoded/'
+
+useMultiCropPerImage = True
+if useMultiCropPerImage:
+    decodedFolder = 'Decoded_pieces/'
+    croppedFolder = 'ResizedInPieces/'
+else:
+    decodedFolder = 'Decoded/'
+    croppedFolder = 'Resized/'
+    
 outputPrefix = 'heic_'
 outputFileExtension = '.heic'
 pngExtension = '.png'

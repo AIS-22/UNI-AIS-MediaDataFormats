@@ -13,7 +13,14 @@ validFolder = 'DIV2K_valid_HR/'
 availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG_XL/'
 
-decodedFolder = 'Decoded/'
+useMultiCropPerImage = True
+if useMultiCropPerImage:
+    decodedFolder = 'Decoded_pieces/'
+    croppedFolder = 'ResizedInPieces/'
+else:
+    decodedFolder = 'Decoded/'
+    croppedFolder = 'Resized/'
+
 outputPrefix = 'jpegxl_'
 outputFileExtension = '.jxl'
 pngExtension = '.png'
