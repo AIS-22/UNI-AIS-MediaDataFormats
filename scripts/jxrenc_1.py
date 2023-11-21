@@ -14,14 +14,6 @@ availableSubFolder = [trainFolder, validFolder]
 usedCodec = 'JPEG_XR_1/'
 overlapParameter = '-l 1'
 
-useMultiCropPerImage = True
-if useMultiCropPerImage:
-    decodedFolder = 'Decoded_pieces/'
-    croppedFolder = 'ResizedInPieces/'
-else:
-    decodedFolder = 'Decoded/'
-    croppedFolder = 'Resized/'
-
 outputPrefix = 'jxr_1_'
 outputFileExtension = '.jxr'
 pngExtension = '.png'
@@ -90,8 +82,14 @@ def _determine_q(max_q, max_file_size_kb, output_path, tif_path):
             return ((q / maxQ), False) if not is_quantization else (int(maxQuantisation - q), True)
         prev_q = q
 
-def encode_jxr(printProgress=False, maxFileSizeKb = 32):
+def encode_jxr(printProgress=False, maxFileSizeKb = 32, useMultiCropPerImage = True):
     i = 0
+    if useMultiCropPerImage:
+        decodedFolder = 'Decoded_pieces/'
+        croppedFolder = 'ResizedInPieces/'
+    else:
+        decodedFolder = 'Decoded/'
+        croppedFolder = 'Resized/'
     number_of_files = len(glob.glob('Images/' + '*/' + '*' + pngExtension))
     for subFolder in availableSubFolder:
         pathImages = 'Images/' + subFolder + 'Resized/'
