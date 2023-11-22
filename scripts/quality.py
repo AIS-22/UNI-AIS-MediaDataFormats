@@ -6,6 +6,7 @@ import os
 # affected devices: macOS on Apple Silicon
 # https://github.com/bigcat88/pillow_heif/issues/89
 import pillow_heif
+
 pillow_heif.register_heif_opener()
 ### END DISCLAIMER ###
 
@@ -41,6 +42,7 @@ def calc_psnr(original_image_path, decoded_image_path):
         return float('inf')
     return 20 * np.log10(np.array(orig).max() / np.sqrt(mse))
 
+
 def calc_ssim(orig_image_path, dec_image_path):
     orig_image = cv2.imread(orig_image_path)
     dec_image = cv2.imread(dec_image_path)
@@ -52,7 +54,7 @@ def calc_ssim(orig_image_path, dec_image_path):
     # Constants to stabilize the division with weak denominator
     k1 = 0.01
     k2 = 0.03
-    L = 2**8 - 1  # 8-bit dynamic range of pixel-values
+    L = 2 ** 8 - 1  # 8-bit dynamic range of pixel-values
     C1 = (k1 * L) ** 2
     C2 = (k2 * L) ** 2
 
@@ -68,33 +70,32 @@ def calc_ssim(orig_image_path, dec_image_path):
     mu2 = cv2.GaussianBlur(I2, **opts)
 
     # Variance
-    sigma1_2 = cv2.GaussianBlur(I1**2, **opts) - mu1**2
-    sigma2_2 = cv2.GaussianBlur(I2**2, **opts) - mu2**2
+    sigma1_2 = cv2.GaussianBlur(I1 ** 2, **opts) - mu1 ** 2
+    sigma2_2 = cv2.GaussianBlur(I2 ** 2, **opts) - mu2 ** 2
 
     # Covariance
     sigma12 = cv2.GaussianBlur(I1 * I2, **opts) - mu1 * mu2
 
     # SSIM index
     num = (2 * mu1 * mu2 + C1) * (2 * sigma12 + C2)
-    den = (mu1**2 + mu2**2 + C1) * (sigma1_2 + sigma2_2 + C2)
+    den = (mu1 ** 2 + mu2 ** 2 + C1) * (sigma1_2 + sigma2_2 + C2)
     map_ssim = num / den
     val_ssim = np.mean(map_ssim)
 
     return val_ssim
 
+
 def get_empty_result_dict(len_qualities):
-    return {
-        'avif': np.zeros((len_qualities, len_qualities)).astype(float),
-        'webP': np.zeros((len_qualities, len_qualities)).astype(float),
-        'bpg': np.zeros((len_qualities, len_qualities)).astype(float),
-        'heic': np.zeros((len_qualities, len_qualities)).astype(float),
-        'jxl': np.zeros((len_qualities, len_qualities)).astype(float),
-        'jxr_0': np.zeros((len_qualities, len_qualities)).astype(float),
-        'jxr_1': np.zeros((len_qualities, len_qualities)).astype(float),
-        'jxr_2': np.zeros((len_qualities, len_qualities)).astype(float),
-        'jpeg': np.zeros((len_qualities, len_qualities)).astype(float),
-        'jpeg2000': np.zeros((len_qualities, len_qualities)).astype(float)
-    }
+    return dict(avif=np.zeros((4, len_qualities)).astype(float),
+                webP=np.zeros((4, len_qualities)).astype(float),
+                bpg=np.zeros((4, len_qualities)).astype(float),
+                heic=np.zeros((4, len_qualities)).astype(float),
+                jxl=np.zeros((4, len_qualities)).astype(float),
+                jxr_0=np.zeros((4, len_qualities)).astype(float),
+                jxr_1=np.zeros((4, len_qualities)).astype(float),
+                jxr_2=np.zeros((4, len_qualities)).astype(float),
+                jpeg=np.zeros((4, len_qualities)).astype(float),
+                jpeg2000=np.zeros((4, len_qualities)).astype(float))
 
 
 def measure_quality(useMultiCropPerImage=False):
@@ -114,11 +115,11 @@ def measure_quality(useMultiCropPerImage=False):
     qualities = np.linspace(1, 100, steps).astype(int)
     # qualities for jxr since range can be 0-1 for quality, whereas from 2-255 the quantisation gets changed
     qualities_jxr = 0.
-    qualities_jxr = np.append(qualities_jxr, np.linspace(0.0001, 1, int(steps/2)-1).astype(float))
-    qualities_jxr = np.append(qualities_jxr, np.linspace(2,255, int(steps/2)).astype(int))
-    qualities_j2k = np.concatenate((np.linspace(1, 100, int(steps/2)).astype(int), np.linspace(104, 1000, int(steps/2)).astype(int)))
+    qualities_jxr = np.append(qualities_jxr, np.linspace(0.0001, 1, int(steps / 2) - 1).astype(float))
+    qualities_jxr = np.append(qualities_jxr, np.linspace(2, 255, int(steps / 2)).astype(int))
+    qualities_j2k = np.concatenate(
+        (np.linspace(1, 100, int(steps / 2)).astype(int), np.linspace(104, 1000, int(steps / 2)).astype(int)))
     len_qualities = len(qualities)
-
 
     codec_dictionary = {
         'avif': avifenc.encode_avif_q,
@@ -133,43 +134,46 @@ def measure_quality(useMultiCropPerImage=False):
         'jpeg2000': jpeg2000enc.encode_jpeg2k_q
     }
 
-    results_psnr = get_empty_result_dict(len_qualities)
-    results_ssim = get_empty_result_dict(len_qualities)
+    results = get_empty_result_dict(len_qualities)
 
     for codec in codec_dictionary.keys():
         mean_crates = np.zeros(len_qualities)
         mean_psnr = np.zeros(len_qualities)
         mean_ssim = np.zeros(len_qualities)
+        mean_time = np.zeros(len_qualities)
         codec_is_jxr = 'jxr' in codec
         codec_is_j2k = codec == 'jpeg2000'
         for x, q in enumerate(qualities_jxr if codec_is_jxr else qualities_j2k if codec_is_j2k else qualities):
             c_rates = np.zeros(n_images).astype(float)
             psnr = np.zeros(n_images).astype(float)
             ssim = np.zeros(n_images).astype(float)
+            time = np.zeros(n_images).astype(float)
             for i, file_path in enumerate(image_paths):
                 q_string = str(q).replace('.', '_')
                 file_name = file_path.split(sep='/')[-1].split(sep='.')[0] + '_' + q_string + '_' + codec + '.png'
                 decoded_path = 'Quality/Decoded/' + file_name
-                enc_size = codec_dictionary[codec](file_path, decoded_path, q)
+                enc_size, compression_time = codec_dictionary[codec](file_path, decoded_path, q)
+                time[i] = compression_time
                 c_rates[i] = os.path.getsize(file_path) / enc_size
                 psnr[i] = calc_psnr(file_path, decoded_path)
                 ssim[i] = calc_ssim(file_path, decoded_path)
+            mean_time[x] = np.mean(time)
             mean_crates[x] = np.mean(c_rates)
             mean_psnr[x] = np.mean(psnr)
             mean_ssim[x] = np.mean(ssim)
-        results_psnr[codec][0] = mean_crates
-        results_psnr[codec][1] = mean_psnr
-
-        results_ssim[codec][0] = mean_crates
-        results_ssim[codec][1] = mean_ssim
+        results[codec][0] = mean_crates
+        results[codec][1] = mean_psnr
+        results[codec][2] = mean_ssim
+        results[codec][3] = mean_time
 
     # store the results in a file
-    np.save('results/results_quality_psnr.npy', results_psnr)
-    np.save('results/results_quality_ssim.npy', results_ssim)
+    np.save('results/results_quality.npy', results)
+
 
 def _plot_results(codecs, results, metric, save_path):
-    plt.rc('font', size=20)
-    plt.figure(figsize=(10, 10))
+    plt.rc('font', size=23)
+    plt.figure(figsize=(13, 13))
+
     for codec in codecs:
         codec_results = results[codec]
         mean_crates = codec_results[0]
@@ -188,12 +192,16 @@ def _plot_results(codecs, results, metric, save_path):
 
 def plot_results():
     # load dic from file
-    psnr_results = np.load('results/results_quality_psnr.npy', allow_pickle=True).item()
-    ssim_results = np.load('results/results_quality_ssim.npy', allow_pickle=True).item()
-    codecs = psnr_results.keys()
+    results = np.load('results/results_quality.npy', allow_pickle=True).item()
+    codecs = results.keys()
 
-    _plot_results(codecs, psnr_results, 'PSNR', 'Plots/psnr.png')
-    _plot_results(codecs, ssim_results, 'SSIM', 'Plots/ssim.png')
+    psnr_sub_dict = {key: [results[key][0], results[key][1]] for key in codecs}
+    ssim_sub_dict = {key: [results[key][0], results[key][2]] for key in codecs}
+    time_sub_dict = {key: [results[key][0], results[key][3]] for key in codecs}
+
+    _plot_results(codecs, psnr_sub_dict, 'PSNR', 'Plots/psnr.png')
+    _plot_results(codecs, ssim_sub_dict, 'SSIM', 'Plots/ssim.png')
+    _plot_results(codecs, time_sub_dict, 'Time (ms)', 'Plots/enc_time.png')
 
 
 if __name__ == '__main__':

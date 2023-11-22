@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import pillow_heif
 from PIL import Image
 import os
@@ -104,11 +106,13 @@ def encode_heic_q(image_path, decoded_path, q):
     image = Image.open(image_path)
     # save image with new quality
     outputPath = 'temp' + outputFileExtension
+    start_time = datetime.now()
     image.save(outputPath, quality=int(q))
+    compression_time = (datetime.now() - start_time).microseconds / 1000
     enc_size = os.path.getsize(outputPath)
     decode_heic(outputPath, decoded_path, False)
     os.system('rm ' + outputPath)
-    return enc_size
+    return enc_size, compression_time
 
 
 if __name__ == '__main__':
