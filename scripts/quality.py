@@ -1,6 +1,14 @@
 import glob
 import os
 
+### DISCLAIMER ###
+# To import pillow_heif before cv2 is necessary to avoid a bug in the library
+# affected devices: macOS on Apple Silicon
+# https://github.com/bigcat88/pillow_heif/issues/89
+import pillow_heif
+pillow_heif.register_heif_opener()
+### END DISCLAIMER ###
+
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
