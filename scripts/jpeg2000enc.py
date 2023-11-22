@@ -17,19 +17,21 @@ outputFileExtension = '.jp2'
 pngExtension = '.png'
 
 
-def decode_jpeg2k(enc_file, dec_file):
+def decode_jpeg2k(enc_file, dec_file, subfolder_needed=True):
     subprocess.call('opj_decompress -o ' + dec_file + ' -i ' + enc_file,
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
                     shell=True)
-    file_size = dec_file.split('/')[-1].split('_')[-1].split('.')[0]
-    dec_filesize_folder = dec_file.replace('all', file_size)
-    subprocess.call('opj_decompress -o ' + dec_filesize_folder + ' -i ' + enc_file,
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL,
-                    shell=True)
+    if subfolder_needed:
+        file_size = dec_file.split('/')[-1].split('_')[-1].split('.')[0]
+        dec_filesize_folder = dec_file.replace('all', file_size)
+        subprocess.call('opj_decompress -o ' + dec_filesize_folder + ' -i ' + enc_file,
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL,
+                        shell=True)
 
-def encode_jpeg2k(printProgress=False, maxFileSizeKb = 32, useMultiCropPerImage = True):
+
+def encode_jpeg2k(printProgress=False, maxFileSizeKb=32, useMultiCropPerImage=False):
     i = 0
     if useMultiCropPerImage:
         decodedFolder = 'Decoded_pieces/'
@@ -118,7 +120,7 @@ def encode_jpeg2k_q(image_path, decoded_path, q):
                     stderr=subprocess.DEVNULL,
                     shell=True)
     enc_size = os.path.getsize(outputPath)
-    decode_jpeg2k(outputPath, decoded_path)
+    decode_jpeg2k(outputPath, decoded_path, False)
     os.system('rm ' + outputPath)
     return enc_size
 

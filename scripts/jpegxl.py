@@ -18,14 +18,16 @@ outputFileExtension = '.jxl'
 pngExtension = '.png'
 
 
-def decode_jpgxl(enc_file, dec_file):
+def decode_jpgxl(enc_file, dec_file, subfolder_needed=True):
     image = imread(enc_file)
     imwrite(dec_file, image, 'png')
-    file_size = dec_file.split('/')[-1].split('_')[-1].split('.')[0]
-    dec_filesize_folder = dec_file.replace('all', file_size)
-    imwrite(dec_filesize_folder, image, 'png')
+    if subfolder_needed:
+        file_size = dec_file.split('/')[-1].split('_')[-1].split('.')[0]
+        dec_filesize_folder = dec_file.replace('all', file_size)
+        imwrite(dec_filesize_folder, image, 'png')
 
-def encode_jpgxl(printProgress=False, maxFileSizeKb = 32, useMultiCropPerImage = True):
+
+def encode_jpgxl(printProgress=False, maxFileSizeKb=32, useMultiCropPerImage=False):
     i = 0
     if useMultiCropPerImage:
         decodedFolder = 'Decoded_pieces/'
@@ -105,7 +107,7 @@ def encode_jxl_q(image_path, decoded_path, q):
     outputPath = 'temp' + outputFileExtension
     subprocess.call(['cjxl', image_path, outputPath, '--quiet', '-q', str(q)])
     enc_size = os.path.getsize(outputPath)
-    decode_jpgxl(outputPath, decoded_path)
+    decode_jpgxl(outputPath, decoded_path, False)
     os.system('rm ' + outputPath)
     return enc_size
 
