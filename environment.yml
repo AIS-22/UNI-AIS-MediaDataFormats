@@ -17,8 +17,9 @@ dependencies:
   - bzip2=1.0.8=h3422bc3_4
   - c-ares=1.18.1=h3422bc3_0
   - c-blosc2=2.8.0=h303ed30_1
-  - ca-certificates=2023.7.22=hf0a4a13_0
-  - certifi=2023.7.22=pyhd8ed1ab_0
+  - ca-certificates=2023.11.17=hf0a4a13_0
+  - cairo=1.16.0=h1e71087_1016
+  - certifi=2023.11.17=pyhd8ed1ab_0
   - cffi=1.15.1=py310h2399d43_3
   - cfitsio=4.2.0=h2f961c4_0
   - charls=2.4.1=hb7217d7_0
@@ -48,12 +49,16 @@ dependencies:
   - gmp=6.2.1=h9f76cd9_0
   - gmpy2=2.1.2=py310h2e6cad2_1
   - gnutls=3.7.8=h9f1a10d_0
+  - graphite2=1.3.13=h9f76cd9_1001
+  - harfbuzz=6.0.0=hd7af201_1
+  - hdf5=1.14.0=nompi_h6b85c65_103
   - icu=72.1=he12128b_0
   - idna=3.4=pyhd8ed1ab_0
   - importlib-metadata=6.6.0=pyha770c72_0
   - importlib_metadata=6.6.0=hd8ed1ab_0
   - ipykernel=6.22.0=pyh736e0ef_0
   - ipython=8.12.0=pyhd1c38e8_0
+  - jasper=2.0.33=hc3cd1e9_1
   - jedi=0.18.2=pyhd8ed1ab_0
   - jinja2=3.1.2=pyhd8ed1ab_1
   - joblib=1.2.0=pyhd8ed1ab_0
@@ -82,13 +87,17 @@ dependencies:
   - libffi=3.4.2=h3422bc3_5
   - libgfortran=5.0.0=12_2_0_hd922786_31
   - libgfortran5=12.2.0=h0eea778_31
+  - libglib=2.78.0=h24e9cb9_0
   - libiconv=1.17=he4db4b2_0
   - libidn2=2.3.4=h1a8c8d9_0
   - liblapack=3.9.0=16_osxarm64_openblas
+  - liblapacke=3.9.0=16_osxarm64_openblas
   - libnghttp2=1.52.0=hae82a92_0
   - libopenblas=0.3.21=openmp_hc731615_3
+  - libopencv=4.7.0=py310hb4a851b_1
   - libopus=1.3.1=h27ca646_1
   - libpng=1.6.39=h76d750c_0
+  - libprotobuf=3.21.12=ha614eb4_2
   - libsodium=1.0.18=h27ca646_1
   - libsqlite=3.40.0=h76d750c_1
   - libssh2=1.10.0=h7a5bd25_3
@@ -116,17 +125,20 @@ dependencies:
   - nettle=3.8.1=h63371fa_1
   - networkx=3.1=pyhd8ed1ab_0
   - numpy=1.24.3=py310haa1e00c_0
+  - opencv=4.7.0=py310hb6292c7_1
   - openh264=2.3.1=hb7217d7_2
   - openjpeg=2.5.0=hbc2ba62_2
-  - openssl=3.1.3=h53f4e23_0
+  - openssl=3.2.0=h0d3ecfb_0
   - p11-kit=0.24.1=h29577a5_0
   - packaging=23.1=pyhd8ed1ab_0
   - pandoc=3.1.3=hce30654_0
   - parso=0.8.3=pyhd8ed1ab_0
+  - pcre2=10.40=hb34f9b4_0
   - pexpect=4.8.0=pyh1a96a4e_2
   - pickleshare=0.7.5=py_1003
   - pillow=9.4.0=py310h5a7539a_1
   - pip=23.1.1=pyhd8ed1ab_0
+  - pixman=0.42.2=h13dd4ca_0
   - platformdirs=3.2.0=pyhd8ed1ab_0
   - pooch=1.7.0=pyha770c72_3
   - prompt-toolkit=3.0.38=pyha770c72_0
@@ -135,6 +147,7 @@ dependencies:
   - pthread-stubs=0.4=h27ca646_1001
   - ptyprocess=0.7.0=pyhd3deb0d_0
   - pure_eval=0.2.2=pyhd8ed1ab_0
+  - py-opencv=4.7.0=py310h69fb684_1
   - pycparser=2.21=pyhd8ed1ab_0
   - pygments=2.15.1=pyhd8ed1ab_0
   - pyopenssl=23.1.1=pyhd8ed1ab_0
@@ -177,6 +190,7 @@ dependencies:
   - zeromq=4.3.4=hbdafb3b_1
   - zfp=1.0.0=hb6e4faa_3
   - zipp=3.15.0=pyhd8ed1ab_0
+  - zlib=1.2.13=h03a7124_4
   - zlib-ng=2.0.7=h1a8c8d9_0
   - zstd=1.5.2=hf913c23_6
   - pip:
