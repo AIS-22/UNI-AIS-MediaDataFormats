@@ -108,7 +108,7 @@ To validate the performance of the utilized encoder, we carried out assessments 
       \end{subfigure}
       \hfill
       \begin{subfigure}{0.49\textwidth}
-        \includegraphics[width=\textwidth]{ssim.png}
+        \includegraphics[width=\textwidth]{../Plots/ssim.png}
           \caption{SSIM comparison of the used codecs}
           \label{fig:CI}
       \end{subfigure}
@@ -127,15 +127,14 @@ Residual Networks are deep learning models, that where developed by Kaiming He, 
 
 \subsection{Training without transfer learning}
 
-The idea behind training the network from scratch is that the network would be more tailored to the given task since it has no previous information stored in the network. This contrasts with transfer learning since there prior information is present.
+The idea behind training the network from scratch is that the network would be more tailored to the given task since it has no previous information stored in the network. This contrasts with transfer learning since there prior information is present. As a model the ResNet18 architecture was used. This architecture was chosen since it is a good compromise between network size and performance.
 \newline
 
 \noindent
 \textbf{Dataset Details:}
 
 \noindent
-To train the network the DIV2K training and validation dataset was used. The dataset contains 800 train images and 100 test images. Since the images had different dimensions, we first had to crop them to specific in this case 512x512. Afterwards we compressed the images to specified file sizes as described in \ref{sec: filesize}. This leads to 10 classes – one for each compression algorithm – for each file size category. We trained the network by using the images that were compressed to a file size of 25kB.
-\newline
+To train the network the DIV2K training and validation dataset was used. The dataset contains 800 train images and 100 test images. Since the images had different dimensions, we first had to crop them to specific in this case 512x512. Afterwards we compressed the images to specified file sizes as described in \ref{sec: filesize}. With the primary objectice beeing to recignize the different compression algorithms the output of the network should represent the different encoding schemes. This leads to 10 classes in each file size category.
 
 \noindent
 \textbf{Training Details:}
@@ -147,10 +146,10 @@ For the self-trained network, we used an Adam Optimizer with a learning rate of 
 In the first iteration we trained the network on the original cropped 800 images per class. This leads to 8000 images available for the network to train. With that amount there was little progress during the first epochs. To be able to train on a larger dataset we then cropped the corners of each image to 512x512 to get 5x the number of usable images. This lead to 4000 images per class for the network to train.
 
 \noindent
-After 10 epochs of training, we achieved a validation accuracy of 57,6 percent. For 10 epochs this is lower than the results we got for the transfer learning approach. However, if one would increase the number of epochs, we expect to reach the same levels of accuracy since the only defencemen is that the pretrained network has a preferable starting position compared to the one without transfer learning. This can be shown by changing the starting seed to something different leading to only 10 percent accuracy after 10 epochs.
+After 10 epochs of training, we achieved a validation accuracy of 57,6 percent avaged over the 5 training filesizes (5, 10, 17, 25 and 32). For 10 epochs this is lower than the results we got for the transfer learning approach. However, if one would increase the number of epochs, we expect to reach the same levels of accuracy since the only defencemen is that the pretrained network has a preferable starting position compared to the one without transfer learning. This can be shown by changing the starting seed to something different leading to only 10 percent accuracy after 10 epochs.
 
 \subsection{Transferlearning}
-For this approach the ResNet18 model was used as a baseline. To adjust this pretrained model for the requirements of the experiment, the output layers where reconfigured to represent the 8 different codecs in which the images where encoded.
+To be able to compare the results of the self-trained model with a pretrained model, the ResNet18 architecture was used again. The pretrained model was already trained on 1,2 million images to give an preferable starting position for training. To adjust this pretrained model for the requirements of the experiment, the output layers where reconfigured to represent the 10 different codecs in which the images where encoded.
 In addition the model uses just 224x224 images as inputs, thus the encoded images where center cropped to fit that size.
 
 
@@ -173,7 +172,7 @@ For the classification each model was evaluated with each filesize. The result i
 \end{figure}
 
 \noindent
-The self trained model showed an accuracy over all filesizes of 10 percent. With ten different codecs, random guessing would lead to the same result as this model. For the self trained model 40000 images where used. The pretrained model was already trained on 1,2 million images. Therefore, the self trained model would need much more images to get a better performance. With only 2400 images used for training, this model represents the worst model for the classification task.
+The self trained model was trained with the filesizes 5, 10, 17, 25 and 32 on all 10 codecs. This leads to 4000 images for each codec per epoch. As one can see in figure \ref{fig: acc_comparison} the self trained model has its best performances at filesizes 10, 17 and 25 ranging from 62 to 65 percent accuracy.
 
 \noindent
 The models trained with the filesizes 60, 75 and 100 have a low accuracy for small filesizes and increase for bigger filesizes. Small filesize images have more artifacts, which are not taken into account in this models. For that reason the models of 60, 75 and 100 filesize could only be used to classify codecs with the same filesizes.
