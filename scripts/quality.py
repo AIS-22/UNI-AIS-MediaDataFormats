@@ -12,6 +12,16 @@ pillow_heif.register_heif_opener()
 
 import cv2
 import matplotlib.pyplot as plt
+import matplotlib
+#Make matplotlib use latex for font rendering
+matplotlib.use("pgf")
+matplotlib.rcParams.update({
+    "pgf.texsystem": "pdflatex",
+    'font.family': 'serif',
+    'text.usetex': True,
+    'pgf.rcfonts': False,
+})
+
 import numpy as np
 from PIL import Image
 
@@ -186,7 +196,7 @@ def _plot_results(codecs, results, metric, save_path):
     plt.xlim((4, 100))
     plt.xlabel('Compression Rate')
     plt.ylabel(metric)
-    plt.savefig(save_path)
+    plt.savefig(save_path+'.pgf')
     plt.close()
 
 
@@ -199,9 +209,9 @@ def plot_results():
     ssim_sub_dict = {key: [results[key][0], results[key][2]] for key in codecs}
     time_sub_dict = {key: [results[key][0], results[key][3]] for key in codecs}
 
-    _plot_results(codecs, psnr_sub_dict, 'PSNR', 'Plots/psnr.png')
-    _plot_results(codecs, ssim_sub_dict, 'SSIM', 'Plots/ssim.png')
-    _plot_results(codecs, time_sub_dict, 'Time (ms)', 'Plots/enc_time.png')
+    _plot_results(codecs, psnr_sub_dict, 'PSNR', 'Plots/psnr.pgf')
+    _plot_results(codecs, ssim_sub_dict, 'SSIM', 'Plots/ssim.pgf')
+    _plot_results(codecs, time_sub_dict, 'Time (ms)', 'Plots/enc_time.pgf')
 
 
 if __name__ == '__main__':
