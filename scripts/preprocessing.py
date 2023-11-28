@@ -27,16 +27,16 @@ async def preprocess(cropNeeded=False,
     print('Start to encode images.')
     with ThreadPoolExecutor() as executor:
         futures = [
-            #executor.submit(avifenc.encode_avif, printProgress, maxFileSizeKb),
-            #executor.submit(bpgenc.encode_bpg, printProgress, maxFileSizeKb),
-            #executor.submit(heicEnc.encode_heic, printProgress, maxFileSizeKb),
+            executor.submit(avifenc.encode_avif, printProgress, maxFileSizeKb),
+            executor.submit(bpgenc.encode_bpg, printProgress, maxFileSizeKb),
+            executor.submit(heicEnc.encode_heic, printProgress, maxFileSizeKb),
             executor.submit(jxrenc_0.encode_jxr, printProgress, maxFileSizeKb),
             executor.submit(jxrenc_1.encode_jxr, printProgress, maxFileSizeKb),
             executor.submit(jxrenc_2.encode_jxr, printProgress, maxFileSizeKb),
-            #executor.submit(webP.encode_webp, printProgress, maxFileSizeKb),
-            #executor.submit(jpegxl.encode_jpgxl, printProgress, maxFileSizeKb),
-            #executor.submit(jpeg2000enc.encode_jpeg2k, printProgress, maxFileSizeKb),
-            #executor.submit(jpegenc.encode_jpeg, printProgress, maxFileSizeKb),
+            executor.submit(webP.encode_webp, printProgress, maxFileSizeKb),
+            executor.submit(jpegxl.encode_jpgxl, printProgress, maxFileSizeKb),
+            executor.submit(jpeg2000enc.encode_jpeg2k, printProgress, maxFileSizeKb),
+            executor.submit(jpegenc.encode_jpeg, printProgress, maxFileSizeKb),
         ]
         for future in futures:
             future.result()
