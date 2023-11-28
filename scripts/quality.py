@@ -11,6 +11,16 @@ pillow_heif.register_heif_opener()
 
 import cv2
 import matplotlib.pyplot as plt
+import matplotlib
+#Make matplotlib use latex for font rendering
+matplotlib.use("pgf")
+matplotlib.rcParams.update({
+    "pgf.texsystem": "pdflatex",
+    'font.family': 'serif',
+    'text.usetex': True,
+    'pgf.rcfonts': False,
+})
+
 import numpy as np
 from PIL import Image
 
@@ -182,7 +192,7 @@ def _plot_results(codecs, results, metric, save_path):
     plt.xlim((4, 100))
     plt.xlabel('Compression Rate')
     plt.ylabel(metric)
-    plt.savefig(save_path)
+    plt.savefig(save_path+'.pgf')
     plt.close()
 
 
@@ -192,8 +202,8 @@ def plot_results():
     ssim_results = np.load('results/results_quality_ssim.npy', allow_pickle=True).item()
     codecs = psnr_results.keys()
 
-    _plot_results(codecs, psnr_results, 'PSNR', 'Plots/psnr.png')
-    _plot_results(codecs, ssim_results, 'SSIM', 'Plots/ssim.png')
+    _plot_results(codecs, psnr_results, 'PSNR', 'Plots/psnr')
+    _plot_results(codecs, ssim_results, 'SSIM', 'Plots/ssim')
 
 
 if __name__ == '__main__':
