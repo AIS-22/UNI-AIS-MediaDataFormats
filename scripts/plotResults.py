@@ -56,7 +56,7 @@ def plot_accuracy_results():
     plt.xlabel('Test Filesize')
     plt.ylabel('Accuracy')
     plt.legend(title='Trained file sizes (mean c-rate)')
-    plt.savefig('Plots/accuracy/accuracy_comparison.png')
+    plt.savefig('Plots/accuracy/accuracy_comparison.pgf')
 
     filesizes = ['10', '25', '40', '100']
 
@@ -81,7 +81,7 @@ def plot_accuracy_results():
     plt.xlabel('Test Filesize')
     plt.ylabel('Accuracy')
     plt.legend(title='Trained file sizes (mean c-rate)')
-    plt.savefig('Plots/accuracy/accuracy_comparison_filtered.png')
+    plt.savefig('Plots/accuracy/accuracy_comparison_filtered.pgf')
 
 
 
@@ -285,10 +285,10 @@ def plot_filesize_to_target():
 
 def main():
     plot_accuracy_results()
-    #plot_loss_results()
+    plot_loss_results()
     # plot_dec_enc_time()
-    # plot_confusion_matrix()
-    # plot_confusion_matrix_all()
+    plot_confusion_matrix()
+    plot_confusion_matrix_all()
     #plot_filesize_to_target()
 
 
