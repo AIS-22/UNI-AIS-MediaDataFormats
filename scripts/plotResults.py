@@ -11,9 +11,15 @@ matplotlib.rcParams.update({
 import numpy as np
 import seaborn as sn
 import pandas as pd
+import matplotlib
 
 RESULTS_FOLDER = 'results/'
 AVG_FILESIZE = 470
+
+#CONST for plotting so all plots are the same
+def set_figsize():
+    plt.figure(figsize=(7, 5))
+    plt.rcParams['font.size'] = 12
 
 
 def plot_accuracy_results():
@@ -39,9 +45,10 @@ def plot_accuracy_results():
         '100': plt.get_cmap('Pastel1')(0)
     }
 
-    plt.figure(figsize=(20, 10))
-    plt.plot(keys, mixed_results.values(), color=color_dict['pre'], label='Mixed pre trained (5-32)')
-
+    cmap = plt.get_cmap('tab20')
+    set_figsize()
+    plt.plot(keys, mixed_results.values(), color=cmap(0), label='Mixed pre trained (5-32)')
+     
     mixed_self_results = np.load(RESULTS_FOLDER + 'accuracy_mixed_self_model.npy', allow_pickle=True).item()
     keys = [int(key) for key in mixed_self_results.keys()]
     plt.plot(keys, mixed_self_results.values(), color=color_dict['self'], label='Mixed self trained (5-32)')
@@ -64,7 +71,7 @@ def plot_accuracy_results():
     mixed_results = np.load(RESULTS_FOLDER + 'accuracy_mixed_model.npy', allow_pickle=True).item()
     keys = [int(key) for key in mixed_results.keys()]
     cmap = plt.get_cmap('tab20')
-    plt.figure(figsize=(20, 10))
+    set_figsize()
     plt.plot(keys, mixed_results.values(), color=color_dict['pre'], label='Mixed pre trained (5-32)')
 
     mixed_self_results = np.load(RESULTS_FOLDER + 'accuracy_mixed_self_model.npy', allow_pickle=True).item()
@@ -93,8 +100,8 @@ def plot_confusion_matrix():
     # load dic from file
     mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_mixed_model.npy', allow_pickle=True).tolist()
     for fs in filesizes:
-        plt.figure(figsize=(15, 10))
-        sn.set(font_scale=1.4)
+        set_figsize()
+        #sn.set(font_scale=1.4)
         sn.heatmap(mixed_results[fs], vmin=0, vmax=100,
                    xticklabels=categories,
                    yticklabels=categories,
@@ -110,8 +117,8 @@ def plot_confusion_matrix():
     mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_mixed_self_model.npy', allow_pickle=True).item()
 
     for fs in filesizes:
-        plt.figure(figsize=(15, 10))
-        sn.set(font_scale=1.4)
+        set_figsize()
+        #sn.set(font_scale=1.4)
         sn.heatmap(mixed_results[fs], vmin=0, vmax=100,
                    xticklabels=categories,
                    yticklabels=categories,
@@ -128,8 +135,10 @@ def plot_confusion_matrix():
         # load dic from file
         mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_fs_' + fs + '_model.npy', allow_pickle=True).item()
         for ev_size in filesizes:
-            plt.figure(figsize=(15, 10))
-            sn.set(font_scale=1.4)
+            keys = [int(key) for key in mixed_results.keys()]
+            cmap = plt.get_cmap('tab20')
+            set_figsize()
+            #sn.set(font_scale=1.4)
             sn.heatmap(mixed_results[ev_size], vmin=0, vmax=500,
                        xticklabels=categories,
                        yticklabels=categories,
@@ -139,8 +148,7 @@ def plot_confusion_matrix():
                        annot_kws={'fontsize': 20})
             plt.xticks(rotation=45)
             plt.tight_layout()
-            plt.savefig('Plots/conf_matrix/' + fs + '/conf_matrix_fs_' + ev_size + '.pgf')
-
+            plt.savefig('Plots/conf_matrix/' + fs + '/conf_matrix_fs_'+ ev_size + '.pgf')
 
 def plot_confusion_matrix_all():
     filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
@@ -149,8 +157,10 @@ def plot_confusion_matrix_all():
     # mixed model
     # load dic from file
     mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_all_mixed_model.npy', allow_pickle=True).tolist()
-    plt.figure(figsize=(15, 10))
-    sn.set(font_scale=1.4)
+    cmap = plt.get_cmap('tab20')
+    
+    set_figsize()
+    #sn.set(font_scale=1.4)
     sn.heatmap(mixed_results, vmin=0, vmax=1000,
                xticklabels=categories,
                yticklabels=categories,
@@ -164,8 +174,9 @@ def plot_confusion_matrix_all():
     # mixed self model
     # load dic from file
     mixed_self_results = np.load(RESULTS_FOLDER + 'conf_matrix_all_mixed_self_model.npy', allow_pickle=True).tolist()
-    plt.figure(figsize=(15, 10))
-    sn.set(font_scale=1.4)
+    
+    set_figsize()
+    #sn.set(font_scale=1.4)
     sn.heatmap(mixed_self_results, vmin=0, vmax=1000,
                xticklabels=categories,
                yticklabels=categories,
@@ -180,7 +191,7 @@ def plot_confusion_matrix_all():
     for fs in filesizes:
         # load dic from file
         fs_results = np.load(RESULTS_FOLDER + 'conf_matrix_all_fs_' + fs + '_model.npy', allow_pickle=True).tolist()
-        plt.figure(figsize=(15, 10))
+        set_figsize()
         sn.set(font_scale=1.4)
         sn.heatmap(fs_results, vmin=0, vmax=5000,
                    xticklabels=categories,
@@ -200,7 +211,7 @@ def plot_loss_results():
     # mixed model
     # load dic from file
     mixed_loss = np.load(RESULTS_FOLDER + 'losses_mixed_model.npy', allow_pickle=True)
-    plt.figure(figsize=(20, 10))
+    set_figsize()
     plt.plot(range(1, 11), mixed_loss[:, 0], c='r', label='Train Loss')
     plt.plot(range(1, 11), mixed_loss[:, 1], c='g', label='Validation Loss')
     plt.grid()
@@ -210,7 +221,7 @@ def plot_loss_results():
     plt.savefig('Plots/loss_comparison/loss_comparison_mixed_model.pgf')
 
     mixed_self_loss = np.load(RESULTS_FOLDER + 'losses_mixed_self_model.npy', allow_pickle=True)
-    plt.figure(figsize=(20, 10))
+    set_figsize()
     plt.plot(range(1, 11), mixed_self_loss[:, 0], c='r', label='Train Loss')
     plt.plot(range(1, 11), mixed_self_loss[:, 1], c='g', label='Validation Loss')
     plt.grid()
@@ -222,16 +233,15 @@ def plot_loss_results():
     # filesize models
     for i, filesize in enumerate(filesizes):
         # load dic from file
-        fs_model_loss = np.load(RESULTS_FOLDER + 'losses_' + filesize + '_model.npy', allow_pickle=True)
-        plt.figure(figsize=(20, 10))
-        plt.plot(range(1, 11), fs_model_loss[:, 0], c='r', label='Train Loss')
-        plt.plot(range(1, 11), fs_model_loss[:, 1], c='g', label='Validation Loss')
+        fs_model_loss = np.load(RESULTS_FOLDER + 'losses_'+filesize+'_model.npy', allow_pickle=True)
+        set_figsize()
+        plt.plot(range(1, 11), fs_model_loss [:, 0], c='r', label='Train Loss')
+        plt.plot(range(1, 11), fs_model_loss [:, 1], c='g', label='Validation Loss')
         plt.grid()
         plt.xlabel('Epoch')
         plt.ylabel('Loss')
         plt.legend(title='Loss Functions')
         plt.savefig('Plots/loss_comparison/loss_comparison_fs_' + filesize + '_model.pgf')
-
 
 def plot_dec_enc_time():
     exec_time_dict = {
@@ -244,14 +254,13 @@ def plot_dec_enc_time():
         # TODO: Measure also jpeg2000 and jpeg of image (avg of train 0770.png and 0565.png
     }
 
-    plt.figure(figsize=(20, 10))
+    set_figsize()
     plt.bar(exec_time_dict.keys(), exec_time_dict.values())
     plt.title('Encoding-Decoding Time Comparison of Huts Image')
     plt.grid()
     plt.xlabel('Algorithm')
     plt.ylabel('Time (s)')
     plt.savefig('Plots/encoding_time_comparison.pgf')
-    plt.show()
 
 
 def plot_filesize_to_target():
@@ -262,9 +271,9 @@ def plot_filesize_to_target():
     df = df.sort_values(by=['codec']).reset_index(drop=True)
     # remove / from codec column
     df['codec'] = df['codec'].str.replace('/', '')
-    # scatter plot with each codec in different color with filesize as y and index as x
-    plt.figure(figsize=(20, 10))
-    # plt df with a color for each codec
+    #scatter plot with each codec in different color with filesize as y and index as x
+    set_figsize()
+    #plt df with a color for each codec
     label = df['codec'].unique()
     # box plot
     plot = plt.boxplot([df[df['codec'] == label]['filesize'] for label in label], labels=label)
@@ -280,16 +289,47 @@ def plot_filesize_to_target():
     plt.xlabel('Codec')
     plt.ylabel('Filesize (KB)')
     plt.savefig('Plots/filesize_to_target.pgf')
-    plt.show()
 
+def plot_scatter_without_transfer():
+    #read data from npy file
+    results = np.load('results/wo_transfer_results.npy', allow_pickle=True).item()
+
+    for filesize in results.keys():
+        try:
+            all_preds = np.array(results[filesize][0])
+            all_labels = np.array(results[filesize][1])
+            
+            #get all unique labels
+            unique_labels = np.unique(all_labels)
+            
+            set_figsize()
+
+            for i in range(len(unique_labels)):
+                plt.scatter(all_preds[all_labels == unique_labels[i], 0], all_preds[all_labels == unique_labels[i], 1], label=unique_labels[i])
+            plt.legend()
+            plt.savefig(f"Plots/plot_scatter_without_transfer_{filesize}.pgf")
+
+        except:
+            continue
+        
 
 def main():
-    plot_accuracy_results()
-    plot_loss_results()
-    # plot_dec_enc_time()
-    plot_confusion_matrix()
-    plot_confusion_matrix_all()
-    #plot_filesize_to_target()
+
+    matplotlib.use("pgf")
+    matplotlib.rcParams.update({
+    "pgf.texsystem": "pdflatex",
+    'font.family': 'serif',
+    'text.usetex': True,
+    'pgf.rcfonts': False,
+    })
+
+    #plot_accuracy_results()
+    #plot_loss_results() 
+    plot_filesize_to_target()
+    #plot_confusion_matrix()
+    #plot_confusion_matrix_all()
+    plot_dec_enc_time()
+    plot_scatter_without_transfer()
 
 
 if __name__ == '__main__':

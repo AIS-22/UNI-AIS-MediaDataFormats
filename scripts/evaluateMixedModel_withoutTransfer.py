@@ -39,23 +39,14 @@ def evaluate_model(model, test_loader):
     all_preds = np.array(all_preds)
     all_labels = np.array(all_labels)
     all_preds = all_preds.reshape(all_preds.shape[0], all_preds.shape[2])
-    print(all_preds.shape)
-    print(all_labels.shape)
     pca = PCA(n_components=2)
     pca.fit(all_preds)
-
-    print("explained variance ratio:")
-    print(pca.explained_variance_ratio_)
-    print("singular values:")
-    print(pca.singular_values_)
-
     all_preds = pca.transform(all_preds)
-    #scatterplot regards to classes
-    for i in range(len(test_loader.dataset.classes)):
-        plt.scatter(all_preds[all_labels == i,0], all_preds[all_labels == i,1], label=test_loader.dataset.classes[i])
-    plt.legend()
-    plt.savefig('Plots/loss_comparison/Without_Transferlearning_model.pgf')
-    plt.show()
+
+    #set label to name from dataloader
+    all_labels = np.array([test_loader.dataset.classes[label] for label in all_labels])
+
+    return all_preds, all_labels
 
 
 def main():
@@ -88,12 +79,11 @@ def main():
 
         model_name = 'resnet18'
         model = models.resnet18()
-        
         print('Evaluate pretrained model ( ' + model_name + ' ) with Filesize = ' + filesize + ' kB')
         result_dictionary[filesize] = evaluate_model(model, val_loader)
 
         # store the results in a file
-        np.save('results/mixed_results.npy', result_dictionary)
+        np.save('results/wo_transfer_results.npy', result_dictionary)
 
 
 if __name__ == '__main__':
