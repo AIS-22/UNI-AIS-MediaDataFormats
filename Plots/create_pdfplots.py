@@ -30,7 +30,7 @@ def create_pgfplot(filename):
         f.write(latex_document)
 
     # compile latex document
-    os.system(f"pdflatex {filename}")
+    os.system(f"pdflatex -interaction=nonstopmode {filename} >/dev/null")
 
 if __name__ == "__main__":
     #get all pgf files in current folder
