@@ -113,6 +113,7 @@ def plot_confusion_matrix():
         plt.savefig('Plots/conf_matrix/mixed/conf_matrix_mixed_model_fs_' + fs + '.pgf')
         plt.close()
 
+
     # mixed self model
     # load dic from file
     mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_mixed_self_model.npy', allow_pickle=True).item()
@@ -130,6 +131,7 @@ def plot_confusion_matrix():
         plt.tight_layout()
         plt.savefig('Plots/conf_matrix/mixed_self/conf_matrix_mixed_self_model_fs_' + fs + '.pgf')
         plt.close()
+
 
     # filesize model
     for fs in filesizes:
@@ -267,7 +269,6 @@ def plot_dec_enc_time():
     plt.savefig('Plots/encoding_time_comparison.pgf')
     plt.close()
 
-
 def plot_filesize_to_target():
     # read csv
     df = pd.read_csv('filesize_log.txt', sep=',', header=None)
@@ -309,7 +310,7 @@ def plot_scatter_without_transfer():
             unique_labels = np.unique(all_labels)
             
             set_figsize()
-
+            
             for i in range(len(unique_labels)):
                 plt.scatter(all_preds[all_labels == unique_labels[i], 0], all_preds[all_labels == unique_labels[i], 1], label=unique_labels[i])
             plt.legend()

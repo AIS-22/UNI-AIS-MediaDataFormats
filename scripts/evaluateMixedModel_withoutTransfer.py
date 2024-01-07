@@ -79,6 +79,7 @@ def main():
 
         model_name = 'resnet18'
         model = models.resnet18()
+
         print('Evaluate pretrained model ( ' + model_name + ' ) with Filesize = ' + filesize + ' kB')
         result_dictionary[filesize] = evaluate_model(model, val_loader)
 
