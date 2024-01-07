@@ -20,8 +20,7 @@ def evaluate_model(model, test_loader):
 
     model.to(device)
     model.eval()
-    correct = 0
-    total = 0
+
     all_preds = []
     all_labels = []
 
@@ -32,8 +31,6 @@ def evaluate_model(model, test_loader):
             outputs = model(images)
             #l2 norm
             outputs = nn.functional.normalize(outputs, p=2, dim=1)
-            
-            total += labels.size(0)  # Update the total count of processed samples
 
             all_preds.append(outputs.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
@@ -46,25 +43,19 @@ def evaluate_model(model, test_loader):
     print(all_labels.shape)
     pca = PCA(n_components=2)
     pca.fit(all_preds)
+
     print("explained variance ratio:")
     print(pca.explained_variance_ratio_)
     print("singular values:")
     print(pca.singular_values_)
+
     all_preds = pca.transform(all_preds)
-    #print(all_preds.shape)
-    #print(all_labels.shape)
-    print(test_loader.dataset.classes)
     #scatterplot regards to classes
     for i in range(len(test_loader.dataset.classes)):
         plt.scatter(all_preds[all_labels == i,0], all_preds[all_labels == i,1], label=test_loader.dataset.classes[i])
     plt.legend()
+    plt.savefig('Plots/loss_comparison/Without_Transferlearning_model.pgf')
     plt.show()
-
-    #plt.scatter(all_preds[:,0], all_preds[:,1], c=all_labels)
-    #plt.show()
-
-
-    return 
 
 
 def main():
@@ -97,10 +88,7 @@ def main():
 
         model_name = 'resnet18'
         model = models.resnet18()
-        #num_ftrs = model.fc.in_features
-        #num_new_classes = 6
-        #model.fc = nn.Linear(num_ftrs, num_new_classes)  # Replace the final layer with the number of codec classes
-        #model.load_state_dict(torch.load('models/cnnParams_resnet18.pt'))
+        
         print('Evaluate pretrained model ( ' + model_name + ' ) with Filesize = ' + filesize + ' kB')
         result_dictionary[filesize] = evaluate_model(model, val_loader)
 

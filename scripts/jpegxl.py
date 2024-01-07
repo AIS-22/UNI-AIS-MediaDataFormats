@@ -1,6 +1,8 @@
 import os
 import subprocess
 import glob
+from datetime import datetime
+
 import numpy as np
 from imagecodecs import imread, imwrite
 from filesizelogger import log_filesize
@@ -105,11 +107,13 @@ def encode_jpgxl(printProgress=False, maxFileSizeKb=32, useMultiCropPerImage=Fal
 def encode_jxl_q(image_path, decoded_path, q):
     # save image with new quality
     outputPath = 'temp' + outputFileExtension
+    start_time = datetime.now()
     subprocess.call(['cjxl', image_path, outputPath, '--quiet', '-q', str(q)])
+    compression_time = (datetime.now() - start_time).microseconds / 1000
     enc_size = os.path.getsize(outputPath)
     decode_jpgxl(outputPath, decoded_path, False)
     os.system('rm ' + outputPath)
-    return enc_size
+    return enc_size, compression_time
 
 
 if __name__ == '__main__':

@@ -1,5 +1,7 @@
 import os
 import glob
+from datetime import datetime
+
 import numpy as np
 from filesizelogger import log_filesize
 
@@ -102,11 +104,13 @@ def encode_bpg_q(image_path, decoded_path, q):
     normalized_q = int(maxQ * (q / 100))
     # save image with new quality
     outputPath = 'temp' + outputFileExtension
+    start_time = datetime.now()
     os.system('bpgenc -o ' + outputPath + ' -q ' + str(int(maxQ - normalized_q)) + ' ' + image_path)
+    compression_time = (datetime.now() - start_time).microseconds / 1000
     enc_size = os.path.getsize(outputPath)
     decode_bpg(outputPath, decoded_path, False)
     os.system('rm ' + outputPath)
-    return enc_size
+    return enc_size, compression_time
 
 
 if __name__ == '__main__':

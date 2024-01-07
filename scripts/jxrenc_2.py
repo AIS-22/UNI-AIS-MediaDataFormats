@@ -1,7 +1,10 @@
 import os
 import glob
+from datetime import datetime
+
 import numpy as np
 from PIL import Image
+from filesizelogger import log_filesize
 
 minQ = 1
 # to increase the floating point precision this high value is needed (q needs to be in range 0-1)
@@ -114,6 +117,7 @@ def encode_jxr(printProgress=False, maxFileSizeKb=32, useMultiCropPerImage=False
                 f_size = os.path.getsize(outputPath) / 1024
                 i += 1
                 print('Image: ' + file_name + ' Quality: ' + str(q) + ' Filesize: ' + str(f_size) + ' kb' + ' Progress: ' + str(i) + '/' + str(number_of_files))
+                log_filesize(f_size, maxFileSizeKb, usedCodec)
 
             dec_file_name = file_name.split(sep='.')[0] + '_' + str(maxFileSizeKb) + tifFileExtension
             dec_path = pathImagesEncoded[:-len(usedCodec)] + decodedFolder + str(maxFileSizeKb)+ "/" + usedCodec + dec_file_name
@@ -125,11 +129,13 @@ def encode_jxr_q(image_path, decoded_path, q):
     im = Image.open(image_path)
     im.save(tif_path, quality=100)
     q_string = str(q) if q <= 1 else str(int(q))
+    start_time = datetime.now()
     os.system('JxrEncApp -q ' + q_string + ' -o ' + outputPath + ' -i ' + tif_path + ' ' + overlapParameter)
+    compression_time = (datetime.now() - start_time).microseconds / 1000
     enc_size = os.path.getsize(outputPath)
     decode_jxr(outputPath, tif_path, False)
     os.system('rm temp*')
-    return enc_size
+    return enc_size, compression_time
 
 
 if __name__ == '__main__':

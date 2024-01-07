@@ -1,6 +1,8 @@
 import subprocess
 import os
 import glob
+from datetime import datetime
+
 import numpy as np
 from filesizelogger import log_filesize
 
@@ -115,14 +117,16 @@ def encode_jpeg2k(printProgress=False, maxFileSizeKb=32, useMultiCropPerImage=Fa
 def encode_jpeg2k_q(image_path, decoded_path, q):
     # save image with new quality
     outputPath = 'temp' + outputFileExtension
+    start_time = datetime.now()
     subprocess.call('opj_compress -o ' + outputPath + ' -r ' + str(q) + ' -i ' + image_path,
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
                     shell=True)
+    compression_time = (datetime.now() - start_time).microseconds / 1000
     enc_size = os.path.getsize(outputPath)
     decode_jpeg2k(outputPath, decoded_path, False)
     os.system('rm ' + outputPath)
-    return enc_size
+    return enc_size, compression_time
 
 
 if __name__ == '__main__':

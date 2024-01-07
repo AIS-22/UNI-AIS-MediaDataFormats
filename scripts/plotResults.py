@@ -1,4 +1,13 @@
 import matplotlib.pyplot as plt
+import matplotlib
+#Make matplotlib use latex for font rendering
+matplotlib.use("pgf")
+matplotlib.rcParams.update({
+    "pgf.texsystem": "pdflatex",
+    'font.family': 'serif',
+    'text.usetex': True,
+    'pgf.rcfonts': False,
+})
 import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
@@ -34,7 +43,7 @@ def plot_accuracy_results():
     plt.xlabel('Test Filesize')
     plt.ylabel('Accuracy')
     plt.legend(title='Trained file sizes (mean c-rate)')
-    plt.savefig('Plots/accuracy/accuracy_comparison.png')
+    plt.savefig('Plots/accuracy/accuracy_comparison.pgf')
 
 
 def plot_confusion_matrix():
@@ -57,7 +66,7 @@ def plot_confusion_matrix():
                 fmt=".0f",
                annot_kws={'fontsize': 20})
         plt.xticks(rotation=45)
-        plt.savefig('Plots/conf_matrix/mixed/conf_matrix_mixed_model_fs_'+ fs + '.png')
+        plt.savefig('Plots/conf_matrix/mixed/conf_matrix_mixed_model_fs_'+ fs + '.pgf')
 
     # mixed self model
     # load dic from file
@@ -75,7 +84,7 @@ def plot_confusion_matrix():
                annot_kws={'fontsize': 20})
         plt.xticks(rotation=45)
         plt.tight_layout()
-        plt.savefig('Plots/conf_matrix/mixed_self/conf_matrix_mixed_self_model_fs_'+ fs + '.png')
+        plt.savefig('Plots/conf_matrix/mixed_self/conf_matrix_mixed_self_model_fs_'+ fs + '.pgf')
 
     # filesize model
     for fs in filesizes:
@@ -95,7 +104,7 @@ def plot_confusion_matrix():
                 annot_kws={'fontsize': 20})
             plt.xticks(rotation=45)
             plt.tight_layout()
-            plt.savefig('Plots/conf_matrix/' + fs + '/conf_matrix_fs_'+ ev_size + '.png')
+            plt.savefig('Plots/conf_matrix/' + fs + '/conf_matrix_fs_'+ ev_size + '.pgf')
 
 def plot_confusion_matrix_all():
     filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
@@ -115,7 +124,7 @@ def plot_confusion_matrix_all():
             fmt=".0f",
             annot_kws={'fontsize': 20})
     plt.xticks(rotation=45)
-    plt.savefig('Plots/conf_matrix/mixed/conf_matrix_all_mixed_model.png')
+    plt.savefig('Plots/conf_matrix/mixed/conf_matrix_all_mixed_model.pgf')
 
     # mixed self model
     # load dic from file
@@ -131,7 +140,7 @@ def plot_confusion_matrix_all():
             fmt=".0f",
             annot_kws={'fontsize': 20})
     plt.xticks(rotation=45)
-    plt.savefig('Plots/conf_matrix/mixed_self/conf_matrix_all_mixed_self_model.png')
+    plt.savefig('Plots/conf_matrix/mixed_self/conf_matrix_all_mixed_self_model.pgf')
 
     # filesize models    
     for fs in filesizes:
@@ -148,7 +157,7 @@ def plot_confusion_matrix_all():
                annot_kws={'fontsize': 20})
         plt.xticks(rotation=45)
         plt.tight_layout()
-        plt.savefig('Plots/conf_matrix/'+ fs + '/conf_matrix_all_fs_'+ fs + '.png')
+        plt.savefig('Plots/conf_matrix/'+ fs + '/conf_matrix_all_fs_'+ fs + '.pgf')
 
 
 def plot_loss_results():
@@ -164,7 +173,7 @@ def plot_loss_results():
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend(title='Loss Functions')
-    plt.savefig('Plots/loss_comparison/loss_comparison_mixed_model.png')
+    plt.savefig('Plots/loss_comparison/loss_comparison_mixed_model.pgf')
 
     mixed_self_loss = np.load(RESULTS_FOLDER + 'losses_mixed_self_model.npy', allow_pickle=True)
     plt.figure(figsize=(20, 10))
@@ -174,7 +183,7 @@ def plot_loss_results():
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend(title='Loss Functions')
-    plt.savefig('Plots/loss_comparison/loss_comparison_mixed_self_model.png')
+    plt.savefig('Plots/loss_comparison/loss_comparison_mixed_self_model.pgf')
 
     #filesize models
     for i, filesize in enumerate(filesizes):
@@ -187,7 +196,7 @@ def plot_loss_results():
         plt.xlabel('Epoch')
         plt.ylabel('Loss')
         plt.legend(title='Loss Functions')
-        plt.savefig('Plots/loss_comparison/loss_comparison_fs_' + filesize + '_model.png')
+        plt.savefig('Plots/loss_comparison/loss_comparison_fs_' + filesize + '_model.pgf')
 
 def plot_dec_enc_time():
     exec_time_dict = {
@@ -206,7 +215,7 @@ def plot_dec_enc_time():
     plt.grid()
     plt.xlabel('Algorithm')
     plt.ylabel('Time (s)')
-    plt.savefig('Plots/encoding_time_comparison.png')
+    plt.savefig('Plots/encoding_time_comparison.pgf')
     plt.show()
 
 def plot_filesize_to_target():
@@ -234,7 +243,7 @@ def plot_filesize_to_target():
     plt.grid()
     plt.xlabel('Codec')
     plt.ylabel('Filesize (KB)')
-    plt.savefig('Plots/filesize_to_target.png')
+    plt.savefig('Plots/filesize_to_target.pgf')
     plt.show()
 
 

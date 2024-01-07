@@ -44,8 +44,8 @@ async def preprocess(cropNeeded=False,
 
 
 if __name__ == '__main__':
-    #filesizes = [5, 10, 17, 25, 32, 40, 50, 60, 75, 100]
-    filesizes = [10]
+    filesizes = [5, 10, 17, 25, 32, 40, 50, 60, 75, 100]
+    #filesizes = [5]
     for filesize in filesizes:
         asyncio.run(preprocess(maxFileSizeKb=filesize))
    
