@@ -126,7 +126,7 @@ The primary objective was to attain a consistent and fixed filesize for the enco
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=12cm]{filesize_comparison.png}
+	\resizebox{\textwidth}{!}{\input{../Plots/filesize_to_target.pgf}}
 	\caption{Archived filesizes for used encoder}
 	\label{fig: fsize_comparison}
 \end{figure}
@@ -137,13 +137,13 @@ To validate the performance of the utilized encoder, we carried out assessments 
 \begin{figure}[h!]
     \centering
       \begin{subfigure}{0.49\textwidth}
-        \includegraphics[width=\textwidth]{psnr.png}
+        \resizebox{\textwidth}{!}{\input{../Plots/psnr.pgf}}
           \caption{PSNR comparison of the used codecs}
           \label{fig: psnr_comparison}
       \end{subfigure}
       \hfill
       \begin{subfigure}{0.49\textwidth}
-        \includegraphics[width=\textwidth]{../Plots/ssim.png}
+        \resizebox{\textwidth}{!}{\input{../Plots/ssim.pgf}}
           \caption{SSIM comparison of the used codecs}
           \label{fig:CI}
       \end{subfigure}
@@ -201,7 +201,7 @@ For the classification each model was evaluated with each filesize. The result i
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=12cm]{accuracy_comparison.png}
+	\resizebox{\textwidth}{!}{\input{../Plots/accuracy/accuracy_comparison.pgf}}
 	\caption{Accuracy Comparison}
 	\label{fig: acc_comparison}
 \end{figure}
@@ -227,13 +227,13 @@ For classifying images with the given filesizes the model trained with 40kB woul
     \centering
     \begin{minipage}{0.7\textwidth}
         \centering
-        \includegraphics[width=1\linewidth]{loss_comparison_filesize_10.png}
+        \resizebox{\textwidth}{!}{\input{../Plots/loss_comparison/loss_comparison_fs_10_model.pgf}}
         \caption{Loss of model with filesize 10}
         \label{fig:loss_comparison_filesize_10}
     \end{minipage}\hfill
     \begin{minipage}{0.7\textwidth}
         \centering
-        \includegraphics[width=1\linewidth]{loss_comparison_mixed.png}
+        \resizebox{\textwidth}{!}{\input{../Plots/loss_comparison/loss_comparison_fs_mixed_model.pgf}}
         \caption{Loss of mixed model}
         \label{fig:loss_comparison_filesize_mixed}
     \end{minipage}
