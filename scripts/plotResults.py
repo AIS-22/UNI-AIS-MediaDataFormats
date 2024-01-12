@@ -66,6 +66,21 @@ def plot_accuracy_results():
     plt.savefig('Plots/accuracy/accuracy_comparison.pgf')
     plt.close()
 
+    # plot accuracy without mixed models
+    for filesize in filesizes:
+        res_dict = np.load(RESULTS_FOLDER + 'accuracy_fs_' + filesize + '_model.npy', allow_pickle=True).item()
+        keys = [int(key) for key in res_dict.keys()]
+        plt.plot(keys, res_dict.values(), color=color_dict[filesize],
+                 label=filesize + f'  c-rate: {(AVG_FILESIZE / float(filesize)):.2f}')
+
+    plt.grid()
+    plt.xlabel('Test Filesize')
+    plt.ylabel('Accuracy')
+    plt.legend(title='Trained file sizes (mean c-rate)')
+    plt.savefig('Plots/accuracy/accuracy_comparison_withoutMixed.pgf')
+    plt.close()
+
+    # plot filtered accuracy
     filesizes = ['10', '25', '40', '100']
 
     # load dic from file
