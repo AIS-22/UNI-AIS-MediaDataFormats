@@ -331,13 +331,13 @@ def main():
     'pgf.rcfonts': False,
     })
 
-    #plot_accuracy_results()
-    #plot_loss_results() 
+    plot_accuracy_results()
+    plot_loss_results() 
     plot_filesize_to_target()
-    #plot_confusion_matrix()
-    #plot_confusion_matrix_all()
-    #plot_dec_enc_time()
-    #plot_scatter_without_transfer()
+    plot_confusion_matrix()
+    plot_confusion_matrix_all()
+    plot_dec_enc_time()
+    plot_scatter_without_transfer()
 
 
 if __name__ == '__main__':
