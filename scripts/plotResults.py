@@ -290,10 +290,10 @@ def plot_filesize_to_target():
     plt.axhline(y=32, color='green', linestyle='--', label='Target')
     # legend
     plt.legend(title='Codec')
-    plt.title('Actual Filesize to Target Comparison')
     plt.grid()
     plt.xlabel('Codec')
     plt.ylabel('Filesize (KB)')
+    plt.xticks(rotation=45)
     plt.savefig('Plots/filesize_to_target.pgf')
     plt.close()
 
@@ -331,13 +331,13 @@ def main():
     'pgf.rcfonts': False,
     })
 
-    plot_accuracy_results()
-    plot_loss_results() 
+    #plot_accuracy_results()
+    #plot_loss_results() 
     plot_filesize_to_target()
-    plot_confusion_matrix()
-    plot_confusion_matrix_all()
-    plot_dec_enc_time()
-    plot_scatter_without_transfer()
+    #plot_confusion_matrix()
+    #plot_confusion_matrix_all()
+    #plot_dec_enc_time()
+    #plot_scatter_without_transfer()
 
 
 if __name__ == '__main__':
