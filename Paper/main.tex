@@ -196,8 +196,8 @@ Then the model was trained over 10 epochs on 4000 test images. The learning rate
 \label{Results}
 A mixed model was developed by training the model with images of filesizes 5, 10, 17, 25 and 32. This resulted in 4500 images (512x512) for each codec. The considered dataset has only 900 images. To compare the filesize models with the mixed model, the filesize models need the same amount of input images as the mixed model. Therefore, each image of the dataset was cropped into five images to get an amount of 4500 images for the training and testing.
 
-\subsection{Evaluation of ResNet Performance Without Transfer Learning} 
-Prior to the implementation of transfer learning methodologies, an analysis was conducted to ascertain whether the selected ResNet architecture could independently identify various image compression algorithms. The entire dataset of one specific compression size, was processed through the model, and the outputs were L2 normalized. This resulted in 1000 dimension vectors for each image.
+\subsection{Evaluation of ResNet-18 Performance Without Transfer Learning} 
+Prior to the implementation of transfer learning methodologies, an analysis was conducted to ascertain whether the ResNet-18 architecture could independently identify various image compression algorithms. The entire dataset of one specific compression size, was processed through the model, and the outputs were L2 normalized. This resulted in 1000 dimension vectors for each image.
 
 To make sense of these results, we used Principal Component Analysis (PCA) on all the vectors and plotted them on a scatter plot as it can be seen in Figure \ref{fig: no_transfer}. The scatter plot reveals that for images compressed to 10kB, there is no discernible clustering pattern specific to a single compression algorithm. However, it is observed that certain clusters exist where multiple compression algorithms are in close proximity to each other. This observation aligns with the inherent capability of the original network to classify images. Consequently, the images utilized across different compression algorithms form these compact clusters.
 
