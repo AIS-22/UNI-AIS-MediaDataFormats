@@ -295,10 +295,13 @@ def plot_filesize_to_target():
     plt.axhline(y=32, color='green', linestyle='--', label='Target')
     # legend
     plt.legend(title='Codec')
-    plt.title('Actual Filesize to Target Comparison')
     plt.grid()
     plt.xlabel('Codec')
     plt.ylabel('Filesize (KB)')
+    plt.xticks(rotation=45)
+    plt.gcf().set_size_inches(7, 6)
+    # Use tight_layout to ensure all elements fit within the saved area
+    plt.tight_layout()
     plt.savefig('Plots/filesize_to_target.pgf')
     plt.close()
 
