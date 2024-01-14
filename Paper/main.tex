@@ -201,14 +201,12 @@ Prior to the implementation of transfer learning methodologies, an analysis was 
 
 To make sense of these results, we used Principal Component Analysis (PCA) on all the vectors and plotted them on a scatter plot as it can be seen in Figure \ref{fig: no_transfer}. The scatter plot reveals that for images compressed to 10kB, there is no discernible clustering pattern specific to a single compression algorithm. However, it is observed that certain clusters exist where multiple compression algorithms are in close proximity to each other. This observation aligns with the inherent capability of the original network to classify images. Consequently, the images utilized across different compression algorithms form these compact clusters.
 
-
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=\textwidth]{Plots/plot_scatter_without_transfer_10.pgf}
-	\caption{10kB Compression: ResNet without transfer learning}
+	\resizebox{\textwidth}{!}{\input{../Plots/plot_scatter_without_transfer_10.pgf}}
+    \caption{Archived filesizes for used encoder}
 	\label{fig: no_transfer}
 \end{figure}
-
 
 \section{Performance}
 For the classification each model was evaluated with each filesize. The result is represented in the figure \ref{fig: acc_comparison}.
