@@ -13,7 +13,8 @@ pillow_heif.register_heif_opener()
 import cv2
 import matplotlib.pyplot as plt
 import matplotlib
-#Make matplotlib use latex for font rendering
+
+# Make matplotlib use latex for font rendering
 matplotlib.use("pgf")
 matplotlib.rcParams.update({
     "pgf.texsystem": "pdflatex",
@@ -180,7 +181,7 @@ def measure_quality(useMultiCropPerImage=False):
     np.save('results/results_quality.npy', results)
 
 
-def _plot_results(codecs, results, metric, save_path):
+def _plot_results(codecs, results, metric, save_path, x_lim, y_lim_psnr, y_lim_ssim):
     plt.rc('font', size=23)
     plt.figure(figsize=(13, 13))
 
@@ -192,11 +193,13 @@ def _plot_results(codecs, results, metric, save_path):
 
     plt.legend()
     if metric == 'PSNR':
-        plt.ylim((28, 45))
-    plt.xlim((4, 100))
+        plt.ylim(y_lim_psnr)
+    elif metric == 'SSIM' and y_lim_ssim:
+        plt.ylim(y_lim_ssim)
+    plt.xlim(x_lim)
     plt.xlabel('Compression Rate')
     plt.ylabel(metric)
-    plt.savefig(save_path+'.pgf')
+    plt.savefig(save_path + '.pgf')
     plt.close()
 
 
@@ -209,9 +212,11 @@ def plot_results():
     ssim_sub_dict = {key: [results[key][0], results[key][2]] for key in codecs}
     time_sub_dict = {key: [results[key][0], results[key][3]] for key in codecs}
 
-    _plot_results(codecs, psnr_sub_dict, 'PSNR', 'Plots/psnr.pgf')
-    _plot_results(codecs, ssim_sub_dict, 'SSIM', 'Plots/ssim.pgf')
-    _plot_results(codecs, time_sub_dict, 'Time (ms)', 'Plots/enc_time.pgf')
+    _plot_results(codecs, psnr_sub_dict, 'PSNR', 'Plots/psnr.pgf', (4, 100), (28, 45), None)
+    _plot_results(codecs, ssim_sub_dict, 'SSIM', 'Plots/ssim.pgf', (4, 100), None, None)
+    _plot_results(codecs, psnr_sub_dict, 'PSNR', 'Plots/psnr_adapted.pgf', (10, 100), (28, 38), None)
+    _plot_results(codecs, ssim_sub_dict, 'SSIM', 'Plots/ssim_adapted.pgf', (10, 100), None, (0.45, 1))
+    _plot_results(codecs, time_sub_dict, 'Time (ms)', 'Plots/enc_time.pgf', (4, 100), None, None)
 
 
 if __name__ == '__main__':
