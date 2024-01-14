@@ -62,10 +62,32 @@ def plot_accuracy_results():
     plt.grid()
     plt.xlabel('Test Filesize')
     plt.ylabel('Accuracy')
-    plt.legend(title='Trained file sizes (mean c-rate)')
+    plt.legend(title='Trained file sizes (mean c-rate)', loc='upper left', bbox_to_anchor=(1, 1))
+    plt.gcf().set_size_inches(9, 5)
+    # Use tight_layout to ensure all elements fit within the saved area
+    plt.tight_layout()
     plt.savefig('Plots/accuracy/accuracy_comparison.pgf')
     plt.close()
 
+    # plot accuracy without mixed models
+    set_figsize()
+    for filesize in filesizes:
+        res_dict = np.load(RESULTS_FOLDER + 'accuracy_fs_' + filesize + '_model.npy', allow_pickle=True).item()
+        keys = [int(key) for key in res_dict.keys()]
+        plt.plot(keys, res_dict.values(), color=color_dict[filesize],
+                 label=filesize + f'  c-rate: {(AVG_FILESIZE / float(filesize)):.2f}')
+
+    plt.grid()
+    plt.xlabel('Test Filesize')
+    plt.ylabel('Accuracy')
+    plt.legend(title='Trained file sizes (mean c-rate)', loc='upper left', bbox_to_anchor=(1, 1))
+    plt.gcf().set_size_inches(9, 5)
+    # Use tight_layout to ensure all elements fit within the saved area
+    plt.tight_layout()
+    plt.savefig('Plots/accuracy/accuracy_comparison_withoutMixed.pgf')
+    plt.close()
+
+    # plot filtered accuracy
     filesizes = ['10', '25', '40', '100']
 
     # load dic from file
@@ -88,7 +110,10 @@ def plot_accuracy_results():
     plt.grid()
     plt.xlabel('Test Filesize')
     plt.ylabel('Accuracy')
-    plt.legend(title='Trained file sizes (mean c-rate)')
+    plt.legend(title='Trained file sizes (mean c-rate)', loc='upper left', bbox_to_anchor=(1, 1))
+    plt.gcf().set_size_inches(9, 5)
+    # Use tight_layout to ensure all elements fit within the saved area
+    plt.tight_layout()
     plt.savefig('Plots/accuracy/accuracy_comparison_filtered.pgf')
     plt.close()
 
@@ -249,26 +274,6 @@ def plot_loss_results():
         plt.savefig('Plots/loss_comparison/loss_comparison_fs_' + filesize + '_model.pgf')
         plt.close()
 
-def plot_dec_enc_time():
-    exec_time_dict = {
-        'avif': 0.24,
-        'webP': 0.17,
-        'bpg': 0.29,
-        'heic': 0.3,
-        'jxl': 0.9,
-        'jxr': 0.2
-        # TODO: Measure also jpeg2000 and jpeg of image (avg of train 0770.png and 0565.png
-    }
-
-    set_figsize()
-    plt.bar(exec_time_dict.keys(), exec_time_dict.values())
-    plt.title('Encoding-Decoding Time Comparison of Huts Image')
-    plt.grid()
-    plt.xlabel('Algorithm')
-    plt.ylabel('Time (s)')
-    plt.savefig('Plots/encoding_time_comparison.pgf')
-    plt.close()
-
 def plot_filesize_to_target():
     # read csv
     df = pd.read_csv('filesize_log.txt', sep=',', header=None)
@@ -332,11 +337,10 @@ def main():
     })
 
     plot_accuracy_results()
-    plot_loss_results() 
+    plot_loss_results()
     plot_filesize_to_target()
     plot_confusion_matrix()
     plot_confusion_matrix_all()
-    plot_dec_enc_time()
     plot_scatter_without_transfer()
 
 
