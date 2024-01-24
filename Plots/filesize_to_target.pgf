@@ -250,7 +250,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=3.194095in, y=0.488038in, left, base,rotate=45.000000]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont  JPEG2000}%
+\pgftext[x=3.194095in, y=0.488038in, left, base,rotate=45.000000]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont  JPEG 2000}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfpathrectangle{\pgfqpoint{0.662637in}{1.204737in}}{\pgfqpoint{6.157363in}{4.615263in}}%
@@ -288,7 +288,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=3.825152in, y=0.518679in, left, base,rotate=45.000000]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont  JPEG_XL}%
+\pgftext[x=3.825152in, y=0.518679in, left, base,rotate=45.000000]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont  JPEG XL}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfpathrectangle{\pgfqpoint{0.662637in}{1.204737in}}{\pgfqpoint{6.157363in}{4.615263in}}%
@@ -326,7 +326,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=4.434477in, y=0.505858in, left, base,rotate=45.000000]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont  JPEG_XR}%
+\pgftext[x=4.434477in, y=0.505858in, left, base,rotate=45.000000]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont  JPEG XR_0}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfpathrectangle{\pgfqpoint{0.662637in}{1.204737in}}{\pgfqpoint{6.157363in}{4.615263in}}%
@@ -364,7 +364,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=5.000594in, y=0.406618in, left, base,rotate=45.000000]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont  JPEG_XR_1}%
+\pgftext[x=5.000594in, y=0.406618in, left, base,rotate=45.000000]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont  JPEG XR_1}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfpathrectangle{\pgfqpoint{0.662637in}{1.204737in}}{\pgfqpoint{6.157363in}{4.615263in}}%
@@ -402,7 +402,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=5.616330in, y=0.406618in, left, base,rotate=45.000000]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont  JPEG_XR_2}%
+\pgftext[x=5.616330in, y=0.406618in, left, base,rotate=45.000000]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont  JPEG XR_2}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfpathrectangle{\pgfqpoint{0.662637in}{1.204737in}}{\pgfqpoint{6.157363in}{4.615263in}}%
@@ -440,7 +440,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=6.390170in, y=0.722825in, left, base,rotate=45.000000]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont  WebP}%
+\pgftext[x=6.390170in, y=0.722825in, left, base,rotate=45.000000]{\color{textcolor}\rmfamily\fontsize{12.000000}{14.400000}\selectfont  WEBP}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
