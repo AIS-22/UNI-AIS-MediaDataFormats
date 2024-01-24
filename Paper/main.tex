@@ -152,6 +152,24 @@ To validate the performance of the utilized encoder, we carried out assessments 
 Comparison of PSNR and SSIM}
 \end{figure}
 
+\begin{figure}[h!]
+    \centering
+      \begin{subfigure}{0.49\textwidth}
+        \resizebox{\textwidth}{!}{\input{../Plots/psnr_adapted.pgf}}
+          \caption{PSNR comparison of the used codecs}
+          \label{fig: psnr_comparison}
+      \end{subfigure}
+      \hfill
+      \begin{subfigure}{0.49\textwidth}
+        \resizebox{\textwidth}{!}{\input{../Plots/ssim_adapted.pgf}}
+          \caption{SSIM comparison of the used codecs}
+          \label{fig:CI}
+      \end{subfigure}
+\caption{
+\label{fig: comparison}%
+Comparison of PSNR and SSIM}
+\end{figure}
+
 \noindent
 As anticipated, the results presented in plot \ref{fig: comparison} affirm that the plain JPEG encoder consistently yields in reduced-quality images when operating at lower compression rates.
 The driving motivation behind this attempt was to intentionally introduce diverse encoding artifacts into the compressed images for later train a model and classify the used image encoder.
@@ -214,6 +232,13 @@ For the classification each model was evaluated with each filesize. The result i
 \begin{figure}[h!]
 	\centering
 	\resizebox{\textwidth}{!}{\input{../Plots/accuracy/accuracy_comparison.pgf}}
+	\caption{Accuracy Comparison}
+	\label{fig: acc_comparison}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\resizebox{\textwidth}{!}{\input{../Plots/accuracy/accuracy_comparison_filtered.pgf}}
 	\caption{Accuracy Comparison}
 	\label{fig: acc_comparison}
 \end{figure}
