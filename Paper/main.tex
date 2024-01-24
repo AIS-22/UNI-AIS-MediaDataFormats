@@ -243,6 +243,13 @@ For the classification each model was evaluated with each filesize. The result i
 	\label{fig: acc_comparison}
 \end{figure}
 
+\begin{figure}[h!]
+	\centering
+	\resizebox{\textwidth}{!}{\input{../Plots/accuracy/accuracy_comparison_withoutMixed.pgf}}
+	\caption{Accuracy Comparison}
+	\label{fig: acc_comparison}
+\end{figure}
+
 \noindent
 The self trained model was trained with the filesizes 5, 10, 17, 25 and 32 on all 10 codecs. This leads to 4000 images for each codec per epoch. As one can see in figure \ref{fig: acc_comparison} the self trained model has its best performances at filesizes 10, 17 and 25 ranging from 62 to 65 percent accuracy.
 
