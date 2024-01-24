@@ -10,6 +10,9 @@
 \end{filecontents}
 
 \documentclass{article}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{pgfplots}
 \usepackage[a4paper, margin=1in]{geometry}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{biblatex}
@@ -33,7 +36,7 @@
 To encode the loss less images into the respective codec for the experiment, several encoder where used.
 \subsection{AVIF, JPEG and WebP}
 \subsubsection{AVIF}
-AVIF is a format that utilizes the AV1 video codec. The AV1 codec employs block-based predictive coding. In this method, the frame is broken down into smaller units. Those are then analyzed to predict repetitive motion and color data based on blocks that have been processed earlier. Once the prediction is made, the redundant data is removed from the block. 
+AVIF is a format that utilizes the AV1 video codec. The AV1 codec employs block-based predictive coding. In this method, the frame is broken down into smaller units. Those are then analyzed to predict repetitive motion and color data based on blocks that have been processed earlier. Once the prediction is made, the redundant data is removed from the block.
 To convert the image into a sum of cosine functions of different frequencies the Discrete Cosine Transform (DCT) is used.
 
 \subsubsection{JPEG}
@@ -63,7 +66,7 @@ os.system('bpgenc -o ' + outputPath + \
 \end{lstlisting}
 
 \subsection{HEIC}
-The High Efficiency Image File (HEIF) container, which uses the High Efficiency Video Coding (HEVC) compression standard, is the basis for the HEIC codec. This codec is used for storing both images and videos. 
+The High Efficiency Image File (HEIF) container, which uses the High Efficiency Video Coding (HEVC) compression standard, is the basis for the HEIC codec. This codec is used for storing both images and videos.
 The transformation is applied to pixel blocks, the size of which can range from 4x4 to 32x32. Depending on the type of block and the prediction mode, the transformation can be either a discrete cosine transform (DCT) or a discrete sine transform (DST).
 Depending on the profile and level of the HEVC standard, the entropy coding can be either a context-adaptive binary arithmetic coding (CABAC) or a context-adaptive variable-length coding (CAVLC).
 
@@ -214,7 +217,7 @@ Then the model was trained over 10 epochs on 4000 test images. The learning rate
 \label{Results}
 A mixed model was developed by training the model with images of filesizes 5, 10, 17, 25 and 32. This resulted in 4500 images (512x512) for each codec. The considered dataset has only 900 images. To compare the filesize models with the mixed model, the filesize models need the same amount of input images as the mixed model. Therefore, each image of the dataset was cropped into five images to get an amount of 4500 images for the training and testing.
 
-\subsection{Evaluation of ResNet-18 Performance Without Transfer Learning} 
+\subsection{Evaluation of ResNet-18 Performance Without Transfer Learning}
 Prior to the implementation of transfer learning methodologies, an analysis was conducted to ascertain whether the ResNet-18 architecture could independently identify various image compression algorithms. The entire dataset of one specific compression size, was processed through the model, and the outputs were L2 normalized. This resulted in 1000 dimension vectors for each image.
 
 To make sense of these results, we used Principal Component Analysis (PCA) on all the vectors and plotted them on a scatter plot as it can be seen in Figure \ref{fig: no_transfer}. The scatter plot reveals that for images compressed to 10kB, there is no discernible clustering pattern specific to a single compression algorithm. However, it is observed that certain clusters exist where multiple compression algorithms are in close proximity to each other. This observation aligns with the inherent capability of the original network to classify images. Consequently, the images utilized across different compression algorithms form these compact clusters.
@@ -272,14 +275,14 @@ For classifying images with the given filesizes the model trained with 40kB woul
     \begin{minipage}{0.7\textwidth}
         \centering
         \resizebox{\textwidth}{!}{\input{../Plots/loss_comparison/loss_comparison_fs_10_model.pgf}}
-        \caption{Loss of model with filesize 10}
-        \label{fig:loss_comparison_filesize_10}
-    \end{minipage}\hfill
-    \begin{minipage}{0.7\textwidth}
-        \centering
-        \resizebox{\textwidth}{!}{\input{../Plots/loss_comparison/loss_comparison_fs_mixed_model.pgf}}
-        \caption{Loss of mixed model}
-        \label{fig:loss_comparison_filesize_mixed}
+         \caption{Loss of model with filesize 10}
+         \label{fig:loss_comparison_filesize_10}
+     \end{minipage}\hfill
+     \begin{minipage}{0.7\textwidth}
+         \centering
+         \resizebox{\textwidth}{!}{\input{../Plots/loss_comparison/loss_comparison_mixed_model.pgf}}
+         \caption{Loss of mixed model}
+         \label{fig:loss_comparison_filesize_mixed}
     \end{minipage}
 \end{figure}
 
