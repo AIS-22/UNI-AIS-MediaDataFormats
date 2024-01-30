@@ -216,7 +216,7 @@ Then the model was trained over 10 epochs on 4000 test images. The learning rate
 \section{Results}
 \label{Results}
 A mixed model was developed by training the model with images of filesizes 5, 10, 17, 25 and 32. This resulted in 4500 images (512x512) for each codec. The considered dataset has only 900 images. To compare the filesize models with the mixed model, the filesize models need the same amount of input images as the mixed model. Therefore, each image of the dataset was cropped into five images to get an amount of 4500 images for the training and testing.
-For the purpose of comparison, an additional model was trained using images of varying file sizes 5, 10, 17, 25, 32, 40, 50, 60, 75, 100. This particular model utilized 6300 images during the training phase.
+For the purpose of comparison, an additional model was trained using images all available filesizes 5, 10, 17, 25, 32, 40, 50, 60, 75 and 100. This particular model utilized 9000 images during the training phase.
 
 \subsection{Evaluation of ResNet-18 Performance Without Transfer Learning}
 Prior to the implementation of transfer learning methodologies, an analysis was conducted to ascertain whether the ResNet-18 architecture could independently identify various image compression algorithms. The entire dataset of one specific compression size, was processed through the model, and the outputs were L2 normalized. This resulted in 1000 dimension vectors for each image.
@@ -231,31 +231,31 @@ To make sense of these results, we used Principal Component Analysis (PCA) on al
 \end{figure}
 
 \section{Performance}
-For the classification each model was evaluated with each filesize. The result is represented in the figure \ref{fig: acc_comparison}.
+For the classification each model was evaluated with each filesize. The result is represented in the figure \ref{fig: acc_comparison all}.
 
 \begin{figure}[h!]
 	\centering
 	\resizebox{\textwidth}{!}{\input{../Plots/accuracy/accuracy_comparison.pgf}}
-	\caption{Accuracy Comparison}
-	\label{fig: acc_comparison}
+	\caption{Accuracy Comparison All Models}
+	\label{fig: acc_comparison all}
 \end{figure}
 
 \begin{figure}[h!]
 	\centering
 	\resizebox{\textwidth}{!}{\input{../Plots/accuracy/accuracy_comparison_filtered.pgf}}
-	\caption{Accuracy Comparison}
-	\label{fig: acc_comparison}
+	\caption{Accuracy Comparison Subset of Models}
+	\label{fig: acc_comparison filtered}
 \end{figure}
 
 \begin{figure}[h!]
 	\centering
 	\resizebox{\textwidth}{!}{\input{../Plots/accuracy/accuracy_comparison_withoutMixed.pgf}}
-	\caption{Accuracy Comparison}
-	\label{fig: acc_comparison}
+	\caption{Accuracy Comparison of Filesize Models}
+	\label{fig: acc_comparison filesize}
 \end{figure}
 
 \noindent
-The self trained model was trained with the filesizes 5, 10, 17, 25 and 32 on all 10 codecs. This leads to 4000 images for each codec per epoch. As one can see in figure \ref{fig: acc_comparison} the self trained model has its best performances at filesizes 10, 17 and 25 ranging from 62 to 65 percent accuracy.
+The self trained model was trained with the filesizes 5, 10, 17, 25 and 32 on all 10 codecs. This leads to 4000 images for each codec per epoch. As one can see in figure \ref{fig: acc_comparison all} the self trained model has its best performances at filesizes 10, 17 and 25 ranging from 62 to 65 percent accuracy.
 
 \noindent
 The models trained with the filesizes 60, 75 and 100 have a low accuracy for small filesizes and increase for bigger filesizes. Small filesize images have more artifacts, which are not taken into account in this models. For that reason the models of 60, 75 and 100 filesize could only be used to classify codecs with the same filesizes.
@@ -264,10 +264,7 @@ The models trained with the filesizes 60, 75 and 100 have a low accuracy for sma
 The smaller filesize models have their peaks around the filesizes they were trained on. However, for the images with less than 40kB this models have an accuracy of about 95 percent. For the bigger filesizes the accuracy is decreasing. The bigger filesizes have less artifacts in the images and also many codecs get the maximum quality after 60kB, which explains the decrease of accuracy for this models.
 
 \noindent
-An assumtion was that the mixed model would lead to the best result because of considering different filesizes for the model. As the figure \ref{fig: acc_comparison} shows, almost every small filesize model has a better performance than the mixed model.
-
-\noindent
-For classifying images with the given filesizes the model trained with 40kB would lead to the best result. However, for smaller filesize images (\textless 50kB) the model trained with 32kB images would be the right choice because of the bigger accuracy for 5kB images.
+An assumption was that the mixed model would lead to the best result because of considering different filesizes for the model. This assumption got proven by the mixed pre trained model (5-100), shown in the figure \ref{fig:loss_comparison_filesize_10}.
 
 \section{Loss function}
 
