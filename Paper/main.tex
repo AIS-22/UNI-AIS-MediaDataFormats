@@ -216,6 +216,7 @@ Then the model was trained over 10 epochs on 4000 test images. The learning rate
 \section{Results}
 \label{Results}
 A mixed model was developed by training the model with images of filesizes 5, 10, 17, 25 and 32. This resulted in 4500 images (512x512) for each codec. The considered dataset has only 900 images. To compare the filesize models with the mixed model, the filesize models need the same amount of input images as the mixed model. Therefore, each image of the dataset was cropped into five images to get an amount of 4500 images for the training and testing.
+For the purpose of comparison, an additional model was trained using images of varying file sizes 5, 10, 17, 25, 32, 40, 50, 60, 75, 100. This particular model utilized 6300 images during the training phase.
 
 \subsection{Evaluation of ResNet-18 Performance Without Transfer Learning}
 Prior to the implementation of transfer learning methodologies, an analysis was conducted to ascertain whether the ResNet-18 architecture could independently identify various image compression algorithms. The entire dataset of one specific compression size, was processed through the model, and the outputs were L2 normalized. This resulted in 1000 dimension vectors for each image.

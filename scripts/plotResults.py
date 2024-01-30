@@ -27,6 +27,7 @@ def plot_accuracy_results():
 
     # load dic from file
     mixed_results = np.load(RESULTS_FOLDER + 'accuracy_mixed_model.npy', allow_pickle=True).item()
+    mixed_results_all = np.load(RESULTS_FOLDER + 'accuracy_fs_all_model.npy', allow_pickle=True).item()
     keys = [int(key) for key in mixed_results.keys()]
 
     # Map file sizes to colors
@@ -47,7 +48,8 @@ def plot_accuracy_results():
 
     cmap = plt.get_cmap('tab20')
     set_figsize()
-    plt.plot(keys, mixed_results.values(), color=cmap(0), label='Mixed pre trained (5-32)')
+    plt.plot(keys, mixed_results.values(), color=cmap(1), label='Mixed pre trained (5-32)')
+    plt.plot(keys, mixed_results_all.values(), color=cmap(0), label='Mixed pre trained (5-100)')
      
     mixed_self_results = np.load(RESULTS_FOLDER + 'accuracy_mixed_self_model.npy', allow_pickle=True).item()
     keys = [int(key) for key in mixed_self_results.keys()]
@@ -95,7 +97,7 @@ def plot_accuracy_results():
     keys = [int(key) for key in mixed_results.keys()]
     cmap = plt.get_cmap('tab20')
     set_figsize()
-    plt.plot(keys, mixed_results.values(), color=color_dict['pre'], label='Mixed pre trained (5-32)')
+    plt.plot(keys, mixed_results_all.values(), color=color_dict['pre'], label='Mixed pre trained (5-100)')
 
     mixed_self_results = np.load(RESULTS_FOLDER + 'accuracy_mixed_self_model.npy', allow_pickle=True).item()
     keys = [int(key) for key in mixed_self_results.keys()]
