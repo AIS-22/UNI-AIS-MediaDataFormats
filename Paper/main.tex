@@ -10,6 +10,9 @@
 \end{filecontents}
 
 \documentclass{article}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{pgfplots}
 \usepackage[a4paper, margin=1in]{geometry}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{biblatex}
@@ -33,7 +36,7 @@
 To encode the loss less images into the respective codec for the experiment, several encoder where used.
 \subsection{AVIF, JPEG and WebP}
 \subsubsection{AVIF}
-AVIF is a format that utilizes the AV1 video codec. The AV1 codec employs block-based predictive coding. In this method, the frame is broken down into smaller units. Those are then analyzed to predict repetitive motion and color data based on blocks that have been processed earlier. Once the prediction is made, the redundant data is removed from the block. 
+AVIF is a format that utilizes the AV1 video codec. The AV1 codec employs block-based predictive coding. In this method, the frame is broken down into smaller units. Those are then analyzed to predict repetitive motion and color data based on blocks that have been processed earlier. Once the prediction is made, the redundant data is removed from the block.
 To convert the image into a sum of cosine functions of different frequencies the Discrete Cosine Transform (DCT) is used.
 
 \subsubsection{JPEG}
@@ -63,7 +66,7 @@ os.system('bpgenc -o ' + outputPath + \
 \end{lstlisting}
 
 \subsection{HEIC}
-The High Efficiency Image File (HEIF) container, which uses the High Efficiency Video Coding (HEVC) compression standard, is the basis for the HEIC codec. This codec is used for storing both images and videos. 
+The High Efficiency Image File (HEIF) container, which uses the High Efficiency Video Coding (HEVC) compression standard, is the basis for the HEIC codec. This codec is used for storing both images and videos.
 The transformation is applied to pixel blocks, the size of which can range from 4x4 to 32x32. Depending on the type of block and the prediction mode, the transformation can be either a discrete cosine transform (DCT) or a discrete sine transform (DST).
 Depending on the profile and level of the HEVC standard, the entropy coding can be either a context-adaptive binary arithmetic coding (CABAC) or a context-adaptive variable-length coding (CAVLC).
 
@@ -152,6 +155,24 @@ To validate the performance of the utilized encoder, we carried out assessments 
 Comparison of PSNR and SSIM}
 \end{figure}
 
+\begin{figure}[h!]
+    \centering
+      \begin{subfigure}{0.49\textwidth}
+        \resizebox{\textwidth}{!}{\input{../Plots/psnr_adapted.pgf}}
+          \caption{PSNR comparison of the used codecs}
+          \label{fig: psnr_comparison}
+      \end{subfigure}
+      \hfill
+      \begin{subfigure}{0.49\textwidth}
+        \resizebox{\textwidth}{!}{\input{../Plots/ssim_adapted.pgf}}
+          \caption{SSIM comparison of the used codecs}
+          \label{fig:CI}
+      \end{subfigure}
+\caption{
+\label{fig: comparison}%
+Comparison of PSNR and SSIM}
+\end{figure}
+
 \noindent
 As anticipated, the results presented in plot \ref{fig: comparison} affirm that the plain JPEG encoder consistently yields in reduced-quality images when operating at lower compression rates.
 The driving motivation behind this attempt was to intentionally introduce diverse encoding artifacts into the compressed images for later train a model and classify the used image encoder.
@@ -178,10 +199,9 @@ To train the network the DIV2K training and validation dataset was used. The dat
 For the self-trained network, we used an Adam Optimizer with a learning rate of 1e-4 and a weight decay of 1e-4. As a loss function Cross entropy was used. To be able to match the output of the network to the 10 classes used we replaced the final fully connected layer in the Resnet architecture with one that outputs the 10 codec classes.
 
 \noindent
-In the first iteration we trained the network on the original cropped 800 images per class. This leads to 8000 images available for the network to train. With that amount there was little progress during the first epochs. To be able to train on a larger dataset we then cropped the corners of each image to 512x512 to get 5x the number of usable images. This lead to 4000 images per class for the network to train.
-
+In the first iteration we trained the network on the original cropped 800 images per class for a filesize of 32kB. This leads to 8000 images available for the network to train. With that amount there was little progress during the first epochs.
 \noindent
-After 10 epochs of training, we achieved a validation accuracy of 57,6 percent avaged over the 5 training filesizes (5, 10, 17, 25 and 32). For 10 epochs this is lower than the results we got for the transfer learning approach. However, if one would increase the number of epochs, we expect to reach the same levels of accuracy since the only difference is that the pretrained network has a preferable starting position compared to the one without transfer learning. This can be shown by changing the starting seed to something different leading to only 10 percent accuracy after 10 epochs.
+After 10 epochs of training, we achieved a validation accuracy of 57,6 percent averaged over the 5 training filesizes (5, 10, 17, 25 and 32). For 10 epochs this is lower than the results we got for the transfer learning approach. However, if one would increase the number of epochs, we expect to reach the same levels of accuracy since the only difference is that the pretrained network has a preferable starting position compared to the one without transfer learning. This can be shown by changing the starting seed to something different leading to only 10 percent accuracy after 10 epochs.
 
 \subsection{Transferlearning}
 To be able to compare the results of the self-trained model with a pretrained model, the ResNet18 architecture was used again. The pretrained model was already trained on 1,2 million images to give an preferable starting position for training. To adjust this pretrained model for the requirements of the experiment, the output layers where reconfigured to represent the 10 different codecs in which the images where encoded.
@@ -190,13 +210,14 @@ In addition the model uses just 224x224 images as inputs, thus the encoded image
 
 
 \noindent
-Then the model was trained over 10 epochs on 4000 test images. The learning rate was set to 0.001 with a momentum of 0.9 due to the model being already trained on a huge data set and in the experiment just the adjustment for the codec artifacts should be added. For the whole implementation see appendix.
+Then the models were trained over 10 epochs on 40000 and evaluated on 5000 images. The learning rate was set to 0.001 with a momentum of 0.9 due to the model being already trained on a huge data set and in the experiment just the adjustment for the codec artifacts should be added. For the whole implementation see appendix.
 
 \section{Results}
 \label{Results}
-A mixed model was developed by training the model with images of filesizes 5, 10, 17, 25 and 32. This resulted in 4500 images (512x512) for each codec. The considered dataset has only 900 images. To compare the filesize models with the mixed model, the filesize models need the same amount of input images as the mixed model. Therefore, each image of the dataset was cropped into five images to get an amount of 4500 images for the training and testing.
+A mixed model was developed by training and evaluating the model with images of filesizes 5, 10, 17, 25 and 32. This resulted in 4500 (800 images per filesize and codec * 5 filesizes for training and 100 * 5 for validation) images (512x512) for each codec. The considered dataset has only 900 images. To compare the filesize models with the mixed model, the filesize models need the same amount of input images as the mixed model. Therefore, each image of the dataset was cropped into five images to get an amount of 4500 (800 images per filesize and codec * 5 images cropped from one for training and 100 * 5 for validation) images for training and validation.
+For the purpose of comparison, an additional model was trained using images all available filesizes 5, 10, 17, 25, 32, 40, 50, 60, 75 and 100. This particular model utilized 80000 images during the training.
 
-\subsection{Evaluation of ResNet-18 Performance Without Transfer Learning} 
+\subsection{Evaluation of ResNet-18 Performance Without Transfer Learning}
 Prior to the implementation of transfer learning methodologies, an analysis was conducted to ascertain whether the ResNet-18 architecture could independently identify various image compression algorithms. The entire dataset of one specific compression size, was processed through the model, and the outputs were L2 normalized. This resulted in 1000 dimension vectors for each image.
 
 To make sense of these results, we used Principal Component Analysis (PCA) on all the vectors and plotted them on a scatter plot as it can be seen in Figure \ref{fig: no_transfer}. The scatter plot reveals that for images compressed to 10kB, there is no discernible clustering pattern specific to a single compression algorithm. However, it is observed that certain clusters exist where multiple compression algorithms are in close proximity to each other. This observation aligns with the inherent capability of the original network to classify images. Consequently, the images utilized across different compression algorithms form these compact clusters.
@@ -209,17 +230,31 @@ To make sense of these results, we used Principal Component Analysis (PCA) on al
 \end{figure}
 
 \section{Performance}
-For the classification each model was evaluated with each filesize. The result is represented in the figure \ref{fig: acc_comparison}.
+For the classification each model was evaluated with each filesize. The result is represented in the figure \ref{fig: acc_comparison all}.
 
 \begin{figure}[h!]
 	\centering
 	\resizebox{\textwidth}{!}{\input{../Plots/accuracy/accuracy_comparison.pgf}}
-	\caption{Accuracy Comparison}
-	\label{fig: acc_comparison}
+	\caption{Accuracy Comparison All Models}
+	\label{fig: acc_comparison all}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\resizebox{\textwidth}{!}{\input{../Plots/accuracy/accuracy_comparison_filtered.pgf}}
+	\caption{Accuracy Comparison Subset of Models}
+	\label{fig: acc_comparison filtered}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\resizebox{\textwidth}{!}{\input{../Plots/accuracy/accuracy_comparison_withoutMixed.pgf}}
+	\caption{Accuracy Comparison of Filesize Models}
+	\label{fig: acc_comparison filesize}
 \end{figure}
 
 \noindent
-The self trained model was trained with the filesizes 5, 10, 17, 25 and 32 on all 10 codecs. This leads to 4000 images for each codec per epoch. As one can see in figure \ref{fig: acc_comparison} the self trained model has its best performances at filesizes 10, 17 and 25 ranging from 62 to 65 percent accuracy.
+The self trained model was trained with the filesizes 5, 10, 17, 25 and 32 on all 10 codecs. This leads to 4000 images for each codec per epoch. As one can see in figure \ref{fig: acc_comparison all} the self trained model has its best performances at filesizes 10, 17 and 25 ranging from 62 to 65 percent accuracy.
 
 \noindent
 The models trained with the filesizes 60, 75 and 100 have a low accuracy for small filesizes and increase for bigger filesizes. Small filesize images have more artifacts, which are not taken into account in this models. For that reason the models of 60, 75 and 100 filesize could only be used to classify codecs with the same filesizes.
@@ -228,10 +263,7 @@ The models trained with the filesizes 60, 75 and 100 have a low accuracy for sma
 The smaller filesize models have their peaks around the filesizes they were trained on. However, for the images with less than 40kB this models have an accuracy of about 95 percent. For the bigger filesizes the accuracy is decreasing. The bigger filesizes have less artifacts in the images and also many codecs get the maximum quality after 60kB, which explains the decrease of accuracy for this models.
 
 \noindent
-An assumtion was that the mixed model would lead to the best result because of considering different filesizes for the model. As the figure \ref{fig: acc_comparison} shows, almost every small filesize model has a better performance than the mixed model.
-
-\noindent
-For classifying images with the given filesizes the model trained with 40kB would lead to the best result. However, for smaller filesize images (\textless 50kB) the model trained with 32kB images would be the right choice because of the bigger accuracy for 5kB images.
+An assumption was that the mixed model would lead to the best result because of considering different filesizes for the model. This assumption got proven by the mixed pre trained model (5-100), shown in the figure \ref{fig:loss_comparison_filesize_10}.
 
 \section{Loss function}
 
@@ -240,14 +272,14 @@ For classifying images with the given filesizes the model trained with 40kB woul
     \begin{minipage}{0.7\textwidth}
         \centering
         \resizebox{\textwidth}{!}{\input{../Plots/loss_comparison/loss_comparison_fs_10_model.pgf}}
-        \caption{Loss of model with filesize 10}
-        \label{fig:loss_comparison_filesize_10}
-    \end{minipage}\hfill
-    \begin{minipage}{0.7\textwidth}
-        \centering
-        \resizebox{\textwidth}{!}{\input{../Plots/loss_comparison/loss_comparison_fs_mixed_model.pgf}}
-        \caption{Loss of mixed model}
-        \label{fig:loss_comparison_filesize_mixed}
+         \caption{Loss of model with filesize 10}
+         \label{fig:loss_comparison_filesize_10}
+     \end{minipage}\hfill
+     \begin{minipage}{0.7\textwidth}
+         \centering
+         \resizebox{\textwidth}{!}{\input{../Plots/loss_comparison/loss_comparison_mixed_model.pgf}}
+         \caption{Loss of mixed model}
+         \label{fig:loss_comparison_filesize_mixed}
     \end{minipage}
 \end{figure}
 

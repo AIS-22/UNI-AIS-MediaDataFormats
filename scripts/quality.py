@@ -182,6 +182,19 @@ def measure_quality(useMultiCropPerImage=False):
 
 
 def _plot_results(codecs, results, metric, save_path, x_lim, y_lim_psnr, y_lim_ssim):
+    codec_mapping = {
+        'avif': "AVIF",
+        'webP': "WEBP",
+        'bpg': "BPG",
+        'heic': "HEIC",
+        'jxl': "JPEG XL",
+        'jxr_0': "JPEG XR_0",
+        'jxr_1': "JPEG XR_1",
+        'jxr_2': "JPEG XR_2",
+        'jpeg': "JPEG",
+        'jpeg2000': "JPEG 2000"
+    }
+
     plt.rc('font', size=23)
     plt.figure(figsize=(13, 13))
 
@@ -189,7 +202,7 @@ def _plot_results(codecs, results, metric, save_path, x_lim, y_lim_psnr, y_lim_s
         codec_results = results[codec]
         mean_crates = codec_results[0]
         mean_metric = codec_results[1]
-        plt.plot(mean_crates, mean_metric, label=codec)
+        plt.plot(mean_crates, mean_metric, label=codec_mapping[codec])
 
     plt.legend()
     if metric == 'PSNR':
@@ -222,4 +235,4 @@ def plot_results():
 if __name__ == '__main__':
     measure_quality()
     plot_results()
-    print('Quality measurement successful.')
+    print('Qu/home/michael/Documents/AIS/3_semester/FH/NLP/Applied/UNI-FH-Applied-NLP-CoLaality measurement successful.')

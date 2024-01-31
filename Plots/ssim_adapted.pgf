@@ -910,10 +910,10 @@
 \pgfsetstrokeopacity{0.800000}%
 \pgfsetdash{}{0pt}%
 \pgfpathmoveto{\pgfqpoint{1.848611in}{1.589722in}}%
-\pgfpathlineto{\pgfqpoint{4.084498in}{1.589722in}}%
-\pgfpathquadraticcurveto{\pgfqpoint{4.148387in}{1.589722in}}{\pgfqpoint{4.148387in}{1.653611in}}%
-\pgfpathlineto{\pgfqpoint{4.148387in}{6.290717in}}%
-\pgfpathquadraticcurveto{\pgfqpoint{4.148387in}{6.354606in}}{\pgfqpoint{4.084498in}{6.354606in}}%
+\pgfpathlineto{\pgfqpoint{4.570498in}{1.589722in}}%
+\pgfpathquadraticcurveto{\pgfqpoint{4.634387in}{1.589722in}}{\pgfqpoint{4.634387in}{1.653611in}}%
+\pgfpathlineto{\pgfqpoint{4.634387in}{6.290717in}}%
+\pgfpathquadraticcurveto{\pgfqpoint{4.634387in}{6.354606in}}{\pgfqpoint{4.570498in}{6.354606in}}%
 \pgfpathlineto{\pgfqpoint{1.848611in}{6.354606in}}%
 \pgfpathquadraticcurveto{\pgfqpoint{1.784722in}{6.354606in}}{\pgfqpoint{1.784722in}{6.290717in}}%
 \pgfpathlineto{\pgfqpoint{1.784722in}{1.653611in}}%
@@ -938,7 +938,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.806944in,y=5.986858in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont avif}%
+\pgftext[x=2.806944in,y=5.986858in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont AVIF}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetrectcap%
@@ -956,7 +956,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.806944in,y=5.519953in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont webP}%
+\pgftext[x=2.806944in,y=5.519953in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont WEBP}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetrectcap%
@@ -974,7 +974,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.806944in,y=5.053048in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont bpg}%
+\pgftext[x=2.806944in,y=5.053048in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont BPG}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetrectcap%
@@ -992,7 +992,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.806944in,y=4.586143in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont heic}%
+\pgftext[x=2.806944in,y=4.586143in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont HEIC}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetrectcap%
@@ -1010,7 +1010,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.806944in,y=4.119238in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont jxl}%
+\pgftext[x=2.806944in,y=4.119238in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont JPEG XL}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetrectcap%
@@ -1028,7 +1028,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.806944in,y=3.652333in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont jxr_0}%
+\pgftext[x=2.806944in,y=3.652333in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont JPEG XR_0}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetrectcap%
@@ -1046,7 +1046,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.806944in,y=3.185428in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont jxr_1}%
+\pgftext[x=2.806944in,y=3.185428in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont JPEG XR_1}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetrectcap%
@@ -1064,7 +1064,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.806944in,y=2.718523in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont jxr_2}%
+\pgftext[x=2.806944in,y=2.718523in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont JPEG XR_2}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetrectcap%
@@ -1082,7 +1082,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.806944in,y=2.251618in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont jpeg}%
+\pgftext[x=2.806944in,y=2.251618in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont JPEG}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetrectcap%
@@ -1100,7 +1100,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.806944in,y=1.784713in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont jpeg2000}%
+\pgftext[x=2.806944in,y=1.784713in,left,base]{\color{textcolor}\rmfamily\fontsize{23.000000}{27.600000}\selectfont JPEG 2000}%
 \end{pgfscope}%
 \end{pgfpicture}%
 \makeatother%
