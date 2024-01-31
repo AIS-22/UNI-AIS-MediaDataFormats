@@ -199,10 +199,9 @@ To train the network the DIV2K training and validation dataset was used. The dat
 For the self-trained network, we used an Adam Optimizer with a learning rate of 1e-4 and a weight decay of 1e-4. As a loss function Cross entropy was used. To be able to match the output of the network to the 10 classes used we replaced the final fully connected layer in the Resnet architecture with one that outputs the 10 codec classes.
 
 \noindent
-In the first iteration we trained the network on the original cropped 800 images per class. This leads to 8000 images available for the network to train. With that amount there was little progress during the first epochs. To be able to train on a larger dataset we then cropped the corners of each image to 512x512 to get 5x the number of usable images. This lead to 4000 images per class for the network to train.
-
+In the first iteration we trained the network on the original cropped 800 images per class for a filesize of 32kB. This leads to 8000 images available for the network to train. With that amount there was little progress during the first epochs.
 \noindent
-After 10 epochs of training, we achieved a validation accuracy of 57,6 percent avaged over the 5 training filesizes (5, 10, 17, 25 and 32). For 10 epochs this is lower than the results we got for the transfer learning approach. However, if one would increase the number of epochs, we expect to reach the same levels of accuracy since the only difference is that the pretrained network has a preferable starting position compared to the one without transfer learning. This can be shown by changing the starting seed to something different leading to only 10 percent accuracy after 10 epochs.
+After 10 epochs of training, we achieved a validation accuracy of 57,6 percent averaged over the 5 training filesizes (5, 10, 17, 25 and 32). For 10 epochs this is lower than the results we got for the transfer learning approach. However, if one would increase the number of epochs, we expect to reach the same levels of accuracy since the only difference is that the pretrained network has a preferable starting position compared to the one without transfer learning. This can be shown by changing the starting seed to something different leading to only 10 percent accuracy after 10 epochs.
 
 \subsection{Transferlearning}
 To be able to compare the results of the self-trained model with a pretrained model, the ResNet18 architecture was used again. The pretrained model was already trained on 1,2 million images to give an preferable starting position for training. To adjust this pretrained model for the requirements of the experiment, the output layers where reconfigured to represent the 10 different codecs in which the images where encoded.
@@ -211,12 +210,12 @@ In addition the model uses just 224x224 images as inputs, thus the encoded image
 
 
 \noindent
-Then the model was trained over 10 epochs on 4000 test images. The learning rate was set to 0.001 with a momentum of 0.9 due to the model being already trained on a huge data set and in the experiment just the adjustment for the codec artifacts should be added. For the whole implementation see appendix.
+Then the models were trained over 10 epochs on 40000 and evaluated on 5000 images. The learning rate was set to 0.001 with a momentum of 0.9 due to the model being already trained on a huge data set and in the experiment just the adjustment for the codec artifacts should be added. For the whole implementation see appendix.
 
 \section{Results}
 \label{Results}
-A mixed model was developed by training the model with images of filesizes 5, 10, 17, 25 and 32. This resulted in 4500 images (512x512) for each codec. The considered dataset has only 900 images. To compare the filesize models with the mixed model, the filesize models need the same amount of input images as the mixed model. Therefore, each image of the dataset was cropped into five images to get an amount of 4500 images for the training and testing.
-For the purpose of comparison, an additional model was trained using images all available filesizes 5, 10, 17, 25, 32, 40, 50, 60, 75 and 100. This particular model utilized 80000 images during the training phase.
+A mixed model was developed by training and evaluating the model with images of filesizes 5, 10, 17, 25 and 32. This resulted in 4500 (800 images per filesize and codec * 5 filesizes for training and 100 * 5 for validation) images (512x512) for each codec. The considered dataset has only 900 images. To compare the filesize models with the mixed model, the filesize models need the same amount of input images as the mixed model. Therefore, each image of the dataset was cropped into five images to get an amount of 4500 (800 images per filesize and codec * 5 images cropped from one for training and 100 * 5 for validation) images for training and validation.
+For the purpose of comparison, an additional model was trained using images all available filesizes 5, 10, 17, 25, 32, 40, 50, 60, 75 and 100. This particular model utilized 80000 images during the training.
 
 \subsection{Evaluation of ResNet-18 Performance Without Transfer Learning}
 Prior to the implementation of transfer learning methodologies, an analysis was conducted to ascertain whether the ResNet-18 architecture could independently identify various image compression algorithms. The entire dataset of one specific compression size, was processed through the model, and the outputs were L2 normalized. This resulted in 1000 dimension vectors for each image.
