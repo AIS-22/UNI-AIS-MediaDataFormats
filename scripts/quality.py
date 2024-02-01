@@ -194,17 +194,30 @@ def _plot_results(codecs, results, metric, save_path, x_lim, y_lim_psnr, y_lim_s
         'jpeg': "JPEG",
         'jpeg2000': "JPEG 2000"
     }
+    jxr_parameter = ["q (0.0-1.0)", "q (2-255)"]
 
-    plt.rc('font', size=23)
-    plt.figure(figsize=(13, 13))
+    set_figsize()
 
+    cmap = plt.get_cmap('tab20')
+    index = 0
     for codec in codecs:
         codec_results = results[codec]
         mean_crates = codec_results[0]
         mean_metric = codec_results[1]
-        plt.plot(mean_crates, mean_metric, label=codec_mapping[codec])
+        if "jxr" in codec:
+            for measure in jxr_parameter:
+                metric_subset = mean_metric[:25] if "." in measure else mean_metric[25:]
+                crates_subset = mean_crates[:25] if "." in measure else mean_crates[25:]
+                plt.plot(crates_subset, metric_subset, label=codec_mapping[codec] + "  " + measure, color=cmap(index))
+                index += 1
+            continue
+        plt.plot(mean_crates, mean_metric, label=codec_mapping[codec], color=cmap(index))
+        index += 1
 
-    plt.legend()
+    plt.legend(title='Codecs (quality parameter)', loc='upper left', bbox_to_anchor=(1, 1))
+    plt.gcf().set_size_inches(9, 5)
+    # Use tight_layout to ensure all elements fit within the saved area
+    plt.tight_layout()
     if metric == 'PSNR':
         plt.ylim(y_lim_psnr)
     elif metric == 'SSIM' and y_lim_ssim:
@@ -232,7 +245,10 @@ def plot_results():
     _plot_results(codecs, time_sub_dict, 'Time (ms)', 'Plots/enc_time.pgf', (4, 100), None, None)
 
 
+def set_figsize():
+    plt.figure(figsize=(7, 5))
+    plt.rcParams['font.size'] = 12
+
 if __name__ == '__main__':
     measure_quality()
     plot_results()
-    print('Qu/home/michael/Documents/AIS/3_semester/FH/NLP/Applied/UNI-FH-Applied-NLP-CoLaality measurement successful.')
