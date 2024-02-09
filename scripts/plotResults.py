@@ -91,19 +91,19 @@ def plot_accuracy_results():
     plt.close()
 
     # plot filtered accuracy
-    filesizes = ['10', '25', '40', '100']
 
-    # load dic from file
-    mixed_results = np.load(RESULTS_FOLDER + 'accuracy_mixed_model.npy', allow_pickle=True).item()
+    # mixed pre trained
     keys = [int(key) for key in mixed_results.keys()]
-    cmap = plt.get_cmap('tab20')
     set_figsize()
     plt.plot(keys, mixed_results_all.values(), color=color_dict['pre'], label='Mixed pre trained (5-100)')
+    plt.plot(keys, mixed_results.values(), color=cmap(1), label='Mixed pre trained (5-32)')
 
+    # self trained
     mixed_self_results = np.load(RESULTS_FOLDER + 'accuracy_mixed_self_model.npy', allow_pickle=True).item()
     keys = [int(key) for key in mixed_self_results.keys()]
     plt.plot(keys, mixed_self_results.values(), color=color_dict['self'], label='Mixed self trained (5-32)')
 
+    filesizes = ['10', '25', '40', '100']
     for filesize in filesizes:
         res_dict = np.load(RESULTS_FOLDER + 'accuracy_fs_' + filesize + '_model.npy', allow_pickle=True).item()
         keys = [int(key) for key in res_dict.keys()]
@@ -380,11 +380,11 @@ def main():
     })
 
     plot_accuracy_results()
-    plot_loss_results()
-    plot_filesize_to_target()
-    plot_confusion_matrix()
-    plot_confusion_matrix_all()
-    plot_scatter_without_transfer()
+    # plot_loss_results()
+    # plot_filesize_to_target()
+    # plot_confusion_matrix()
+    # plot_confusion_matrix_all()
+    # plot_scatter_without_transfer()
 
 
 if __name__ == '__main__':
