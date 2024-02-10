@@ -38,6 +38,19 @@ import jxrenc_2
 import webP
 
 np.random.seed(86)
+codec_mapping = {
+        'avif': "AVIF",
+        'webP': "WEBP",
+        'bpg': "BPG",
+        'heic': "HEIC",
+        'jxl': "JPEG XL",
+        'jxr_0': "JPEG XR_0",
+        'jxr_1': "JPEG XR_1",
+        'jxr_2': "JPEG XR_2",
+        'jpeg': "JPEG",
+        'jpeg2000': "JPEG 2000"
+    }
+jxr_parameter = ["q (0.0-1.0)", "q (2-255)"]
 
 
 def calculate_mse(image1, image2):
@@ -182,20 +195,6 @@ def measure_quality(useMultiCropPerImage=False):
 
 
 def _plot_results(codecs, results, metric, save_path, x_lim, y_lim_psnr, y_lim_ssim):
-    codec_mapping = {
-        'avif': "AVIF",
-        'webP': "WEBP",
-        'bpg': "BPG",
-        'heic': "HEIC",
-        'jxl': "JPEG XL",
-        'jxr_0': "JPEG XR_0",
-        'jxr_1': "JPEG XR_1",
-        'jxr_2': "JPEG XR_2",
-        'jpeg': "JPEG",
-        'jpeg2000': "JPEG 2000"
-    }
-    jxr_parameter = ["q (0.0-1.0)", "q (2-255)"]
-
     set_figsize()
 
     cmap = plt.get_cmap('tab20')
@@ -229,6 +228,30 @@ def _plot_results(codecs, results, metric, save_path, x_lim, y_lim_psnr, y_lim_s
     plt.close()
 
 
+def plot_enc_time_bar(time_dict):
+    set_figsize()
+
+    cmap = plt.get_cmap('tab20')
+    mean_enc_time = []
+    used_codec_strings = []
+
+    for codec in time_dict.keys():
+        if "jxr" in codec:
+            for measure in jxr_parameter:
+                used_codec_strings.append(codec_mapping[codec] + "  " + measure)
+                mean_enc_time.append(time_dict[codec][1].mean())
+            continue
+        used_codec_strings.append(codec_mapping[codec])
+        mean_enc_time.append(time_dict[codec][1].mean())
+
+    bars = plt.bar(used_codec_strings, mean_enc_time, color=cmap(np.arange(len(used_codec_strings))))
+    plt.legend(bars, used_codec_strings, loc='upper left', bbox_to_anchor=(1, 1))
+    plt.gcf().set_size_inches(9, 5)
+    plt.xticks([])
+    plt.ylabel('Mean Time (ms)')
+    plt.savefig('Plots/encoding_time_comparison.pgf', bbox_inches='tight')
+    plt.close()
+
 def plot_results():
     # load dic from file
     results = np.load('results/results_quality.npy', allow_pickle=True).item()
@@ -243,10 +266,11 @@ def plot_results():
     _plot_results(codecs, psnr_sub_dict, 'PSNR', 'Plots/psnr_adapted.pgf', (10, 100), (28, 38), None)
     _plot_results(codecs, ssim_sub_dict, 'SSIM', 'Plots/ssim_adapted.pgf', (10, 100), None, (0.45, 1))
     _plot_results(codecs, time_sub_dict, 'Time (ms)', 'Plots/enc_time.pgf', (4, 100), None, None)
+    plot_enc_time_bar(time_sub_dict)
 
 
-def set_figsize():
-    plt.figure(figsize=(7, 5))
+def set_figsize(figsize=(7, 5)):
+    plt.figure(figsize=figsize)
     plt.rcParams['font.size'] = 12
 
 if __name__ == '__main__':
