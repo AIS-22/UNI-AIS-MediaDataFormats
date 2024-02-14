@@ -102,7 +102,7 @@ def main():
                 transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
             ])
 
-            _, val_loader = cnnDataset.create_dataset(transform=transform, filesize=ev_size)
+            _, val_loader = cnnDataset.create_dataset(transform=transform, filesize=ev_size, crop=True)
 
             print('Evaluate pretrained model ( ' + model_name + ' ) with Filesize = ' + ev_size + ' kB')
             result_dictionary[ev_size], conf_matrix_dictionary[ev_size] = evaluate_model(model, val_loader)
