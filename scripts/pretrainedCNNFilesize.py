@@ -59,7 +59,9 @@ for filesize in filesizes:
     ])
     print('-------------------------------------------------------------------------------------')
     print('Train model with filesize = ' + filesize + ' kB')
-    train_loader, val_loader = cnnDataset.create_dataset(transform=transform, filesize=filesize)
+    train_loader, val_loader = cnnDataset.create_dataset(transform=transform,
+                                                         filesize=filesize,
+                                                         use_multi_cropped_images=True)
 
     # resNet
     model_name = 'resnet18'
