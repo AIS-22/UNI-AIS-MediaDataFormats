@@ -138,6 +138,7 @@ def plot_confusion_matrix():
                    cmap='Blues',
                    fmt=".0f")
         plt.xticks(rotation=45)
+        plt.tight_layout()
         plt.savefig('Plots/conf_matrix/mixed/conf_matrix_mixed_model_fs_' + fs + '.pgf')
         plt.close()
 
@@ -155,6 +156,7 @@ def plot_confusion_matrix():
                cmap='Blues',
                fmt=".0f")
     plt.xticks(rotation=45)
+    plt.tight_layout()
     plt.savefig('Plots/conf_matrix/mixed_5_to_100/conf_matrix_mixed_model_5_to_100_fs_all.pgf')
     plt.close()
 
@@ -173,6 +175,7 @@ def plot_confusion_matrix():
                    cmap='Blues',
                    fmt=".0f")
         plt.xticks(rotation=45)
+        plt.tight_layout()
         plt.savefig(f'Plots/conf_matrix/mixed_5_to_100/conf_matrix_mixed_model_5_to_100_fs_{fs}.pgf')
         plt.close()
 
@@ -233,6 +236,7 @@ def plot_confusion_matrix_all():
                cmap='Blues',
                fmt=".0f")
     plt.xticks(rotation=45)
+    plt.tight_layout()
     plt.savefig('Plots/conf_matrix/mixed/conf_matrix_all_mixed_model.pgf')
     plt.close()
 
@@ -249,6 +253,7 @@ def plot_confusion_matrix_all():
                cmap='Blues',
                fmt=".0f")
     plt.xticks(rotation=45)
+    plt.tight_layout()
     plt.savefig('Plots/conf_matrix/mixed_self/conf_matrix_all_mixed_self_model.pgf')
     plt.close()
 
