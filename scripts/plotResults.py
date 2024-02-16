@@ -20,7 +20,7 @@ AVG_FILESIZE = 470
 
 def set_figsize():
     plt.figure(figsize=(7, 5))
-    plt.rcParams['font.size'] = 12
+    plt.rcParams['font.size'] = 16
 
 
 def plot_accuracy_results():
@@ -123,42 +123,27 @@ def plot_accuracy_results():
 
 def plot_confusion_matrix():
     filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
-    categories = ['AVIF', 'BPG', 'HEIC', 'JPEG', 'JPEG2000', 'JPEG_XL', 'JPEG_XR_0', 'JPEG_XR_1', 'JPEG_XR_2', 'WEBP']
+    categories = ['AVIF', 'BPG', 'HEIC', 'JPEG', 'JPEG_{2000}',
+                  'JPEG_{XL}', 'JPEG_{XR 0}', 'JPEG_{XR 1}', 'JPEG_{XR 2}', 'WEBP']
 
     # mixed model
     # load dic from file
     mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_mixed_model.npy', allow_pickle=True).tolist()
     for fs in filesizes:
         set_figsize()
-        # sn.set(font_scale=1.4)
+        plt.gcf().set_size_inches(9, 7)
         sn.heatmap(mixed_results[fs], vmin=0, vmax=100,
                    xticklabels=categories,
                    yticklabels=categories,
                    annot=True,
                    cmap='Blues',
                    fmt=".0f")
-        plt.xticks(rotation=45)
+        plt.xticks(rotation=-45)
+        labels = plt.gca().get_xticklabels()
+        plt.setp(labels, ha='left')
         plt.tight_layout()
-        plt.savefig('Plots/conf_matrix/mixed/conf_matrix_mixed_model_fs_' + fs + '.pgf')
+        plt.savefig('Plots/conf_matrix/mixed_5_to_32/conf_matrix_mixed_model_fs_' + fs + '.pgf')
         plt.close()
-
-    # mixed model 5 to 100 all fs conf matrix
-    # load dic from file
-    mixed_results_5_to_100 = np.load('results/conf_matrix_all_fs_all_model.npy', allow_pickle=True).tolist()
-    cmap = plt.get_cmap('tab20')
-
-    set_figsize()
-    # sn.set(font_scale=1.4)
-    sn.heatmap(mixed_results_5_to_100, vmin=0, vmax=1000,
-               xticklabels=categories,
-               yticklabels=categories,
-               annot=True,
-               cmap='Blues',
-               fmt=".0f")
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-    plt.savefig('Plots/conf_matrix/mixed_5_to_100/conf_matrix_mixed_model_5_to_100_fs_all.pgf')
-    plt.close()
 
     # mixed model 5 to 100 per fs conf matrix
     # load dic from file
@@ -167,14 +152,16 @@ def plot_confusion_matrix():
 
     for fs in filesizes:
         set_figsize()
-        # sn.set(font_scale=1.4)
+        plt.gcf().set_size_inches(9, 7)
         sn.heatmap(mixed_results_5_to_100[fs], vmin=0, vmax=100,
                    xticklabels=categories,
                    yticklabels=categories,
                    annot=True,
                    cmap='Blues',
                    fmt=".0f")
-        plt.xticks(rotation=45)
+        plt.xticks(rotation=-45)
+        labels = plt.gca().get_xticklabels()
+        plt.setp(labels, ha='left')
         plt.tight_layout()
         plt.savefig(f'Plots/conf_matrix/mixed_5_to_100/conf_matrix_mixed_model_5_to_100_fs_{fs}.pgf')
         plt.close()
@@ -185,14 +172,17 @@ def plot_confusion_matrix():
 
     for fs in filesizes:
         set_figsize()
-        # sn.set(font_scale=1.4)
+        plt.gcf().set_size_inches(9, 7)
         sn.heatmap(mixed_results[fs], vmin=0, vmax=100,
                    xticklabels=categories,
                    yticklabels=categories,
                    annot=True,
                    cmap='Blues',
                    fmt=".0f")
-        plt.xticks(rotation=45)
+        plt.xticks(rotation=-45)
+        labels = plt.gca().get_xticklabels()
+        plt.setp(labels, ha='left')
+        plt.tight_layout()
         plt.tight_layout()
         plt.savefig('Plots/conf_matrix/mixed_self/conf_matrix_mixed_self_model_fs_' + fs + '.pgf')
         plt.close()
@@ -205,14 +195,16 @@ def plot_confusion_matrix():
             keys = [int(key) for key in mixed_results.keys()]
             cmap = plt.get_cmap('tab20')
             set_figsize()
-            # sn.set(font_scale=1.4)
+            plt.gcf().set_size_inches(9, 7)
             sn.heatmap(mixed_results[ev_size], vmin=0, vmax=500,
                        xticklabels=categories,
                        yticklabels=categories,
                        annot=True,
                        cmap='Blues',
                        fmt=".0f",)
-            plt.xticks(rotation=45)
+            plt.xticks(rotation=-45)
+            labels = plt.gca().get_xticklabels()
+            plt.setp(labels, ha='left')
             plt.tight_layout()
             plt.savefig('Plots/conf_matrix/' + fs + '/conf_matrix_fs_' + ev_size + '.pgf')
             plt.close()
@@ -220,24 +212,47 @@ def plot_confusion_matrix():
 
 def plot_confusion_matrix_all():
     filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
-    categories = ['AVIF', 'BPG', 'HEIC', 'JPEG', 'JPEG2000', 'JPEG_XL', 'JPEG_XR_0', 'JPEG_XR_1', 'JPEG_XR_2', 'WEBP']
+    categories = ['AVIF', 'BPG', 'HEIC', 'JPEG', 'JPEG_{2000}',
+                  'JPEG_{XL}', 'JPEG_{XR 0}', 'JPEG_{XR 1}', 'JPEG_{XR 2}', 'WEBP']
 
-    # mixed model
+    # mixed model 5 - 32
     # load dic from file
     mixed_results = np.load(RESULTS_FOLDER + 'conf_matrix_all_mixed_model.npy', allow_pickle=True).tolist()
     cmap = plt.get_cmap('tab20')
 
     set_figsize()
-    # sn.set(font_scale=1.4)
+    plt.gcf().set_size_inches(9, 7)
     sn.heatmap(mixed_results, vmin=0, vmax=1000,
                xticklabels=categories,
                yticklabels=categories,
                annot=True,
                cmap='Blues',
                fmt=".0f")
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=-45)
+    labels = plt.gca().get_xticklabels()
+    plt.setp(labels, ha='left')
     plt.tight_layout()
-    plt.savefig('Plots/conf_matrix/mixed/conf_matrix_all_mixed_model.pgf')
+    plt.savefig('Plots/conf_matrix/mixed_5_to_32/conf_matrix_all_mixed_model.pgf')
+    plt.close()
+
+    # mixed model 5 to 100 all fs conf matrix
+    # load dic from file
+    mixed_results_5_to_100 = np.load('results/conf_matrix_all_fs_all_model.npy', allow_pickle=True).tolist()
+    cmap = plt.get_cmap('tab20')
+
+    set_figsize()
+    plt.gcf().set_size_inches(9, 7)
+    sn.heatmap(mixed_results_5_to_100, vmin=0, vmax=1000,
+               xticklabels=categories,
+               yticklabels=categories,
+               annot=True,
+               cmap='Blues',
+               fmt=".0f")
+    plt.xticks(rotation=-45)
+    labels = plt.gca().get_xticklabels()
+    plt.setp(labels, ha='left')
+    plt.tight_layout()
+    plt.savefig('Plots/conf_matrix/mixed_5_to_100/conf_matrix_mixed_model_5_to_100_fs_all.pgf')
     plt.close()
 
     # mixed self model
@@ -245,14 +260,16 @@ def plot_confusion_matrix_all():
     mixed_self_results = np.load(RESULTS_FOLDER + 'conf_matrix_all_mixed_self_model.npy', allow_pickle=True).tolist()
 
     set_figsize()
-    # sn.set(font_scale=1.4)
+    plt.gcf().set_size_inches(9, 7)
     sn.heatmap(mixed_self_results, vmin=0, vmax=1000,
                xticklabels=categories,
                yticklabels=categories,
                annot=True,
                cmap='Blues',
                fmt=".0f")
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=-45)
+    labels = plt.gca().get_xticklabels()
+    plt.setp(labels, ha='left')
     plt.tight_layout()
     plt.savefig('Plots/conf_matrix/mixed_self/conf_matrix_all_mixed_self_model.pgf')
     plt.close()
@@ -262,14 +279,16 @@ def plot_confusion_matrix_all():
         # load dic from file
         fs_results = np.load(RESULTS_FOLDER + 'conf_matrix_all_fs_' + fs + '_model.npy', allow_pickle=True).tolist()
         set_figsize()
-        sn.set(font_scale=1.4)
+        plt.gcf().set_size_inches(9, 7)
         sn.heatmap(fs_results, vmin=0, vmax=5000,
                    xticklabels=categories,
                    yticklabels=categories,
                    annot=True,
                    cmap='Blues',
                    fmt=".0f")
-        plt.xticks(rotation=45)
+        plt.xticks(rotation=-45)
+        labels = plt.gca().get_xticklabels()
+        plt.setp(labels, ha='left')
         plt.tight_layout()
         plt.savefig('Plots/conf_matrix/' + fs + '/conf_matrix_all_fs_' + fs + '.pgf')
         plt.close()
@@ -384,12 +403,12 @@ def main():
         'pgf.rcfonts': False,
     })
 
-    plot_accuracy_results()
-    plot_loss_results()
-    plot_filesize_to_target()
+    # plot_accuracy_results()
+    # plot_loss_results()
+    # plot_filesize_to_target()
     plot_confusion_matrix()
     plot_confusion_matrix_all()
-    plot_scatter_without_transfer()
+    # plot_scatter_without_transfer()
 
 
 if __name__ == '__main__':
