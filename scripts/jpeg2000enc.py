@@ -1,11 +1,9 @@
-import subprocess
-import os
 import glob
+import os
+import subprocess
 from datetime import datetime
 
-import numpy as np
 from filesizelogger import log_filesize
-
 
 minQ = 1
 maxQ = 1000
@@ -52,56 +50,12 @@ def encode_jpeg2k(printProgress=False, maxFileSizeKb=32, useMultiCropPerImage=Fa
             file_name = outputPrefix + image_path.split(sep='/')[-1].split(sep='.')[0] + outputFileExtension
             # open image and in first step use the highest available quality to store
             outputPath = pathImagesEncoded + file_name
-            subprocess.call('opj_compress -o ' + outputPath + ' -r ' + str(minQ) + ' -i ' + image_path,
+            original_size = os.path.getsize(image_path)
+            c_rate = original_size / maxFileSizeKb
+            subprocess.call('opj_compress -o ' + outputPath + ' -r ' + "{:.4f}".format(c_rate) + ' -i ' + image_path,
                             stdout=subprocess.DEVNULL,
                             stderr=subprocess.DEVNULL,
                             shell=True)
-
-            # use devide and concor to optimize computational time n*O(log(n)) complexity
-            terminate = False
-            prev_q = q
-            upper_bound = maxQ
-            lower_bound = 0
-            while True:
-                f_size = os.path.getsize(outputPath) / 1024
-                # filesize can´t be optimized, since max. quality is already under threshold
-                if q == maxQ and f_size <= maxFileSizeKb:
-                    break
-
-                if f_size > maxFileSizeKb:
-                    upper_bound = prev_q
-                    q -= np.ceil((upper_bound - lower_bound) / 2)
-                    # no further optimization possible, since only one step was done
-                    if prev_q == minQ or (q == prev_q - 1):
-                        # terminate after next saving, since current filesize is above threshold
-                        terminate = True
-
-                elif f_size < maxFileSizeKb:
-                    lower_bound = prev_q
-                    q += np.ceil((upper_bound - prev_q) / 2)
-                    # no further optimization possible, since only one step was done
-                    if q == prev_q + 1 or q == maxQ:
-                        # terminate before next saving, since current filesize is under threshold
-                        terminate = True
-
-                elif f_size == maxFileSizeKb:
-                    break
-
-                # save image with new quality
-                subprocess.call('opj_compress -o ' + outputPath + ' -r ' + str(int(maxQ - q)) + ' -i ' + image_path,
-                                stdout=subprocess.DEVNULL,
-                                stderr=subprocess.DEVNULL,
-                                shell=True)
-                if terminate:
-                    # there was a rounding error caused by np.ceil() so just one more optimization step is needed
-                    if os.path.getsize(outputPath) / 1024 > maxFileSizeKb and q > minQ:
-                        q = q - 1
-                        subprocess.call('opj_compress -o ' + outputPath + ' -r ' + str(int(maxQ - q)) + ' -i ' + image_path,
-                                        stdout=subprocess.DEVNULL,
-                                        stderr=subprocess.DEVNULL,
-                                        shell=True)
-                    break
-                prev_q = q
 
             if printProgress:
                 f_size = os.path.getsize(outputPath) / 1024
