@@ -29,29 +29,39 @@ def evaluate_model(model, test_loader):
             images, labels = images.to(device), labels.to(device)
 
             outputs = model(images)
-            #l2 norm
+            # l2 norm
             outputs = nn.functional.normalize(outputs, p=2, dim=1)
 
             all_preds.append(outputs.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
 
-    #scatter plot all_preds color coded by all_labels
-    all_preds = np.array(all_preds)
+    # make a single numpy array from list of arrays
+    all_preds = np.concatenate(all_preds)
+    # scatter plot all_preds color coded by all_labels
+    # all_preds = np.array(all_preds)
     all_labels = np.array(all_labels)
-    all_preds = all_preds.reshape(all_preds.shape[0], all_preds.shape[2])
+    # all_preds = all_preds.reshape(all_preds.shape[0], all_preds.shape[2])
     pca = PCA(n_components=2)
     pca.fit(all_preds)
     all_preds = pca.transform(all_preds)
 
-    #set label to name from dataloader
+    # set label to name from dataloader
     all_labels = np.array([test_loader.dataset.classes[label] for label in all_labels])
+    # relpace underscores with spaces
+    all_labels = np.array([label.replace('_', ' ') for label in all_labels])
+    # replace '0' with {0} and '1' with {1} and '2' with {2}
+    all_labels = np.array([label.replace(' 0', '_{0}') for label in all_labels])
+    all_labels = np.array([label.replace(' 1', '_{1}') for label in all_labels])
+    all_labels = np.array([label.replace(' 2', '_{2}') for label in all_labels])
+    # relpace JPEG2000 with JPEG 2000
+    all_labels = np.array([label.replace('JPEG2000', 'JPEG 2000') for label in all_labels])
 
-    return all_preds, all_labels
+    return all_preds, all_labels, test_loader.dataset.imgs
 
 
 def main():
-    #filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
-    filesizes = ['10']
+    filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
+    # filesizes = ['10']
 
     result_dictionary = {
         '5': 0,
@@ -84,7 +94,7 @@ def main():
         result_dictionary[filesize] = evaluate_model(model, val_loader)
 
         # store the results in a file
-        np.save('results/wo_transfer_results.npy', result_dictionary)
+        np.save(f'results/wo_transfer_results.npy', result_dictionary)
 
 
 if __name__ == '__main__':
