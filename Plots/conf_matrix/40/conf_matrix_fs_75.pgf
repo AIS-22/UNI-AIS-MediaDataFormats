@@ -1985,7 +1985,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=4.157935in, y=1.107730in, left, base,rotate=315.000000]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG_{2000}}%
+\pgftext[x=4.157935in, y=1.107730in, left, base,rotate=315.000000]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG 2000}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -2010,7 +2010,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=4.737319in, y=1.107730in, left, base,rotate=315.000000]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG_{XL}}%
+\pgftext[x=4.737319in, y=1.107730in, left, base,rotate=315.000000]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG XL}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -2035,7 +2035,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=5.316703in, y=1.107730in, left, base,rotate=315.000000]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG_{XR 0}}%
+\pgftext[x=5.316703in, y=1.107730in, left, base,rotate=315.000000]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG XR_{0}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -2060,7 +2060,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=5.896088in, y=1.107730in, left, base,rotate=315.000000]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG_{XR 1}}%
+\pgftext[x=5.896088in, y=1.107730in, left, base,rotate=315.000000]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG XR_{1}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -2085,7 +2085,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=6.475472in, y=1.107730in, left, base,rotate=315.000000]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG_{XR 2}}%
+\pgftext[x=6.475472in, y=1.107730in, left, base,rotate=315.000000]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG XR_{2}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -2235,7 +2235,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=1.420474in,y=4.267428in,right,]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG_{2000}}%
+\pgftext[x=1.420474in,y=4.267428in,right,]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG 2000}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -2260,7 +2260,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=1.420474in,y=3.732042in,right,]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG_{XL}}%
+\pgftext[x=1.420474in,y=3.732042in,right,]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG XL}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -2285,7 +2285,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=1.420474in,y=3.196656in,right,]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG_{XR 0}}%
+\pgftext[x=1.420474in,y=3.196656in,right,]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG XR_{0}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -2310,7 +2310,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=1.420474in,y=2.661269in,right,]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG_{XR 1}}%
+\pgftext[x=1.420474in,y=2.661269in,right,]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG XR_{1}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -2335,7 +2335,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=1.420474in,y=2.125883in,right,]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG_{XR 2}}%
+\pgftext[x=1.420474in,y=2.125883in,right,]{\color{textcolor}\rmfamily\fontsize{16.000000}{19.200000}\selectfont JPEG XR_{2}}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
