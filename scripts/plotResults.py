@@ -3,6 +3,7 @@ import seaborn as sn
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
+import plotly.express as px
 # Make matplotlib use latex for font rendering
 matplotlib.use("pgf")
 matplotlib.rcParams.update({
@@ -46,15 +47,30 @@ def plot_accuracy_results():
         '75': plt.get_cmap('tab20b')(19),
         '100': plt.get_cmap('Pastel1')(0)
     }
+    line_dict = {
+        'pre': '-',
+        'self': '--',
+        '5': (0, (1, 1)),
+        '10': (0, (7, 4, 1, 4)),
+        '17': (0, (7, 1, 1, 5)),
+        '25': (0, (7, 5, 1, 1)),
+        '32': '-',
+        '40': (0, (7, 5, 1, 1, 1, 5)),
+        '50': (0, (7, 1, 1, 1, 1, 9)),
+        '60': (0, (7, 9, 1, 1, 1, 1)),
+        '75': (0, (5, 1)),
+        '100': (0, (5, 6))
+    }
 
     cmap = plt.get_cmap('tab20')
     set_figsize()
-    plt.plot(keys, mixed_results.values(), color=cmap(1), label='Mixed pre trained (5-32)')
-    plt.plot(keys, mixed_results_all.values(), color=cmap(0), label='Mixed pre trained (5-100)')
+    plt.plot(keys, mixed_results.values(), color=cmap(1), label='Mixed pre trained (5-32)', linestyle='--')
+    plt.plot(keys, mixed_results_all.values(), color=cmap(0), label='Mixed pre trained (5-100)', linestyle='--')
 
     mixed_self_results = np.load(RESULTS_FOLDER + 'accuracy_mixed_self_model.npy', allow_pickle=True).item()
     keys = [int(key) for key in mixed_self_results.keys()]
-    plt.plot(keys, mixed_self_results.values(), color=color_dict['self'], label='Mixed self trained (5-32)')
+    plt.plot(keys, mixed_self_results.values(),
+             color=color_dict['self'], label='Mixed self trained (5-32)', linestyle='--')
 
     for filesize in filesizes:
         res_dict = np.load(RESULTS_FOLDER + 'accuracy_fs_' + filesize + '_model.npy', allow_pickle=True).item()
@@ -77,7 +93,7 @@ def plot_accuracy_results():
     for filesize in filesizes:
         res_dict = np.load(RESULTS_FOLDER + 'accuracy_fs_' + filesize + '_model.npy', allow_pickle=True).item()
         keys = [int(key) for key in res_dict.keys()]
-        plt.plot(keys, res_dict.values(), color=color_dict[filesize],
+        plt.plot(keys, res_dict.values(), color=color_dict[filesize], linestyle=line_dict[filesize],
                  label=filesize + f'  c-rate: {(AVG_FILESIZE / float(filesize)):.2f}')
 
     plt.grid()
@@ -91,23 +107,31 @@ def plot_accuracy_results():
     plt.close()
 
     # plot filtered accuracy
-
+    line_dict = {
+        '10': (0, (7, 5, 1, 1, 1, 5)),
+        '25': (0, (7, 2, 1, 1, 1, 8)),
+        '40': (0, (7, 8, 1, 1, 1, 2)),
+        '100': (0, (7, 1, 1, 9, 1, 1))
+    }
     # mixed pre trained
     keys = [int(key) for key in mixed_results.keys()]
     set_figsize()
-    plt.plot(keys, mixed_results_all.values(), color=color_dict['pre'], label='Mixed pre trained (5-100)')
-    plt.plot(keys, mixed_results.values(), color=cmap(1), label='Mixed pre trained (5-32)')
+    plt.plot(keys, mixed_results_all.values(),
+             color=color_dict['pre'], label='Mixed pre trained (5-100)', linestyle='-')
+    plt.plot(keys, mixed_results.values(), color=cmap(1),
+             label='Mixed pre trained (5-32)', linestyle=(0, (5, 2)))
 
     # self trained
     mixed_self_results = np.load(RESULTS_FOLDER + 'accuracy_mixed_self_model.npy', allow_pickle=True).item()
     keys = [int(key) for key in mixed_self_results.keys()]
-    plt.plot(keys, mixed_self_results.values(), color=color_dict['self'], label='Mixed self trained (5-32)')
+    plt.plot(keys, mixed_self_results.values(),
+             color=color_dict['self'], label='Mixed self trained (5-32)', linestyle=(0, (1, 1)))
 
     filesizes = ['10', '25', '40', '100']
     for filesize in filesizes:
         res_dict = np.load(RESULTS_FOLDER + 'accuracy_fs_' + filesize + '_model.npy', allow_pickle=True).item()
         keys = [int(key) for key in res_dict.keys()]
-        plt.plot(keys, res_dict.values(), color=color_dict[filesize],
+        plt.plot(keys, res_dict.values(), color=color_dict[filesize], linestyle=line_dict[filesize],
                  label=filesize + f'  c-rate: {(AVG_FILESIZE / float(filesize)):.2f}')
 
     plt.grid()
@@ -123,8 +147,8 @@ def plot_accuracy_results():
 
 def plot_confusion_matrix():
     filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
-    categories = ['AVIF', 'BPG', 'HEIC', 'JPEG', 'JPEG_{2000}',
-                  'JPEG_{XL}', 'JPEG_{XR 0}', 'JPEG_{XR 1}', 'JPEG_{XR 2}', 'WEBP']
+    categories = ['AVIF', 'BPG', 'HEIC', 'JPEG', 'JPEG 2000',
+                  'JPEG XL', 'JPEG XR_{0}', 'JPEG XR_{1}', 'JPEG XR_{2}', 'WEBP']
 
     # mixed model
     # load dic from file
@@ -212,8 +236,8 @@ def plot_confusion_matrix():
 
 def plot_confusion_matrix_all():
     filesizes = ['5', '10', '17', '25', '32', '40', '50', '60', '75', '100']
-    categories = ['AVIF', 'BPG', 'HEIC', 'JPEG', 'JPEG_{2000}',
-                  'JPEG_{XL}', 'JPEG_{XR 0}', 'JPEG_{XR 1}', 'JPEG_{XR 2}', 'WEBP']
+    categories = ['AVIF', 'BPG', 'HEIC', 'JPEG', 'JPEG 2000',
+                  'JPEG XL', 'JPEG XR_{0}', 'JPEG XR_{1}', 'JPEG XR_{2}', 'WEBP']
 
     # mixed model 5 - 32
     # load dic from file
@@ -348,6 +372,13 @@ def plot_filesize_to_target():
     set_figsize()
     # plt df with a color for each codec
     label = df['codec'].unique()
+    # take the 7th element from the label array and put it at the 3rd position
+    label = np.insert(label, 3, label[8])
+    # remove the 8th element from the array
+    label = np.delete(label, 9)
+
+    # only take rows with target value 32
+    df = df[df['target'] == 32]
     # box plot
     plot = plt.boxplot([df[df['codec'] == label]['filesize'] for label in label], labels=label)
 
@@ -360,8 +391,10 @@ def plot_filesize_to_target():
     plt.grid()
     plt.xlabel('Codec')
     plt.ylabel('Filesize (KB)')
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=-45)
     plt.gcf().set_size_inches(7, 6)
+    labels = plt.gca().get_xticklabels()
+    plt.setp(labels, ha='left')
     # Use tight_layout to ensure all elements fit within the saved area
     plt.tight_layout()
     plt.savefig('Plots/filesize_to_target.pgf')
@@ -380,13 +413,74 @@ def plot_scatter_without_transfer():
             # get all unique labels
             unique_labels = np.unique(all_labels)
 
+            plt.subplots(layout='constrained')
             set_figsize()
+
+            markers = ['o', 'x', 's', 'D', '^', 'v', '<', '>', 'p', 'h']
 
             for i in range(len(unique_labels)):
                 plt.scatter(all_preds[all_labels == unique_labels[i], 0],
-                            all_preds[all_labels == unique_labels[i], 1], label=unique_labels[i])
+                            all_preds[all_labels == unique_labels[i], 1], label=unique_labels[i], marker=markers[i])
             plt.legend()
+            plt.gcf().set_size_inches(9, 7)
+            plt.xlabel('Principal Component 1')
+            plt.ylabel('Principal Component 2')
             plt.savefig(f"Plots/plot_scatter_without_transfer_{filesize}.pgf")
+            plt.close()
+
+        except:
+            continue
+
+
+def plot_scatter_without_transfer_filtered():
+    # read data from npy file
+    results = np.load('results/wo_transfer_results.npy', allow_pickle=True).item()
+
+    for filesize in results.keys():
+        try:
+            all_preds = np.array(results[filesize][0])
+            all_labels = np.array(results[filesize][1])
+            image_names = np.array(results[filesize][2])
+            # take the first five predictions of each codec
+            indices = []
+            for label in np.unique(all_labels):
+                indices += list(np.where(all_labels == label)[0][:5])
+            indices = np.array(indices)
+
+            all_preds = all_preds[indices]
+            all_labels = all_labels[indices]
+            image_names = image_names[indices]
+
+            # create a df with the data
+            df = pd.DataFrame(all_preds, columns=['PC1', 'PC2'])
+            df['label'] = all_labels
+            df['image'] = image_names
+
+            fig = px.scatter(df, x='PC1', y='PC2', color='label', text='image')
+            fig.update_traces(textposition='top center')
+            fig.update_layout(showlegend=True)
+            fig.show()
+
+            # get all unique labels
+            unique_labels = np.unique(all_labels)
+
+            set_figsize()
+
+            markers = ['o', 'x', 's', 'D', '^', 'v', '<', '>', 'p', 'h']
+            fig, ax = plt.subplots()
+            for i in range(len(unique_labels)):
+                x = all_preds[all_labels == unique_labels[i], 0]
+                y = all_preds[all_labels == unique_labels[i], 1]
+                ax.scatter(x, y, label=unique_labels[i], marker=markers[i])
+                print(x)
+                for j, txt in enumerate(image_names):
+                    print(j)
+                    print(txt)
+                    ax.annotate(txt, (x[j], y[j]))
+            plt.legend()
+            plt.xlabel('Principal Component 1')
+            plt.ylabel('Principal Component 2')
+            plt.savefig(f"Plots/plot_scatter_without_transfer_filtered_{filesize}.pgf")
             plt.close()
 
         except:
@@ -406,9 +500,10 @@ def main():
     # plot_accuracy_results()
     # plot_loss_results()
     # plot_filesize_to_target()
-    plot_confusion_matrix()
-    plot_confusion_matrix_all()
-    # plot_scatter_without_transfer()
+    # plot_confusion_matrix()
+    # plot_confusion_matrix_all()
+    plot_scatter_without_transfer()
+    plot_scatter_without_transfer_filtered()
 
 
 if __name__ == '__main__':
