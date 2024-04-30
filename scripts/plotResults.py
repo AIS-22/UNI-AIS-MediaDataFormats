@@ -413,6 +413,7 @@ def plot_scatter_without_transfer():
             # get all unique labels
             unique_labels = np.unique(all_labels)
 
+            plt.subplots(layout='constrained')
             set_figsize()
 
             markers = ['o', 'x', 's', 'D', '^', 'v', '<', '>', 'p', 'h']
@@ -421,6 +422,7 @@ def plot_scatter_without_transfer():
                 plt.scatter(all_preds[all_labels == unique_labels[i], 0],
                             all_preds[all_labels == unique_labels[i], 1], label=unique_labels[i], marker=markers[i])
             plt.legend()
+            plt.gcf().set_size_inches(9, 7)
             plt.xlabel('Principal Component 1')
             plt.ylabel('Principal Component 2')
             plt.savefig(f"Plots/plot_scatter_without_transfer_{filesize}.pgf")
@@ -498,8 +500,8 @@ def main():
     # plot_accuracy_results()
     # plot_loss_results()
     # plot_filesize_to_target()
-    plot_confusion_matrix()
-    plot_confusion_matrix_all()
+    # plot_confusion_matrix()
+    # plot_confusion_matrix_all()
     plot_scatter_without_transfer()
     plot_scatter_without_transfer_filtered()
 
