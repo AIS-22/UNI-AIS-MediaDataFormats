@@ -1,3 +1,18 @@
+import webP
+import jxrenc_2
+import jxrenc_1
+import jxrenc_0
+import jpegxl
+import jpegenc
+import jpeg2000enc
+import heicEnc
+import bpgenc
+import avifenc
+from PIL import Image
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+import cv2
 import glob
 import os
 
@@ -10,9 +25,6 @@ import pillow_heif
 pillow_heif.register_heif_opener()
 ### END DISCLAIMER ###
 
-import cv2
-import matplotlib.pyplot as plt
-import matplotlib
 
 # Make matplotlib use latex for font rendering
 matplotlib.use("pgf")
@@ -23,33 +35,20 @@ matplotlib.rcParams.update({
     'pgf.rcfonts': False,
 })
 
-import numpy as np
-from PIL import Image
-
-import avifenc
-import bpgenc
-import heicEnc
-import jpeg2000enc
-import jpegenc
-import jpegxl
-import jxrenc_0
-import jxrenc_1
-import jxrenc_2
-import webP
 
 np.random.seed(86)
 codec_mapping = {
-        'avif': "AVIF",
-        'webP': "WEBP",
-        'bpg': "BPG",
-        'heic': "HEIC",
-        'jxl': "JPEG XL",
-        'jxr_0': "JPEG XR_0",
-        'jxr_1': "JPEG XR_1",
-        'jxr_2': "JPEG XR_2",
-        'jpeg': "JPEG",
-        'jpeg2000': "JPEG 2000"
-    }
+    'avif': "AVIF",
+    'webP': "WEBP",
+    'bpg': "BPG",
+    'heic': "HEIC",
+    'jxl': "JPEG XL",
+    'jxr_0': "JPEG XR_{0}",
+    'jxr_1': "JPEG XR_{1}",
+    'jxr_2': "JPEG XR_{2}",
+    'jpeg': "JPEG",
+    'jpeg2000': "JPEG 2000"
+}
 jxr_parameter = ["q (0.0-1.0)", "q (2-255)"]
 
 
@@ -195,10 +194,27 @@ def measure_quality(useMultiCropPerImage=False):
 
 
 def _plot_results(codecs, results, metric, save_path, x_lim, y_lim_psnr, y_lim_ssim):
-    set_figsize()
+    set_figsize(figsize=(5, 5))
 
     cmap = plt.get_cmap('tab20')
     index = 0
+    line_dict = {
+        'avif': (0, (1, 1)),
+        'webP': (0, (7, 4, 1, 4)),
+        'bpg':  (0, (7, 1, 1, 5)),
+        'heic': (0, (7, 5, 1, 1)),
+        'jxl': '-',
+        'jpeg': (0, (5, 1)),
+        'jpeg2000': (0, (5, 6))
+    }
+    line_dict_jxr = {
+        ('jxr_0', 'q (0.0-1.0)'): (0, (7, 5, 1, 1, 1, 5)),
+        ('jxr_0', 'q (2-255)'): (0, (7, 4, 1, 1, 1, 1, 1, 4)),
+        ('jxr_1', 'q (0.0-1.0)'): (0, (7, 1, 1, 1, 1, 9)),
+        ('jxr_1', 'q (2-255)'): (0, (7, 1, 1, 1, 1, 1, 1, 7)),
+        ('jxr_2', 'q (0.0-1.0)'): (0, (7, 9, 1, 1, 1, 1)),
+        ('jxr_2', 'q (2-255)'): (0, (7, 7, 1, 1, 1, 1, 1, 1)),
+    }
     for codec in codecs:
         codec_results = results[codec]
         mean_crates = codec_results[0]
@@ -207,10 +223,11 @@ def _plot_results(codecs, results, metric, save_path, x_lim, y_lim_psnr, y_lim_s
             for measure in jxr_parameter:
                 metric_subset = mean_metric[:25] if "." in measure else mean_metric[25:]
                 crates_subset = mean_crates[:25] if "." in measure else mean_crates[25:]
-                plt.plot(crates_subset, metric_subset, label=codec_mapping[codec] + "  " + measure, color=cmap(index))
+                plt.plot(crates_subset, metric_subset,
+                         label=codec_mapping[codec] + " " + measure, color=cmap(index), linestyle=line_dict_jxr[(codec, measure)])
                 index += 1
             continue
-        plt.plot(mean_crates, mean_metric, label=codec_mapping[codec], color=cmap(index))
+        plt.plot(mean_crates, mean_metric, label=codec_mapping[codec], color=cmap(index), linestyle=line_dict[codec])
         index += 1
 
     plt.legend(title='Codecs (quality parameter)', loc='upper left', bbox_to_anchor=(1, 1))
@@ -246,11 +263,12 @@ def plot_enc_time_bar(time_dict):
 
     bars = plt.bar(used_codec_strings, mean_enc_time, color=cmap(np.arange(len(used_codec_strings))))
     plt.legend(bars, used_codec_strings, loc='upper left', bbox_to_anchor=(1, 1))
-    plt.gcf().set_size_inches(9, 5)
+    plt.gcf().set_size_inches(15, 10)
     plt.xticks([])
     plt.ylabel('Mean Time (ms)')
     plt.savefig('Plots/encoding_time_comparison.pgf', bbox_inches='tight')
     plt.close()
+
 
 def plot_results():
     # load dic from file
@@ -261,18 +279,19 @@ def plot_results():
     ssim_sub_dict = {key: [results[key][0], results[key][2]] for key in codecs}
     time_sub_dict = {key: [results[key][0], results[key][3]] for key in codecs}
 
-    _plot_results(codecs, psnr_sub_dict, 'PSNR', 'Plots/psnr.pgf', (4, 100), (28, 45), None)
-    _plot_results(codecs, ssim_sub_dict, 'SSIM', 'Plots/ssim.pgf', (4, 100), None, None)
-    _plot_results(codecs, psnr_sub_dict, 'PSNR', 'Plots/psnr_adapted.pgf', (10, 100), (28, 38), None)
-    _plot_results(codecs, ssim_sub_dict, 'SSIM', 'Plots/ssim_adapted.pgf', (10, 100), None, (0.45, 1))
-    _plot_results(codecs, time_sub_dict, 'Time (ms)', 'Plots/enc_time.pgf', (4, 100), None, None)
+    _plot_results(codecs, psnr_sub_dict, 'PSNR', 'Plots/psnr', (4, 100), (28, 45), None)
+    _plot_results(codecs, ssim_sub_dict, 'SSIM', 'Plots/ssim', (4, 100), None, None)
+    _plot_results(codecs, psnr_sub_dict, 'PSNR', 'Plots/psnr_adapted', (10, 100), (28, 38), None)
+    _plot_results(codecs, ssim_sub_dict, 'SSIM', 'Plots/ssim_adapted', (10, 100), None, (0.45, 1))
+    _plot_results(codecs, time_sub_dict, 'Time (ms)', 'Plots/enc_time', (4, 100), None, None)
     plot_enc_time_bar(time_sub_dict)
 
 
 def set_figsize(figsize=(7, 5)):
     plt.figure(figsize=figsize)
-    plt.rcParams['font.size'] = 12
+    plt.rcParams['font.size'] = 15
+
 
 if __name__ == '__main__':
-    measure_quality()
+   # measure_quality()
     plot_results()
