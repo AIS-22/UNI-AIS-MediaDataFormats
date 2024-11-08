@@ -47,7 +47,7 @@ device = (
     else "cpu"
 )
 
-filesizes = [50, 60, 75, 100]
+filesizes = [5, 10, 17, 25, 32 ,40 ,50, 60, 75, 100]
 
 for filesize in filesizes:
     transform = transforms.Compose([

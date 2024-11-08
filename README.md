@@ -101,7 +101,7 @@ Images
 
 ### Running the Scripts
 
-To runn the preprocessing the `preprocessingAll.py` script has to be executed. This will first crop the images the 512x512 pixel size on witch the file sizes were based. After the crop the images ware first compressed to the right file size and afterwards saved as a png in the decoded folder.
+To run the preprocessing the `preprocessingAll.py` script has to be executed. This will first crop the images the 512x512 pixel size on witch the file sizes were based. After the crop the images ware first compressed to the right file size and afterwards saved as a png in the decoded folder.
 
 > **Note:**
 >
